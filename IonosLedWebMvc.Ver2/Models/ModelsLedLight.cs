@@ -1,0 +1,27 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace IonosLedWebMvc.Ver2.Models;
+
+public partial class ModelsLedLight
+{
+    public uint Id { get; set; }
+
+    public string ModelName { get; set; } = null!;
+
+    public byte Sections { get; set; }
+
+    public decimal CutPrice { get; set; }
+
+    public decimal DrillPrice { get; set; }
+
+    public decimal MountPrice { get; set; }
+
+    public decimal SolderPrice { get; set; }
+
+    public decimal AssemblyPrice { get; set; }
+
+    public decimal CheckPrice { get; set; }
+
+    public virtual ICollection<ProductsLedLight> ProductsLedLights { get; set; } = new List<ProductsLedLight>();
+}
