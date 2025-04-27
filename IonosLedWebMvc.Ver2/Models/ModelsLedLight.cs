@@ -3,12 +3,10 @@ using System.Collections.Generic;
 
 namespace IonosLedWebMvc.Ver2.Models;
 
-public partial class ModelsLedLight
+public partial class LampModel
 {
     public uint Id { get; set; }
-
     public string ModelName { get; set; } = null!;
-
     public byte Sections { get; set; }
 
     public decimal CutPrice { get; set; }
@@ -23,5 +21,5 @@ public partial class ModelsLedLight
 
     public decimal CheckPrice { get; set; }
 
-    public virtual ICollection<ProductsLedLight> ProductsLedLights { get; set; } = new List<ProductsLedLight>();
+    public virtual ICollection<LedLamp> ProductsLedLights { get; set; } = new List<LedLamp>();
 }

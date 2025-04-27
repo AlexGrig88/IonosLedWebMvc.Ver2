@@ -1,0 +1,82 @@
+﻿@model IEnumerable<IonosLedWebMvc.Ver2.Dtos.RoleDto>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Роли(Должности)</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Создать</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RoleName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PermissionSettings)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PermissionAlProfileCut)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PermissionAlProfileDrill)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PermissionLedModuleMounting)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PermissionLightSoldering)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PermissionLightAssembling)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PermissionLightCheckingPackaging)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PermissionChiefLightProduction)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RoleName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PermissionSettings)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PermissionAlProfileCut)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PermissionAlProfileDrill)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PermissionLedModuleMounting)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PermissionLightSoldering)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PermissionLightAssembling)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PermissionLightCheckingPackaging)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PermissionChiefLightProduction)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Изменить</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

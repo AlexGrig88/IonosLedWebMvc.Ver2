@@ -1,0 +1,43 @@
+﻿using IonosLedWebMvc.Ver2.Models;
+using System.ComponentModel;
+
+namespace IonosLedWebMvc.Ver2.Dtos
+{
+    public class RoleDto
+    {
+        public uint Id { get; set; }
+        [DisplayName("Роль")]
+        public string RoleName { get; set; } = null!;
+        [DisplayName("Настройка")]
+        public bool PermissionSettings { get; set; }
+        [DisplayName("Нарезка профиля")]
+        public bool PermissionAlProfileCut { get; set; }
+        [DisplayName("Сверление профиля")]
+        public bool PermissionAlProfileDrill { get; set; }
+        [DisplayName("Монтаж")]
+        public bool PermissionLedModuleMounting { get; set; }
+        [DisplayName("Пайка")]
+        public bool PermissionLightSoldering { get; set; }
+        [DisplayName("Сборка")]
+        public bool PermissionLightAssembling { get; set; }
+        [DisplayName("Прверка и упаковка")]
+        public bool PermissionLightCheckingPackaging { get; set; }
+        [DisplayName("Главный производства")]
+        public bool PermissionChiefLightProduction { get; set; }
+
+        public static RoleDto FromRole(Role role) =>
+            new RoleDto
+            {
+                Id = role.Id,
+                RoleName = role.RoleName,
+                PermissionSettings = role.PermissionSettings,
+                PermissionAlProfileCut = role.PermissionAlProfileCut,
+                PermissionAlProfileDrill = role.PermissionAlProfileDrill,
+                PermissionLedModuleMounting = role.PermissionLedModuleMounting,
+                PermissionLightSoldering = role.PermissionLightSoldering,
+                PermissionLightAssembling = role.PermissionLightAssembling,
+                PermissionLightCheckingPackaging = role.PermissionLightCheckingPackaging,
+                PermissionChiefLightProduction = role.PermissionChiefLightProduction
+            };
+    }
+}

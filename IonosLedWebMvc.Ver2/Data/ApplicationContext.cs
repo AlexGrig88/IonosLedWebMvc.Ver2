@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using IonosLedWebMvc.Ver2.Models;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
+using IonosLedWebMvc.Ver2.Dtos;
 
 namespace IonosLedWebMvc.Ver2.Data;
 
@@ -17,9 +18,9 @@ public partial class ApplicationContext : DbContext
     {
     }
 
-    public virtual DbSet<ModelsLedLight> ModelsLedLights { get; set; }
+    public virtual DbSet<LampModel> LampModels { get; set; }
 
-    public virtual DbSet<ProductsLedLight> ProductsLedLights { get; set; }
+    public virtual DbSet<LedLamp> LedLamps { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
 
@@ -37,7 +38,7 @@ public partial class ApplicationContext : DbContext
             .UseCollation("utf8mb4_0900_ai_ci")
             .HasCharSet("utf8mb4");
 
-        modelBuilder.Entity<ModelsLedLight>(entity =>
+        modelBuilder.Entity<LampModel>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
@@ -70,37 +71,37 @@ public partial class ApplicationContext : DbContext
                 .HasColumnName("solder_price");
         });
 
-        modelBuilder.Entity<ProductsLedLight>(entity =>
+        modelBuilder.Entity<LedLamp>(entity =>
         {
-            entity.HasKey(e => e.Serial).HasName("PRIMARY");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("products_led_lights");
 
-            entity.HasIndex(e => e.AlProfileCutUser, "al_profile_cut_user");
+            entity.HasIndex(e => e.CutUserId, "al_profile_cut_user");
 
-            entity.HasIndex(e => e.AlProfileDrillUser, "al_profile_drill_user");
+            entity.HasIndex(e => e.DrillUserId, "al_profile_drill_user");
 
-            entity.HasIndex(e => e.LabelPrintUser, "label_print_user");
+            entity.HasIndex(e => e.LabelPrintUserId, "label_print_user");
 
-            entity.HasIndex(e => e.LedModuleMountingUser, "led_module_mounting_user");
+            entity.HasIndex(e => e.MountingUserId, "led_module_mounting_user");
 
-            entity.HasIndex(e => e.LightAssemblingUser, "light_assembling_user");
+            entity.HasIndex(e => e.AssemblingUserId, "light_assembling_user");
 
-            entity.HasIndex(e => e.LightCheckingPackagingUser, "light_checking_packaging_user");
+            entity.HasIndex(e => e.CheckingPackagingUserId, "light_checking_packaging_user");
 
-            entity.HasIndex(e => e.LightSolderingUser, "light_soldering_user");
+            entity.HasIndex(e => e.SolderingUserId, "light_soldering_user");
 
             entity.HasIndex(e => e.ModelId, "model_id");
 
-            entity.Property(e => e.Serial).HasColumnName("serial");
+            entity.Property(e => e.Id).HasColumnName("serial");
             entity.Property(e => e.AlProfileCutTs)
                 .HasColumnType("timestamp")
                 .HasColumnName("al_profile_cut_ts");
-            entity.Property(e => e.AlProfileCutUser).HasColumnName("al_profile_cut_user");
+            entity.Property(e => e.CutUserId).HasColumnName("al_profile_cut_user");
             entity.Property(e => e.AlProfileDrillTs)
                 .HasColumnType("timestamp")
                 .HasColumnName("al_profile_drill_ts");
-            entity.Property(e => e.AlProfileDrillUser).HasColumnName("al_profile_drill_user");
+            entity.Property(e => e.DrillUserId).HasColumnName("al_profile_drill_user");
             entity.Property(e => e.BitrixOrder).HasColumnName("bitrix_order");
             entity.Property(e => e.Comment)
                 .HasMaxLength(128)
@@ -108,54 +109,54 @@ public partial class ApplicationContext : DbContext
             entity.Property(e => e.LabelPrintTs)
                 .HasColumnType("timestamp")
                 .HasColumnName("label_print_ts");
-            entity.Property(e => e.LabelPrintUser).HasColumnName("label_print_user");
+            entity.Property(e => e.LabelPrintUserId).HasColumnName("label_print_user");
             entity.Property(e => e.LedModuleMountingTs)
                 .HasColumnType("timestamp")
                 .HasColumnName("led_module_mounting_ts");
-            entity.Property(e => e.LedModuleMountingUser).HasColumnName("led_module_mounting_user");
+            entity.Property(e => e.MountingUserId).HasColumnName("led_module_mounting_user");
             entity.Property(e => e.LightAssemblingTs)
                 .HasColumnType("timestamp")
                 .HasColumnName("light_assembling_ts");
-            entity.Property(e => e.LightAssemblingUser).HasColumnName("light_assembling_user");
+            entity.Property(e => e.AssemblingUserId).HasColumnName("light_assembling_user");
             entity.Property(e => e.LightCheckingPackagingTs)
                 .HasColumnType("timestamp")
                 .HasColumnName("light_checking_packaging_ts");
-            entity.Property(e => e.LightCheckingPackagingUser).HasColumnName("light_checking_packaging_user");
+            entity.Property(e => e.CheckingPackagingUserId).HasColumnName("light_checking_packaging_user");
             entity.Property(e => e.LightSolderingTs)
                 .HasColumnType("timestamp")
                 .HasColumnName("light_soldering_ts");
-            entity.Property(e => e.LightSolderingUser).HasColumnName("light_soldering_user");
+            entity.Property(e => e.SolderingUserId).HasColumnName("light_soldering_user");
             entity.Property(e => e.ModelId).HasColumnName("model_id");
             entity.Property(e => e.Spec)
                 .HasMaxLength(32)
                 .HasColumnName("spec");
 
-            entity.HasOne(d => d.AlProfileCutUserNavigation).WithMany(p => p.ProductsLedLightAlProfileCutUserNavigations)
-                .HasForeignKey(d => d.AlProfileCutUser)
+            entity.HasOne(d => d.CutUser).WithMany(p => p.ProductsCut)
+                .HasForeignKey(d => d.CutUserId)
                 .HasConstraintName("al_profile_cut_user");
 
-            entity.HasOne(d => d.AlProfileDrillUserNavigation).WithMany(p => p.ProductsLedLightAlProfileDrillUserNavigations)
-                .HasForeignKey(d => d.AlProfileDrillUser)
+            entity.HasOne(d => d.DrillUser).WithMany(p => p.ProductsDrill)
+                .HasForeignKey(d => d.DrillUserId)
                 .HasConstraintName("al_profile_drill_user");
 
-            entity.HasOne(d => d.LabelPrintUserNavigation).WithMany(p => p.ProductsLedLightLabelPrintUserNavigations)
-                .HasForeignKey(d => d.LabelPrintUser)
+            entity.HasOne(d => d.LabelPrintUser).WithMany(p => p.ProductsLabelPrint)
+                .HasForeignKey(d => d.LabelPrintUserId)
                 .HasConstraintName("label_print_user");
 
-            entity.HasOne(d => d.LedModuleMountingUserNavigation).WithMany(p => p.ProductsLedLightLedModuleMountingUserNavigations)
-                .HasForeignKey(d => d.LedModuleMountingUser)
+            entity.HasOne(d => d.MountingUser).WithMany(p => p.ProductsMounting)
+                .HasForeignKey(d => d.MountingUserId)
                 .HasConstraintName("led_module_mounting_user");
 
-            entity.HasOne(d => d.LightAssemblingUserNavigation).WithMany(p => p.ProductsLedLightLightAssemblingUserNavigations)
-                .HasForeignKey(d => d.LightAssemblingUser)
+            entity.HasOne(d => d.AssemblingUser).WithMany(p => p.ProductsAssembling)
+                .HasForeignKey(d => d.AssemblingUserId)
                 .HasConstraintName("light_assembling_user");
 
-            entity.HasOne(d => d.LightCheckingPackagingUserNavigation).WithMany(p => p.ProductsLedLightLightCheckingPackagingUserNavigations)
-                .HasForeignKey(d => d.LightCheckingPackagingUser)
+            entity.HasOne(d => d.CheckingPackagingUser).WithMany(p => p.ProductsPackaging)
+                .HasForeignKey(d => d.CheckingPackagingUserId)
                 .HasConstraintName("light_checking_packaging_user");
 
-            entity.HasOne(d => d.LightSolderingUserNavigation).WithMany(p => p.ProductsLedLightLightSolderingUserNavigations)
-                .HasForeignKey(d => d.LightSolderingUser)
+            entity.HasOne(d => d.SolderingUser).WithMany(p => p.ProductsSoldering)
+                .HasForeignKey(d => d.SolderingUserId)
                 .HasConstraintName("light_soldering_user");
 
             entity.HasOne(d => d.Model).WithMany(p => p.ProductsLedLights)
@@ -189,17 +190,17 @@ public partial class ApplicationContext : DbContext
 
             entity.ToTable("users");
 
-            entity.HasIndex(e => e.Role, "role");
+            entity.HasIndex(e => e.RoleId, "role");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Name)
                 .HasMaxLength(64)
                 .HasColumnName("name");
             entity.Property(e => e.Pin).HasColumnName("pin");
-            entity.Property(e => e.Role).HasColumnName("role");
+            entity.Property(e => e.RoleId).HasColumnName("role");
 
-            entity.HasOne(d => d.RoleNavigation).WithMany(p => p.Users)
-                .HasForeignKey(d => d.Role)
+            entity.HasOne(d => d.Role).WithMany(p => p.Users)
+                .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("role");
         });
@@ -232,4 +233,8 @@ public partial class ApplicationContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+public DbSet<IonosLedWebMvc.Ver2.Dtos.EmployeeDto> EmployeeDto { get; set; } = default!;
+
+public DbSet<IonosLedWebMvc.Ver2.Dtos.RoleDto> RoleDto { get; set; } = default!;
 }

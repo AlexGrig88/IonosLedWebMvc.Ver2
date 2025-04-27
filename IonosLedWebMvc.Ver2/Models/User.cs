@@ -11,23 +11,25 @@ public partial class User
 
     public ushort Pin { get; set; }
 
-    public uint Role { get; set; }
+    public uint RoleId { get; set; }
 
-    public virtual ICollection<ProductsLedLight> ProductsLedLightAlProfileCutUserNavigations { get; set; } = new List<ProductsLedLight>();
+    public virtual ICollection<LedLamp> ProductsCut { get; set; } = new List<LedLamp>();
 
-    public virtual ICollection<ProductsLedLight> ProductsLedLightAlProfileDrillUserNavigations { get; set; } = new List<ProductsLedLight>();
+    public virtual ICollection<LedLamp> ProductsDrill { get; set; } = new List<LedLamp>();
 
-    public virtual ICollection<ProductsLedLight> ProductsLedLightLabelPrintUserNavigations { get; set; } = new List<ProductsLedLight>();
+    public virtual ICollection<LedLamp> ProductsLabelPrint { get; set; } = new List<LedLamp>();
 
-    public virtual ICollection<ProductsLedLight> ProductsLedLightLedModuleMountingUserNavigations { get; set; } = new List<ProductsLedLight>();
+    public virtual ICollection<LedLamp> ProductsMounting { get; set; } = new List<LedLamp>();
 
-    public virtual ICollection<ProductsLedLight> ProductsLedLightLightAssemblingUserNavigations { get; set; } = new List<ProductsLedLight>();
+    public virtual ICollection<LedLamp> ProductsAssembling { get; set; } = new List<LedLamp>();
 
-    public virtual ICollection<ProductsLedLight> ProductsLedLightLightCheckingPackagingUserNavigations { get; set; } = new List<ProductsLedLight>();
+    public virtual ICollection<LedLamp> ProductsPackaging { get; set; } = new List<LedLamp>();
 
-    public virtual ICollection<ProductsLedLight> ProductsLedLightLightSolderingUserNavigations { get; set; } = new List<ProductsLedLight>();
+    public virtual ICollection<LedLamp> ProductsSoldering { get; set; } = new List<LedLamp>();
 
-    public virtual Role RoleNavigation { get; set; } = null!;
+    public virtual Role Role { get; set; } = null!;
 
     public virtual ICollection<UserEvent> UserEvents { get; set; } = new List<UserEvent>();
+
+    public override string ToString() => $"UserName = {Name}; Pin = {Pin}";
 }

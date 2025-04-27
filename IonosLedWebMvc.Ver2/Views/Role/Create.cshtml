@@ -1,0 +1,73 @@
+﻿@model IonosLedWebMvc.Ver2.Dtos.RoleDto
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>RoleDto</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="RoleName" class="control-label"></label>
+                <input asp-for="RoleName" class="form-control" />
+                <span asp-validation-for="RoleName" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="PermissionSettings" /> @Html.DisplayNameFor(model => model.PermissionSettings)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="PermissionAlProfileCut" /> @Html.DisplayNameFor(model => model.PermissionAlProfileCut)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="PermissionAlProfileDrill" /> @Html.DisplayNameFor(model => model.PermissionAlProfileDrill)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="PermissionLedModuleMounting" /> @Html.DisplayNameFor(model => model.PermissionLedModuleMounting)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="PermissionLightSoldering" /> @Html.DisplayNameFor(model => model.PermissionLightSoldering)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="PermissionLightAssembling" /> @Html.DisplayNameFor(model => model.PermissionLightAssembling)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="PermissionLightCheckingPackaging" /> @Html.DisplayNameFor(model => model.PermissionLightCheckingPackaging)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="PermissionChiefLightProduction" /> @Html.DisplayNameFor(model => model.PermissionChiefLightProduction)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
