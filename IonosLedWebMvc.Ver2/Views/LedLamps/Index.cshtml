@@ -1,0 +1,137 @@
+﻿@model IEnumerable<IonosLedWebMvc.Ver2.Models.LedLamp>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Spec)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BitrixOrder)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LabelPrintTs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AlProfileCutTs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AlProfileDrillTs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LedModuleMountingTs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LightSolderingTs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LightAssemblingTs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LightCheckingPackagingTs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CutUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DrillUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LabelPrintUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MountingUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AssemblingUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CheckingPackagingUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SolderingUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Model)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Spec)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BitrixOrder)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LabelPrintTs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AlProfileCutTs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AlProfileDrillTs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LedModuleMountingTs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LightSolderingTs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LightAssemblingTs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LightCheckingPackagingTs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CutUser.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DrillUser.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LabelPrintUser.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MountingUser.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AssemblingUser.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CheckingPackagingUser.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SolderingUser.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model.ModelName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

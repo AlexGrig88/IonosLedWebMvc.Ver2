@@ -237,4 +237,6 @@ public partial class ApplicationContext : DbContext
 public DbSet<IonosLedWebMvc.Ver2.Dtos.EmployeeDto> EmployeeDto { get; set; } = default!;
 
 public DbSet<IonosLedWebMvc.Ver2.Dtos.RoleDto> RoleDto { get; set; } = default!;
+
+public DbSet<IonosLedWebMvc.Ver2.Dtos.LampModelDto> LampModelDto { get; set; } = default!;
 }

@@ -1,0 +1,76 @@
+﻿@model IEnumerable<IonosLedWebMvc.Ver2.Dtos.LampModelDto>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Стоимость работ (руб.)</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Создать</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ModelName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sections)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CutPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DrillPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MountPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SolderPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AssemblyPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CheckPrice)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModelName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sections)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CutPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DrillPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MountPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SolderPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AssemblyPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CheckPrice)
+            </td>
+            <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary">Изменить</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Удалить</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

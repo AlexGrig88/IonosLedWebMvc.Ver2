@@ -2,6 +2,7 @@
 using IonosLedWebMvc.Ver2.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
 
 namespace IonosLedWebMvc.Ver2.Controllers
 {
@@ -37,7 +38,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(roleDto);
+                _context.Roles.Add(RoleDto.ToRole(roleDto));
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -52,12 +53,12 @@ namespace IonosLedWebMvc.Ver2.Controllers
                 return NotFound();
             }
 
-            var roleDto = await _context.RoleDto.FindAsync(id);
-            if (roleDto == null)
+            var foundRole = await _context.Roles.FindAsync(id);
+            if (foundRole == null)
             {
                 return NotFound();
             }
-            return View(roleDto);
+            return View(RoleDto.FromRole(foundRole));
         }
 
         // POST: Role/Edit/5
@@ -76,12 +77,14 @@ namespace IonosLedWebMvc.Ver2.Controllers
             {
                 try
                 {
-                    _context.Update(roleDto);
+                    var currRole = RoleDto.ToRole(roleDto);
+                    currRole.Id = id;
+                    _context.Roles.Update(currRole);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RoleDtoExists(roleDto.Id))
+                    if (!RoleExists(roleDto.Id))
                     {
                         return NotFound();
                     }
@@ -103,14 +106,14 @@ namespace IonosLedWebMvc.Ver2.Controllers
                 return NotFound();
             }
 
-            var roleDto = await _context.RoleDto
+            var foundRole = await _context.Roles
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (roleDto == null)
+            if (foundRole == null)
             {
                 return NotFound();
             }
 
-            return View(roleDto);
+            return View(RoleDto.FromRole(foundRole));
         }
 
         // POST: Role/Delete/5
@@ -118,19 +121,24 @@ namespace IonosLedWebMvc.Ver2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(uint id)
         {
-            var roleDto = await _context.RoleDto.FindAsync(id);
-            if (roleDto != null)
-            {
-                _context.RoleDto.Remove(roleDto);
+            var foundRole = await _context.Roles.FindAsync(id);
+
+            if (foundRole != null) {
+                _context.Roles.Remove(foundRole);
             }
 
-            await _context.SaveChangesAsync();
+            try {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException) {
+                return View("ExceptionView");
+            }
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RoleDtoExists(uint id)
+        private bool RoleExists(uint id)
         {
-            return _context.RoleDto.Any(e => e.Id == id);
+            return _context.Roles.Any(e => e.Id == id);
         }
     }
 }

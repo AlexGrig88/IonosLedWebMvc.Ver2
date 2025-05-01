@@ -7,12 +7,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IonosLedWebMvc.Ver2.Data;
 using IonosLedWebMvc.Ver2.Dtos;
+using IonosLedWebMvc.Ver2.Models;
 
 namespace IonosLedWebMvc.Ver2.Controllers
 {
     public class EmployeeController : Controller
     {
         private readonly ApplicationContext _context;
+        private List<string> _rolesList = new List<string>();
 
         public EmployeeController(ApplicationContext context)
         {
@@ -23,7 +25,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
         public async Task<IActionResult> Index()
         {
             var usersList = await _context.Users.Include(u => u.Role).ToListAsync();
-            return View(usersList.Select(u => EmployeeDto.FromUser(u)));
+            return View(usersList.Select(u => EmployeeDto.FromUser(u)).OrderBy(u => u.Name));
         }
 
         // GET: Employee/Details/5
@@ -47,6 +49,9 @@ namespace IonosLedWebMvc.Ver2.Controllers
         // GET: Employee/Create
         public IActionResult Create()
         {
+            if (_rolesList.Count == 0)
+                _rolesList = _context.Roles.Select(r => r.RoleName).ToList();
+            ViewBag.RolesList = _rolesList;
             return View();
         }
 
@@ -59,8 +64,8 @@ namespace IonosLedWebMvc.Ver2.Controllers
         {
             if (ModelState.IsValid)
             {
-                
-                _context.Add(employeeDto);
+                User newUser = GetUserFromEmployeeDto(employeeDto);
+                _context.Users.Add(newUser);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -75,12 +80,18 @@ namespace IonosLedWebMvc.Ver2.Controllers
                 return NotFound();
             }
 
-            var employeeDto = await _context.EmployeeDto.FindAsync(id);
-            if (employeeDto == null)
+            var allUsers = await _context.Users.Include(u => u.Role).ToListAsync();
+            var foundUser = allUsers.Find(u => u.Id == id);
+            if (foundUser == null)
             {
                 return NotFound();
             }
-            return View(employeeDto);
+            if (_rolesList.Count == 0) {
+                _rolesList = _context.Roles.Select(r => r.RoleName).ToList();
+            }
+            Swap<string>(_rolesList, 0, _rolesList.FindIndex(r => r == foundUser.Role.RoleName));
+            ViewBag.RolesList = _rolesList;
+            return View(EmployeeDto.FromUser(foundUser));
         }
 
         // POST: Employee/Edit/5
@@ -90,21 +101,20 @@ namespace IonosLedWebMvc.Ver2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(uint id, [Bind("Id,Name,Pin,RoleName")] EmployeeDto employeeDto)
         {
-            if (id != employeeDto.Id)
-            {
-                return NotFound();
-            }
+            if (id != employeeDto.Id) return NotFound();
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(employeeDto);
+                    User currUser = GetUserFromEmployeeDto(employeeDto);
+                    currUser.Id = employeeDto.Id;
+                    _context.Users.Update(currUser);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EmployeeDtoExists(employeeDto.Id))
+                    if (!EmployeeExists(employeeDto.Id))
                     {
                         return NotFound();
                     }
@@ -121,19 +131,16 @@ namespace IonosLedWebMvc.Ver2.Controllers
         // GET: Employee/Delete/5
         public async Task<IActionResult> Delete(uint? id)
         {
-            if (id == null)
+            if (id == null) return NotFound();
+
+            var foundUser = await _context.Users.Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.Id == id);
+            if (foundUser == null)
             {
                 return NotFound();
             }
 
-            var employeeDto = await _context.EmployeeDto
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (employeeDto == null)
-            {
-                return NotFound();
-            }
-
-            return View(employeeDto);
+            return View(EmployeeDto.FromUser(foundUser));
         }
 
         // POST: Employee/Delete/5
@@ -141,19 +148,35 @@ namespace IonosLedWebMvc.Ver2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(uint id)
         {
-            var employeeDto = await _context.EmployeeDto.FindAsync(id);
-            if (employeeDto != null)
+            var foundUser = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Id == id);
+            if (foundUser != null)
             {
-                _context.EmployeeDto.Remove(employeeDto);
+                _context.Users.Remove(foundUser);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EmployeeDtoExists(uint id)
+        private bool EmployeeExists(uint id) => _context.Users.Any(e => e.Id == id);
+   
+
+        private User GetUserFromEmployeeDto(EmployeeDto emp)
         {
-            return _context.EmployeeDto.Any(e => e.Id == id);
+            Role? targetRole = _context.Roles.FirstOrDefault(r => r.RoleName == emp.RoleName);
+            return new User()
+            {
+                Name = emp.Name,
+                Pin = emp.Pin,
+                RoleId = targetRole.Id
+            };
+        }
+
+        public static void Swap<T>(IList<T> list, int indexA, int indexB)
+        {
+            T tmp = list[indexA];
+            list[indexA] = list[indexB];
+            list[indexB] = tmp;
         }
     }
 }

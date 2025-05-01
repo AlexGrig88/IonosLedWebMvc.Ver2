@@ -20,3 +20,18 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.fix-btn-create {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.min-margin-top {
+    margin-top: 3px;
+}
+
+.cost-works {
+    margin-top: 10px;
+    font-size: 22px;
+    font-weight:600;
+}

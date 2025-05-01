@@ -39,5 +39,19 @@ namespace IonosLedWebMvc.Ver2.Dtos
                 PermissionLightCheckingPackaging = role.PermissionLightCheckingPackaging,
                 PermissionChiefLightProduction = role.PermissionChiefLightProduction
             };
+
+        public static Role ToRole(RoleDto roleDto) =>
+            new Role()
+            {
+                RoleName = roleDto.RoleName,
+                PermissionSettings = roleDto.PermissionSettings,
+                PermissionAlProfileCut = roleDto.PermissionAlProfileCut,
+                PermissionAlProfileDrill = roleDto.PermissionAlProfileDrill,
+                PermissionLedModuleMounting = roleDto.PermissionLedModuleMounting,
+                PermissionLightSoldering = roleDto.PermissionLightSoldering,
+                PermissionLightAssembling = roleDto.PermissionLightAssembling,
+                PermissionLightCheckingPackaging = roleDto.PermissionLightCheckingPackaging,
+                PermissionChiefLightProduction = roleDto.PermissionChiefLightProduction
+            };
     }
 }
