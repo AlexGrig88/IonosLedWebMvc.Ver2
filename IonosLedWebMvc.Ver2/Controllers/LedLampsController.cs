@@ -23,7 +23,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
         public async Task<IActionResult> Index()
         {
             var applicationContext = _context.LedLamps.Include(l => l.AssemblingUser).Include(l => l.CheckingPackagingUser).Include(l => l.CutUser).Include(l => l.DrillUser).Include(l => l.LabelPrintUser).Include(l => l.Model).Include(l => l.MountingUser).Include(l => l.SolderingUser);
-            return View(await applicationContext.Take(1000).ToListAsync());
+            return View(await applicationContext.Take(100).ToListAsync());
         }
 
         // GET: LedLamps/Details/5

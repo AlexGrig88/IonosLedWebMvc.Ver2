@@ -1,13 +1,17 @@
 ﻿using IonosLedWebMvc.Ver2.Models;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace IonosLedWebMvc.Ver2.Dtos
 {
     public class RoleDto
     {
         public uint Id { get; set; }
+
         [DisplayName("Роль")]
+        [Required(ErrorMessage = "Поле обязательно для заполнения")]
         public string RoleName { get; set; } = null!;
+
         [DisplayName("Настройка")]
         public bool PermissionSettings { get; set; }
         [DisplayName("Нарезка профиля")]
