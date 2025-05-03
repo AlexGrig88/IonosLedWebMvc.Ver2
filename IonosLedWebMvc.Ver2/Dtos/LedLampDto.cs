@@ -32,21 +32,22 @@ namespace IonosLedWebMvc.Ver2.Dtos
         public DateTime? LightCheckingPackagingTs { get; set; }
 
         [DisplayName("НарезкаUser")]
-        public virtual string? CutUser { get; set; }
+        public User? CutUser { get; set; }
         [DisplayName("СверлениеUser")]
-        public virtual string? DrillUser { get; set; }
+        public User? DrillUser { get; set; }
         [DisplayName("ПечатьUser")]
-        public virtual string? LabelPrintUser { get; set; }
+        public User? LabelPrintUser { get; set; }
         [DisplayName("МонтажUser")]
-        public virtual string? MountingUser { get; set; }
+        public User? MountingUser { get; set; }
         [DisplayName("СборкаUser")]
-        public virtual string? AssemblingUser { get; set; }
+        public User? AssemblingUser { get; set; }
         [DisplayName("УпаковкаUser")]
-        public virtual string? CheckingPackagingUser { get; set; }
+        public User? CheckingPackagingUser { get; set; }
         [DisplayName("ПайкаUser")]
-        public virtual string? SolderingUser { get; set; }
+        public User? SolderingUser { get; set; }
+
         [DisplayName("Модель")]
-        public virtual string? ModelName { get; set; }
+        public LampModel? Model { get; set; }
 
         public static LedLampDto FromLedLamp(LedLamp lamp)
         {
@@ -64,14 +65,14 @@ namespace IonosLedWebMvc.Ver2.Dtos
                 LightCheckingPackagingTs = lamp?.LightCheckingPackagingTs ?? new DateTime(),
                 LightSolderingTs = lamp?.LightSolderingTs ?? new DateTime(),
 
-                CutUser = lamp?.CutUser?.Name ?? "",
-                DrillUser = lamp?.DrillUser?.Name ?? "",
-                LabelPrintUser = lamp?.LabelPrintUser?.Name ?? "",
-                MountingUser = lamp?.MountingUser?.Name ?? "",
-                AssemblingUser = lamp?.AssemblingUser?.Name ?? "",
-                CheckingPackagingUser = lamp?.CheckingPackagingUser?.Name ?? "",
-                SolderingUser = lamp?.SolderingUser?.Name ?? "",
-                ModelName = lamp?.Model?.ModelName ?? ""
+                CutUser = lamp?.CutUser ?? new User() { Name = "" },
+                DrillUser = lamp?.DrillUser ?? new User() { Name = "" },
+                LabelPrintUser = lamp?.LabelPrintUser ?? new User() { Name = "" },
+                MountingUser = lamp?.MountingUser ?? new User() { Name = "" },
+                AssemblingUser = lamp?.AssemblingUser ?? new User() { Name = "" },
+                CheckingPackagingUser = lamp?.CheckingPackagingUser ?? new User() { Name = "" },
+                SolderingUser = lamp?.SolderingUser ?? new User() { Name = "" },
+                Model = lamp?.Model ??  new LampModel() { ModelName = "" }
             };
         }
     }

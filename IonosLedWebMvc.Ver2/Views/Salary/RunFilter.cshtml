@@ -7,9 +7,7 @@
 <h2>Список выпущенных светильников</h2>
 <hr />
 
-<p><b>Период времени:</b> с @ViewBag.StartDate по @ViewBag.EndDate</p>
-<p><b>Сотрудник:</b> @ViewBag.EmployeeName</p>
-<p><b>Модель светильника:</b> @ViewBag.ModelName</p>
+<pre><b>Период времени:</b> с @ViewBag.StartDate по @ViewBag.EndDate | <b>Сотрудник:</b> @ViewBag.EmployeeName | <b>Модель светильника:</b> @ViewBag.ModelName</pre>
 
 <p style="color:blue; font-size:18px">
    Всего записей получено: @Model.Count()
@@ -21,7 +19,7 @@
                 @Html.DisplayNameFor(model => model.Spec)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ModelName)
+                @Html.DisplayNameFor(model => model.Model)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.BitrixOrder)
@@ -33,43 +31,43 @@
                 @Html.DisplayNameFor(model => model.LabelPrintTs)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LabelPrintUser)
+                @Html.DisplayNameFor(model => model.LabelPrintUser.Name)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.AlProfileCutTs)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CutUser)
+                @Html.DisplayNameFor(model => model.CutUser.Name)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.AlProfileDrillTs)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DrillUser)
+                @Html.DisplayNameFor(model => model.DrillUser.Name)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LedModuleMountingTs)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MountingUser)
+                @Html.DisplayNameFor(model => model.MountingUser.Name)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LightSolderingTs)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SolderingUser)
+                @Html.DisplayNameFor(model => model.SolderingUser.Name)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LightAssemblingTs)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AssemblingUser)
+                @Html.DisplayNameFor(model => model.AssemblingUser.Name)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LightCheckingPackagingTs)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CheckingPackagingUser)
+                @Html.DisplayNameFor(model => model.CheckingPackagingUser.Name)
             </th>
 
         </tr>
@@ -81,7 +79,7 @@
                 @Html.DisplayFor(modelItem => item.Spec)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ModelName)
+                @Html.DisplayFor(modelItem => item.Model)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.BitrixOrder)

@@ -14,9 +14,9 @@ namespace IonosLedWebMvc.Ver2.Dtos
 
         [DisplayName("Настройка")]
         public bool PermissionSettings { get; set; }
-        [DisplayName("Нарезка профиля")]
+        [DisplayName("Нарезка")]
         public bool PermissionAlProfileCut { get; set; }
-        [DisplayName("Сверление профиля")]
+        [DisplayName("Сверление")]
         public bool PermissionAlProfileDrill { get; set; }
         [DisplayName("Монтаж")]
         public bool PermissionLedModuleMounting { get; set; }
@@ -24,7 +24,7 @@ namespace IonosLedWebMvc.Ver2.Dtos
         public bool PermissionLightSoldering { get; set; }
         [DisplayName("Сборка")]
         public bool PermissionLightAssembling { get; set; }
-        [DisplayName("Прверка и упаковка")]
+        [DisplayName("Упаковка")]
         public bool PermissionLightCheckingPackaging { get; set; }
         [DisplayName("Главный производства")]
         public bool PermissionChiefLightProduction { get; set; }

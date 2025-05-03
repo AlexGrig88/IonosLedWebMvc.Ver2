@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using IonosLedWebMvc.Ver2.Data;
 using IonosLedWebMvc.Ver2.Dtos;
 using IonosLedWebMvc.Ver2.Models;
+using IonosLedWebMvc.Ver2.Infrastructure;
 
 namespace IonosLedWebMvc.Ver2.Controllers
 {
@@ -89,7 +90,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
             if (_rolesList.Count == 0) {
                 _rolesList = _context.Roles.Select(r => r.RoleName).ToList();
             }
-            Swap<string>(_rolesList, 0, _rolesList.FindIndex(r => r == foundUser.Role.RoleName));
+            HelperFunctions.Swap<string>(_rolesList, 0, _rolesList.FindIndex(r => r == foundUser.Role.RoleName));
             ViewBag.RolesList = _rolesList;
             return View(EmployeeDto.FromUser(foundUser));
         }
@@ -170,13 +171,6 @@ namespace IonosLedWebMvc.Ver2.Controllers
                 Pin = emp.Pin,
                 RoleId = targetRole.Id
             };
-        }
-
-        public static void Swap<T>(IList<T> list, int indexA, int indexB)
-        {
-            T tmp = list[indexA];
-            list[indexA] = list[indexB];
-            list[indexB] = tmp;
         }
     }
 }

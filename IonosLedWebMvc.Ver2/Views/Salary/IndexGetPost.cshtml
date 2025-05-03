@@ -1,0 +1,284 @@
+﻿@model PaginatedList<IonosLedWebMvc.Ver2.Models.LedLamp>
+
+@{
+    ViewData["Title"] = "IndexGetPost";
+}
+
+<h2>Список выпущенных светильников</h2>
+<hr />
+
+
+<form asp-action="IndexGetPost" class="row gy-2 gx-3 align-items-center">
+    <div class="col-auto">
+        <label for="startDate" class="control-label">Начало периода</label>
+        <input name="startDate" class="form-control" value="@ViewBag.StartDate"
+                type="datetime-local"
+                min="2020-01-01T00:00"
+                max="2030-01-01T00:00"  />
+    </div>
+
+    <div class="col-auto">
+        <label for="endDate" class="control-label">Конец периода</label>
+        <input name="endDate" class="form-control" value="@ViewBag.EndDate"
+                type="datetime-local"
+                min="2020-01-01T00:00"
+                max="2030-01-01T00:00" />
+    </div>
+
+    <div class="col-auto">
+        <label for="employeeName" class="control-label">Сотрудник</label>
+        <select name="employeeName" class="form-select">
+            @foreach (string emp in ViewBag.AllEmployees) {
+                <option value="@emp">@emp</option>
+            }
+        </select>
+    </div>
+
+    <div class="col-auto">
+        <label for="modelName" class="control-label">Модель светильника</label>
+        <select name="modelName" class="form-select">
+            @foreach (string lampModel in ViewBag.AllModels) {
+                <option value="@lampModel">@lampModel</option>
+            }
+        </select>
+    </div>
+
+    <div class="col-auto">
+        <div class="form-check" style="margin-top:20px!important">
+            <label for="checkForAllTime" class="control-label">За всё время</label>
+            <input name="checkForAllTime" class="form-check-input" type="checkbox" id="checkForAllTime" />
+        </div>
+    </div>
+
+    <div class="col-auto">
+        <input type="hidden" name="pageNumber" value="1" />
+    </div>
+
+    <div class="col-auto" style="margin-top: 28px">
+        <button type="submit" class="btn btn-primary">Получить</button>
+    </div>
+    <div class="col-auto" style="margin-top: 28px">
+        <button type="submit" class="btn btn btn-success">Получить с расчетом ЗП</button>
+    </div>
+</form>
+
+<hr />
+
+
+@if (Model == null) {
+    <h4 style="color: red">Некорректные значения фильтра. Дата начала периода не может быть больше даты конца периода.</h4>
+}
+
+else {
+    <div style="display:inline">
+        <div style="color:blue; font-size:18px; float:left">
+            Число выпущенных светильников: @ViewBag.TotalRecords шт.
+        </div>
+
+        <div style="float:right; margin-right:20em">
+            <nav>
+                <ul class="pagination justify-content-end">
+                    <li class="page-item @(Model.PageIndex == 1 ? "disabled" : "")">
+                        <a class="page-link" asp-route-pageNumber="1"
+                           asp-route-startDate="@ViewBag.StartDate"
+                           asp-route-endDate="@ViewBag.EndDate"
+                           asp-route-employeeName="@ViewBag.EmployeeName"
+                           asp-route-modelName="@ViewBag.ModelName">
+                            <span>Первая</span>
+                        </a>
+                    </li>
+                    <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+                        <a class="page-link" asp-route-pageNumber="@(Model.PageIndex - 1)"
+                           asp-route-startDate="@ViewBag.StartDate"
+                           asp-route-endDate="@ViewBag.EndDate"
+                           asp-route-employeeName="@ViewBag.EmployeeName"
+                           asp-route-modelName="@ViewBag.ModelName">
+                            <i class="bi bi-arrow-left"></i>
+                        </a>
+                    </li>
+                    @{
+                        int leftEnd = Model.TotalPages > 4 ? 4 : Model.TotalPages;
+                        int rightStart = Model.TotalPages > 8 ? Model.TotalPages - 3 : 5;
+
+                    }
+                    @for (int i = 1; i <= leftEnd; i++) {
+                    <li class="page-item @(Model.PageIndex == i ? "active" : "")">
+                        <a class="page-link" asp-route-pageNumber="@i"
+                               asp-route-startDate="@ViewBag.StartDate"
+                               asp-route-endDate="@ViewBag.EndDate"
+                               asp-route-employeeName="@ViewBag.EmployeeName"
+                               asp-route-modelName="@ViewBag.ModelName">
+                            @i</a>
+                    </li>
+                    }
+                    @if (Model.TotalPages > 8) {
+                        <li class="page-item">
+                            <a class="page-link">...</a>
+                        </li>
+                        <li class="page-item @(Model.PageIndex > 4 && Model.PageIndex <  Model.TotalPages - 3 ? "active" : "")">
+                            <a class="page-link">@(Model.PageIndex <= leftEnd ? leftEnd + 1 : Model.PageIndex >= rightStart ? rightStart - 1 : Model.PageIndex)</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link">...</a>
+                        </li>
+                    }
+                    @for (int i = rightStart; i <= Model.TotalPages; i++) {
+                        <li class="page-item @(Model.PageIndex == i ? "active" : "")">
+                            <a class="page-link" asp-route-pageNumber="@i"
+                               asp-route-startDate="@ViewBag.StartDate"
+                               asp-route-endDate="@ViewBag.EndDate"
+                               asp-route-employeeName="@ViewBag.EmployeeName"
+                               asp-route-modelName="@ViewBag.ModelName">
+                            @i</a>
+                        </li>
+                    }
+                    
+
+                    <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                        <a class="page-link" asp-route-pageNumber="@(Model.PageIndex + 1)" 
+                           asp-route-startDate="@ViewBag.StartDate"
+                           asp-route-endDate="@ViewBag.EndDate"
+                           asp-route-employeeName="@ViewBag.EmployeeName"
+                           asp-route-modelName="@ViewBag.ModelName">
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </li>
+                    <li class="page-item @(Model.PageIndex == Model.TotalPages ? "disabled" : "")">
+                        <a class="page-link" asp-route-pageNumber="@Model.TotalPages"
+                           asp-route-startDate="@ViewBag.StartDate"
+                           asp-route-endDate="@ViewBag.EndDate"
+                           asp-route-employeeName="@ViewBag.EmployeeName"
+                           asp-route-modelName="@ViewBag.ModelName">
+                            <span>Последняя</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <table class="table table-bordered align-content-center">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.LampDto.Spec)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LampDto.Model)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LampDto.BitrixOrder)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LampDto.Comment)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LampDto.LabelPrintTs)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LampDto.LabelPrintUser)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LampDto.AlProfileCutTs)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LampDto.CutUser)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LampDto.AlProfileDrillTs)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LampDto.DrillUser)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LampDto.LedModuleMountingTs)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LampDto.MountingUser)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LampDto.LightSolderingTs)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LampDto.SolderingUser)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LampDto.LightAssemblingTs)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LampDto.AssemblingUser)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LampDto.LightCheckingPackagingTs)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LampDto.CheckingPackagingUser)
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Spec)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Model.ModelName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BitrixOrder)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Comment)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LabelPrintTs)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LabelPrintUser.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AlProfileCutTs)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CutUser.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AlProfileDrillTs)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DrillUser.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LedModuleMountingTs)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MountingUser.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LightSolderingTs)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SolderingUser.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LightAssemblingTs)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AssemblingUser.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LightCheckingPackagingTs)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CheckingPackagingUser.Name)
+                    </td>
+
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+

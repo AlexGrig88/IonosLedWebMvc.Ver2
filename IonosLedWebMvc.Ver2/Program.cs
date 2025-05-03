@@ -1,13 +1,18 @@
 using IonosLedWebMvc.Ver2.Data;
+using IonosLedWebMvc.Ver2.Repos;
+using IonosLedWebMvc.Ver2.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-string connection = builder.Configuration.GetConnectionString("DefaultConnection");
+string? connection = builder.Configuration.GetConnectionString("DefaultConnection");
 
 
 // Add services to the container
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseMySql(connection, ServerVersion.Parse("8.4.4-mysql")));
+
+builder.Services.AddScoped<ILampRepo, LampRepo>();
+builder.Services.AddScoped<LampAndSalaryService>();
 
 var app = builder.Build();
 
