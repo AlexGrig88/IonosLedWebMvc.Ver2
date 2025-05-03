@@ -32,5 +32,6 @@ namespace IonosLedWebMvc.Ver2.Models
             return new PaginatedList<T>(items, count, pageIndex, pageSize);
 
         }
+
     }
 }

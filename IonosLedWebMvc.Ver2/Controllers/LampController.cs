@@ -1,27 +1,26 @@
 ﻿using IonosLedWebMvc.Ver2.Data;
-using IonosLedWebMvc.Ver2.Dtos;
 using IonosLedWebMvc.Ver2.Infrastructure;
 using IonosLedWebMvc.Ver2.Models;
-using IonosLedWebMvc.Ver2.Repos;
+using IonosLedWebMvc.Ver2.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace IonosLedWebMvc.Ver2.Controllers
 {
-    public class SalaryController : Controller
+    public class LampController : Controller
     {
 
         private readonly ApplicationContext _context;
-        private readonly ILampRepo _lampRepository;
+        private readonly LampService _lampService;
         private const int PAGE_SIZE = 10;
         private const string ALL_EMPLOYEES = "Все сотрудники";
         private const string ALL_MODELS = "Все модели";
 
-        public SalaryController(ApplicationContext context, ILampRepo lampRepo)
+        public LampController(ApplicationContext context, LampService lampService)
         {
             _context = context;
-            _lampRepository = lampRepo;
+            _lampService = lampService;
         }
 
         public async Task<IActionResult> IndexGetPost(string? startDate, string? endDate, string? employeeName, string? modelName, int pageNumber)
@@ -38,7 +37,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
             ViewBag.EmployeeName = employeeName;
             ViewBag.ModelName = modelName;
 
-            var lamps = _lampRepository.GetAllAsync();
+
             DateTime startDt = correctParameters.StartDt;
             DateTime endDt = correctParameters.EndDt;
 
@@ -50,28 +49,16 @@ namespace IonosLedWebMvc.Ver2.Controllers
                 return View();
             }
 
-            lamps = lamps.Where(p => p.LabelPrintTs >= startDt && p.LabelPrintTs < endDt ||
-                            p.AlProfileCutTs >= startDt && p.AlProfileCutTs < endDt ||
-                            p.AlProfileDrillTs >= startDt && p.AlProfileDrillTs < endDt ||
-                            p.LedModuleMountingTs >= startDt && p.LedModuleMountingTs < endDt ||
-                            p.LightSolderingTs >= startDt && p.LightSolderingTs < endDt ||
-                            p.LightAssemblingTs >= startDt && p.LightAssemblingTs < endDt ||
-                            p.LightCheckingPackagingTs >= startDt && p.LightCheckingPackagingTs < endDt
-                        );
+            var lamps = _lampService.GetLampsTimeFiltering(startDt, endDt);
 
-            if (employeeName != ALL_EMPLOYEES) {
-                lamps = lamps.Where(p => (p.LabelPrintUser != null && p.LabelPrintUser.Name == employeeName) ||
-                            (p.CutUser != null && p.CutUser.Name == employeeName) ||
-                            (p.DrillUser != null && p.DrillUser.Name == employeeName) ||
-                            (p.MountingUser != null && p.MountingUser.Name == employeeName) ||
-                            (p.AssemblingUser != null && p.AssemblingUser.Name == employeeName) ||
-                            (p.SolderingUser != null && p.SolderingUser.Name == employeeName) ||
-                            (p.CheckingPackagingUser != null && p.CheckingPackagingUser.Name == employeeName)
-                            );
+            if (modelName != ALL_MODELS && employeeName != ALL_EMPLOYEES) {
+                lamps = _lampService.GetLampsTimeAndEmployeeAndModelFiltering(startDt, endDt, employeeName, modelName);
             }
-
-            if (modelName != ALL_MODELS) {
-                lamps = lamps.Where(p => p.Model != null && p.Model.ModelName == modelName);
+            else if (employeeName != ALL_EMPLOYEES) {
+                lamps = _lampService.GetLampsTimeAndEmployeeFiltering(startDt, endDt, employeeName);
+            }
+            else if (modelName != ALL_MODELS) {
+                lamps = _lampService.GetLampsTimeAndAndModelFiltering(startDt, endDt, modelName);
             }
 
 
@@ -97,7 +84,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
                 allEmployees.Insert(0, employeeName);
             }
             else {
-                HelperFunctions.Swap(allEmployees, 0, allEmployees.FindIndex(emp => emp == employeeName));
+                HelperFunctions.Swap<string>(allEmployees, 0, allEmployees.FindIndex(emp => emp == employeeName));
                 allEmployees.Add(ALL_EMPLOYEES);
             }
 
@@ -106,7 +93,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
                 allModels.Insert(0, modelName);
             }
             else {
-                HelperFunctions.Swap(allModels, 0, allModels.FindIndex(m => m == modelName));
+                HelperFunctions.Swap<string>(allModels, 0, allModels.FindIndex(m => m == modelName));
                 allModels.Add(ALL_MODELS);
             }
             DateTime startDt = DateTime.Now;
@@ -134,17 +121,17 @@ namespace IonosLedWebMvc.Ver2.Controllers
         }
 
 
-        public IActionResult Index()
+/*        public IActionResult Index()
         {
             var filter = new LampFilterDto() { StartDate = new DateTime(2024, 4, 20), EndDate = new DateTime(2024, 04, 25) };
             ViewBag.AllModels = new List<string>() { filter.ModelName };
             ViewBag.AllEmployees = new List<string>() { filter.EmployeeName };
             return View(filter);
-        }
+        }*/
 
 
 
-        [HttpPost]
+/*        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RunFilter([Bind("StartDate,EndDate,EmployeeName,ModelName")] LampFilterDto lampFilterDto)
         {
@@ -186,7 +173,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
 
             return View(products.Select(LedLampDto.FromLedLamp));
 
-        }
+        }*/
 
     }
 

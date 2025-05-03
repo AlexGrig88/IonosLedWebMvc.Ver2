@@ -31,19 +31,19 @@ namespace IonosLedWebMvc.Ver2.Dtos
         [DisplayName("УпаковкаTs")]
         public DateTime? LightCheckingPackagingTs { get; set; }
 
-        [DisplayName("НарезкаUser")]
+        [DisplayName("Нарезка")]
         public User? CutUser { get; set; }
-        [DisplayName("СверлениеUser")]
+        [DisplayName("Сверление")]
         public User? DrillUser { get; set; }
-        [DisplayName("ПечатьUser")]
+        [DisplayName("Печать")]
         public User? LabelPrintUser { get; set; }
-        [DisplayName("МонтажUser")]
+        [DisplayName("Монтаж")]
         public User? MountingUser { get; set; }
-        [DisplayName("СборкаUser")]
+        [DisplayName("Сборка")]
         public User? AssemblingUser { get; set; }
-        [DisplayName("УпаковкаUser")]
+        [DisplayName("Упаковка")]
         public User? CheckingPackagingUser { get; set; }
-        [DisplayName("ПайкаUser")]
+        [DisplayName("Пайка")]
         public User? SolderingUser { get; set; }
 
         [DisplayName("Модель")]

@@ -12,7 +12,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseMySql(connection, ServerVersion.Parse("8.4.4-mysql")));
 
 builder.Services.AddScoped<ILampRepo, LampRepo>();
-builder.Services.AddScoped<LampAndSalaryService>();
+builder.Services.AddScoped<LampService>();
 
 var app = builder.Build();
 
