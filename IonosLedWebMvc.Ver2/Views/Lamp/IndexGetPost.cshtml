@@ -44,13 +44,6 @@
     </div>
 
     <div class="col-auto">
-        <div class="form-check" style="margin-top:20px!important">
-            <label for="checkForAllTime" class="control-label">За всё время</label>
-            <input name="checkForAllTime" class="form-check-input" type="checkbox" id="checkForAllTime" />
-        </div>
-    </div>
-
-    <div class="col-auto">
         <input type="hidden" name="pageNumber" value="1" />
     </div>
 
@@ -58,6 +51,17 @@
         <button type="submit" class="btn btn-primary">Применить</button>
     </div>
 
+</form>
+
+<form asp-action="IndexGetPost" class="row gy-2 gx-3 align-items-center">
+    <div class="col-auto">
+        <label for="bitrixSearch" class="control-label">Bitrix номер</label>
+        <input name="bitrixSearch" class="form-control"
+               type="number" />
+    </div>
+    <div class="col-auto" style="margin-top: 28px">
+        <button type="submit" class="btn btn-primary">Искать</button>
+    </div>
 </form>
 
 <hr />
@@ -70,7 +74,7 @@
 else {
     <div style="display:inline">
         <div style="color:blue; font-size:18px; float:left">
-            Число выпущенных светильников: @ViewBag.TotalRecords шт.
+            Число выпущенных светильников: @ViewBag.TotalRecords шт. @(ViewBag.BitrixNum != null ? $" для номера Bitrix = {ViewBag.BitrixNum}" : "")
         </div>
 
        @*  Пагинация  *@
@@ -82,7 +86,8 @@ else {
                            asp-route-startDate="@ViewBag.StartDate"
                            asp-route-endDate="@ViewBag.EndDate"
                            asp-route-employeeName="@ViewBag.EmployeeName"
-                           asp-route-modelName="@ViewBag.ModelName">
+                           asp-route-modelName="@ViewBag.ModelName"
+                           asp-route-bitrixSearch="@ViewBag.BitrixNum">
                             <span>Первая</span>
                         </a>
                     </li>
@@ -91,7 +96,8 @@ else {
                            asp-route-startDate="@ViewBag.StartDate"
                            asp-route-endDate="@ViewBag.EndDate"
                            asp-route-employeeName="@ViewBag.EmployeeName"
-                           asp-route-modelName="@ViewBag.ModelName">
+                           asp-route-modelName="@ViewBag.ModelName"
+                           asp-route-bitrixSearch="@ViewBag.BitrixNum">
                             <i class="bi bi-arrow-left"></i>
                         </a>
                     </li>
@@ -106,7 +112,8 @@ else {
                                asp-route-startDate="@ViewBag.StartDate"
                                asp-route-endDate="@ViewBag.EndDate"
                                asp-route-employeeName="@ViewBag.EmployeeName"
-                               asp-route-modelName="@ViewBag.ModelName">
+                               asp-route-modelName="@ViewBag.ModelName"
+                               asp-route-bitrixSearch="@ViewBag.BitrixNum">
                             @i</a>
                     </li>
                     }
@@ -127,7 +134,8 @@ else {
                                asp-route-startDate="@ViewBag.StartDate"
                                asp-route-endDate="@ViewBag.EndDate"
                                asp-route-employeeName="@ViewBag.EmployeeName"
-                               asp-route-modelName="@ViewBag.ModelName">
+                               asp-route-modelName="@ViewBag.ModelName"
+                               asp-route-bitrixSearch="@ViewBag.BitrixNum">
                             @i</a>
                         </li>
                     }
@@ -138,7 +146,8 @@ else {
                            asp-route-startDate="@ViewBag.StartDate"
                            asp-route-endDate="@ViewBag.EndDate"
                            asp-route-employeeName="@ViewBag.EmployeeName"
-                           asp-route-modelName="@ViewBag.ModelName">
+                           asp-route-modelName="@ViewBag.ModelName"
+                           asp-route-bitrixSearch="@ViewBag.BitrixNum">
                             <i class="bi bi-arrow-right"></i>
                         </a>
                     </li>
@@ -147,7 +156,8 @@ else {
                            asp-route-startDate="@ViewBag.StartDate"
                            asp-route-endDate="@ViewBag.EndDate"
                            asp-route-employeeName="@ViewBag.EmployeeName"
-                           asp-route-modelName="@ViewBag.ModelName">
+                           asp-route-modelName="@ViewBag.ModelName"
+                           asp-route-bitrixSearch="@ViewBag.BitrixNum">
                             <span>Последняя</span>
                         </a>
                     </li>

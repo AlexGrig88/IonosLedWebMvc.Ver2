@@ -23,7 +23,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
             _lampService = lampService;
         }
 
-        public async Task<IActionResult> IndexGetPost(string? startDate, string? endDate, string? employeeName, string? modelName, int pageNumber)
+        public async Task<IActionResult> IndexGetPost(string? startDate, string? endDate, string? employeeName, string? modelName, int pageNumber, bool checkForAllTime, uint? bitrixSearch)
         {
 
             var correctParameters = await GetCorrectFilterParameters(startDate, endDate, employeeName, modelName, pageNumber);
@@ -41,6 +41,13 @@ namespace IonosLedWebMvc.Ver2.Controllers
             DateTime startDt = correctParameters.StartDt;
             DateTime endDt = correctParameters.EndDt;
 
+            if (bitrixSearch.HasValue || checkForAllTime) {
+                startDt = new DateTime(2021, 1, 1);
+                var now = DateTime.Now;
+                endDt = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, 0);
+                
+            }
+
             ViewBag.StartDate = $"{startDt:s}";
             ViewBag.EndDate = $"{endDt:s}";
 
@@ -49,19 +56,27 @@ namespace IonosLedWebMvc.Ver2.Controllers
                 return View();
             }
 
-            var lamps = _lampService.GetLampsTimeFiltering(startDt, endDt);
-
-            if (modelName != ALL_MODELS && employeeName != ALL_EMPLOYEES) {
-                lamps = _lampService.GetLampsTimeAndEmployeeAndModelFiltering(startDt, endDt, employeeName, modelName);
+            IQueryable<LedLamp> lamps = null;
+            if (bitrixSearch.HasValue) {
+                lamps = _lampService.GetLampsSearchBitrixNum(bitrixSearch.Value);
+                ViewBag.BitrixNum = bitrixSearch.Value.ToString();
             }
-            else if (employeeName != ALL_EMPLOYEES) {
-                lamps = _lampService.GetLampsTimeAndEmployeeFiltering(startDt, endDt, employeeName);
-            }
-            else if (modelName != ALL_MODELS) {
-                lamps = _lampService.GetLampsTimeAndAndModelFiltering(startDt, endDt, modelName);
-            }
+            else {
+                ViewBag.BitrixNum = null;
+                lamps = _lampService.GetLampsTimeFiltering(startDt, endDt);
 
 
+
+                if (modelName != ALL_MODELS && employeeName != ALL_EMPLOYEES) {
+                    lamps = _lampService.GetLampsTimeAndEmployeeAndModelFiltering(startDt, endDt, employeeName, modelName);
+                }
+                else if (employeeName != ALL_EMPLOYEES) {
+                    lamps = _lampService.GetLampsTimeAndEmployeeFiltering(startDt, endDt, employeeName);
+                }
+                else if (modelName != ALL_MODELS) {
+                    lamps = _lampService.GetLampsTimeAndAndModelFiltering(startDt, endDt, modelName);
+                }
+            }
             var lampsPaginated = await PaginatedList<LedLamp>.CreateAsync(lamps, pageNumber, PAGE_SIZE);
 
             // для расчета полученного числа записей необходимо получить значение колличества записей на последней странице, т.к. она может не полная

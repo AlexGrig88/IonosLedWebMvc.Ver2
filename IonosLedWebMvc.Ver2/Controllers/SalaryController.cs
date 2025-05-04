@@ -80,6 +80,9 @@ namespace IonosLedWebMvc.Ver2.Controllers
             if (startDt > endDt) {
                 return View();
             }
+            if (endDt - startDt > new TimeSpan(62, 0, 0, 0)) {
+                return View();
+            }
             if (startDate == null && endDate == null) {
                 return View(new List<LedLampDto>());
             }

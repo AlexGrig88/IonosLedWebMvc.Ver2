@@ -40,18 +40,16 @@
                             </a>
                         </li>
 
-                        <li>
-                            <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle text-white">
-                                <i class="bi bi-database-fill"></i><span class="ms-1 d-none d-sm-inline">Светильники</span>
+                        <li class="nav-item">
+                            <a asp-controller="Lamp" asp-action="IndexGetPost" class="nav-link align-middle px-0 text-white">
+                                <i class="bi bi-database-fill"></i><span class="ms-1 d-none d-sm-inline">Выпуск светильников</span>
                             </a>
-                            <ul class="collapse show nav flex-column ms-1" id="submenu1" data-bs-parent="#menu" >
-                                <li class="w-100" style="margin-left:18px">
-                                    <a asp-controller="Lamp" asp-action="IndexGetPost" class="nav-link px-0 text-white">Выпущенные светильники</a>
-                                </li>
-                                <li style="margin-left:18px">
-                                    <a asp-controller="Salary" asp-action="Index" class="nav-link px-0 text-white">Расчет Зарплаты</a>
-                                </li>
-                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a asp-controller="Salary" asp-action="Index" class="nav-link align-middle px-0 text-white">
+                                <i class="bi bi-cash"></i><span class="ms-1 d-none d-sm-inline">Расчет ЗП</span>
+                            </a>
                         </li>
 
                     </ul>

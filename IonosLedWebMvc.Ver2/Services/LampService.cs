@@ -42,6 +42,8 @@ namespace IonosLedWebMvc.Ver2.Services
         public IQueryable<LedLamp> GetLampsTimeAndAndModelFiltering(DateTime startDt, DateTime endDt, string modelName) =>
              GetLampsTimeFiltering(startDt, endDt).Where(p => p.Model != null && p.Model.ModelName == modelName);
 
-        }
+        public IQueryable<LedLamp> GetLampsSearchBitrixNum(uint bitrixNum) => _lampRepository.GetAllAsQueryable().Where(p => p.BitrixOrder != null && p.BitrixOrder == bitrixNum);
+
+    }
     
 }
