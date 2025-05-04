@@ -70,7 +70,6 @@
 @if (Model == null) {
     <h4 style="color: red">Некорректные значения фильтра. Дата начала периода не может быть больше даты конца периода.</h4>
 }
-
 else {
     <div style="display:inline">
         <div style="color:blue; font-size:18px; float:left">
@@ -165,7 +164,7 @@ else {
             </nav>
         </div>
     </div>
-
+    if (ViewBag.BitrixNum == null) {
     <table class="table table-bordered align-content-center">
         <thead>
             <tr>
@@ -294,6 +293,57 @@ else {
                 </tr>
             }
         </tbody>
-    </table>
+        </table>
+    }
+    else {
+        <table class="table table-bordered align-content-center">
+            <thead>
+                <tr>
+                    <th>
+                        Сер.№
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LampDto.Spec)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LampDto.Model)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LampDto.Comment)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LampDto.LightCheckingPackagingTs)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LampDto.CheckingPackagingUser)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Spec)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Model.ModelName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Comment)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LightCheckingPackagingTs)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CheckingPackagingUser.Name)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 }
 

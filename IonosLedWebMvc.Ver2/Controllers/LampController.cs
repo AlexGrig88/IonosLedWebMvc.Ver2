@@ -13,7 +13,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
 
         private readonly ApplicationContext _context;
         private readonly LampService _lampService;
-        private const int PAGE_SIZE = 10;
+        private int page_size_dynamic = 20;
         private const string ALL_EMPLOYEES = "Все сотрудники";
         private const string ALL_MODELS = "Все модели";
 
@@ -77,12 +77,15 @@ namespace IonosLedWebMvc.Ver2.Controllers
                     lamps = _lampService.GetLampsTimeAndAndModelFiltering(startDt, endDt, modelName);
                 }
             }
-            var lampsPaginated = await PaginatedList<LedLamp>.CreateAsync(lamps, pageNumber, PAGE_SIZE);
+
+            if (bitrixSearch.HasValue) page_size_dynamic = 50;
+
+            var lampsPaginated = await PaginatedList<LedLamp>.CreateAsync(lamps, pageNumber, page_size_dynamic);
 
             // для расчета полученного числа записей необходимо получить значение колличества записей на последней странице, т.к. она может не полная
             var lastPageNumber = lampsPaginated.TotalPages < 1 ? 1 : lampsPaginated.TotalPages;
-            var lastPage = await PaginatedList<LedLamp>.CreateAsync(lamps, lastPageNumber, PAGE_SIZE);
-            var totalRecords = lampsPaginated.TotalPages * PAGE_SIZE - (PAGE_SIZE - lastPage.Items.Count);
+            var lastPage = await PaginatedList<LedLamp>.CreateAsync(lamps, lastPageNumber, page_size_dynamic);
+            var totalRecords = lampsPaginated.TotalPages * page_size_dynamic - (page_size_dynamic - lastPage.Items.Count);
             ViewBag.TotalRecords = totalRecords < 0 ? 0 : totalRecords;
 
             return View(lampsPaginated);
