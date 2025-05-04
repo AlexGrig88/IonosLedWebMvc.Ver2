@@ -80,7 +80,7 @@ else {
                         </div>
                     }
                 </div>
-                <button style="margin:5px;margin-left:150px" class="btn btn-primary">Выгрузить детализацию в Excel файл</button>
+                @Html.RouteLink("Выгрузить детализацию в Excel файл", new { controller = "Salary", action = "DownloadFile", fileName = @ViewBag.EmployeeName }, new { id = "sam", @class = "btn btn-primary" })
             </div>
         }
         else {
@@ -89,7 +89,7 @@ else {
                 <div>
                     <span><b>@ViewBag.Salaries[0].Name : </b></span> <button>@ViewBag.Salaries[0].Salary руб.</button>
                 </div>
-                <button style="margin:5px;margin-left:150px" class="btn btn-primary">Выгрузить детализацию в Excel файл</button>
+                @Html.RouteLink("Выгрузить детализацию в Excel файл", new { controller = "Salary", action = "DownloadFile", fileName = @ViewBag.EmployeeName }, new { id = "sam", @class = "btn btn-primary" })
              </div>
         }
     </div>

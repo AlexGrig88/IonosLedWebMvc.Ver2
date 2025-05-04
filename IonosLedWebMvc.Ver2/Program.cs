@@ -1,4 +1,5 @@
 using IonosLedWebMvc.Ver2.Data;
+using IonosLedWebMvc.Ver2.Infrastructure;
 using IonosLedWebMvc.Ver2.Repos;
 using IonosLedWebMvc.Ver2.Services;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ builder.Services.AddDbContext<ApplicationContext>(options => options.UseMySql(co
 builder.Services.AddScoped<ILampRepo, LampRepo>();
 builder.Services.AddScoped<LampService>();
 builder.Services.AddScoped<SalaryService>();
+
 
 var app = builder.Build();
 

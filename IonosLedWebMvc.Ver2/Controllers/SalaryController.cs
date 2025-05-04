@@ -11,17 +11,22 @@ namespace IonosLedWebMvc.Ver2.Controllers
 {
     public class SalaryController : Controller
     {
+        private readonly IWebHostEnvironment _environment;
         private readonly ApplicationContext _context;
         private readonly LampService _lampService;
         private readonly SalaryService _salaryService;
         private const string ALL_EMPLOYEES = "Все сотрудники";
         private const int DAY_OF_SALARY = 5;
 
-        public SalaryController(ApplicationContext context, LampService lampService, SalaryService salaryService)
+        private static string _fileNameForExcel = "";
+
+        public SalaryController(ApplicationContext context, LampService lampService, SalaryService salaryService, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
             _lampService = lampService;
             _salaryService = salaryService;
+            _environment = hostEnvironment;
+
         }
 
         public async Task<IActionResult> Index(string? startDate, string? endDate, string? employeeName)
@@ -96,8 +101,33 @@ namespace IonosLedWebMvc.Ver2.Controllers
 
             var lampDtoList = lamps.Select(l => LedLampDto.FromLedLamp(l)).ToList();
             ViewBag.TotalRecords = lampList.Count;
+
+            //////////////////////////////////////////////
+            // создание файла excel с детализацией
+            string path = Path.Combine(_environment.WebRootPath, "ExcelFilesDir");
+            if (!Directory.Exists(path)) {
+                Directory.CreateDirectory(path);
+            }
+            _fileNameForExcel = Path.Combine(path, "Details_For_" + employeeName + ".xlsx");
+            ExcelCreator.GererateAndSaveFile(lampList, _fileNameForExcel, employeeName);
+            ///////////////////////////////////////////////////////
+
             return View(lampDtoList.Take(200).ToList());
 
+
+        }
+
+        public FileResult DownloadFile(string fileName)
+        {
+            //Build the File Path.
+            string fullpath = _fileNameForExcel;
+
+            //Read the File data into Byte Array.
+            byte[] bytes = System.IO.File.ReadAllBytes(fullpath);
+
+            fileName = "Detail_" + fileName + "_" + DateTime.Now.ToString() + ".xlsx"; 
+            //Send the File to Download.
+            return File(bytes, "application/octet-stream", fileName);
         }
     }
 }
