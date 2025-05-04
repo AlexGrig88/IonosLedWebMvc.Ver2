@@ -5,7 +5,9 @@ namespace IonosLedWebMvc.Ver2.Models;
 
 public partial class LedLamp
 {
+    // серийный номер
     public uint Id { get; set; }
+
     public uint? ModelId { get; set; }
     public string? Spec { get; set; }
     public uint? BitrixOrder { get; set; }

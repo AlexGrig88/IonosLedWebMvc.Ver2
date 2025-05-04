@@ -65,8 +65,8 @@ namespace IonosLedWebMvc.Ver2.Controllers
             var lampsPaginated = await PaginatedList<LedLamp>.CreateAsync(lamps, pageNumber, PAGE_SIZE);
 
             // для расчета полученного числа записей необходимо получить значение колличества записей на последней странице, т.к. она может не полная
-            var correctPageNumber = lampsPaginated.TotalPages < 1 ? 1 : lampsPaginated.TotalPages;
-            var lastPage = await PaginatedList<LedLamp>.CreateAsync(lamps, correctPageNumber, PAGE_SIZE);
+            var lastPageNumber = lampsPaginated.TotalPages < 1 ? 1 : lampsPaginated.TotalPages;
+            var lastPage = await PaginatedList<LedLamp>.CreateAsync(lamps, lastPageNumber, PAGE_SIZE);
             var totalRecords = lampsPaginated.TotalPages * PAGE_SIZE - (PAGE_SIZE - lastPage.Items.Count);
             ViewBag.TotalRecords = totalRecords < 0 ? 0 : totalRecords;
 
@@ -100,8 +100,8 @@ namespace IonosLedWebMvc.Ver2.Controllers
             DateTime endDt = DateTime.Now;
 
             if (startDate == null && endDate == null) {
-                startDt = new DateTime(startDt.Year, startDt.Month, startDt.Day, startDt.Hour, startDt.Minute, 0); 
                 endDt = new DateTime(startDt.Year, startDt.Month, startDt.Day, startDt.Hour, startDt.Minute, 0);
+                startDt = startDt.Subtract(new TimeSpan(startDt.Hour, startDt.Minute, startDt.Second));
 
             }
             else if (startDate == null) {

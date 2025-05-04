@@ -73,6 +73,7 @@ else {
             Число выпущенных светильников: @ViewBag.TotalRecords шт.
         </div>
 
+       @*  Пагинация  *@
         <div style="float:right; margin-right:20em">
             <nav>
                 <ul class="pagination justify-content-end">
@@ -159,6 +160,9 @@ else {
         <thead>
             <tr>
                 <th>
+                    Сер.№
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.LampDto.Spec)
                 </th>
                 <th>
@@ -218,6 +222,9 @@ else {
         <tbody>
             @foreach (var item in Model.Items) {
                 <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Spec)
                     </td>

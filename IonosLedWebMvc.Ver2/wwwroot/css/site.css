@@ -35,3 +35,12 @@ body {
     font-size: 22px;
     font-weight:600;
 }
+
+.border-style {
+
+    border: 2px double #32a1ce;
+    width: 720px;
+    overflow: auto;
+    margin: 5px;
+    padding: 5px;
+}

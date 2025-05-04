@@ -13,6 +13,7 @@ builder.Services.AddDbContext<ApplicationContext>(options => options.UseMySql(co
 
 builder.Services.AddScoped<ILampRepo, LampRepo>();
 builder.Services.AddScoped<LampService>();
+builder.Services.AddScoped<SalaryService>();
 
 var app = builder.Build();
 

@@ -15,7 +15,7 @@ namespace IonosLedWebMvc.Ver2.Repos
             _context = context;
         }
 
-        public IQueryable<LedLamp> GetAllAsync()
+        public IQueryable<LedLamp> GetAllAsQueryable()
         {
             var lamps = _context.LedLamps
                 .Include(p => p.LabelPrintUser)
@@ -28,5 +28,6 @@ namespace IonosLedWebMvc.Ver2.Repos
                 .Include(p => p.Model);
             return lamps;
         }
+
     }
 }

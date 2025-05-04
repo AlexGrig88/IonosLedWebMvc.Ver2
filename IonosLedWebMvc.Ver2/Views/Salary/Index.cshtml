@@ -1,0 +1,225 @@
+﻿
+@model List<IonosLedWebMvc.Ver2.Dtos.LedLampDto>
+
+@{
+    ViewData["Title"] = "Salary";
+}
+
+<h2 style="color:darkgreen">Расчёт зарплат сотрудников</h2>
+<hr />
+
+
+<form asp-action="Index" class="row gy-2 gx-3 align-items-center">
+    <div class="col-auto">
+        <label for="startDate" class="control-label">Начало периода</label>
+        <input name="startDate" class="form-control" value="@ViewBag.StartDate"
+               type="datetime-local"
+               min="2020-01-01T00:00"
+               max="2030-01-01T00:00" />
+    </div>
+
+    <div class="col-auto">
+        <label for="endDate" class="control-label">Конец периода</label>
+        <input name="endDate" class="form-control" value="@ViewBag.EndDate"
+               type="datetime-local"
+               min="2020-01-01T00:00"
+               max="2030-01-01T00:00" />
+    </div>
+
+    <div class="col-auto">
+        <label for="employeeName" class="control-label">Сотрудник</label>
+        <select name="employeeName" class="form-select">
+            @foreach (string emp in ViewBag.AllEmployees) {
+                <option value="@emp">@emp</option>
+            }
+        </select>
+    </div>
+
+    <div class="col-auto">
+        <div class="form-check" style="margin-top:20px!important">
+            <label for="checkForAllTime" class="control-label">За текущий месяц</label>
+            <input name="checkForAllTime" class="form-check-input" type="checkbox" id="checkForAllTime" />
+        </div>
+    </div>
+
+    <div class="col-auto" style="margin-top: 28px">
+        <button type="submit" class="btn btn-primary">Вычислить</button>
+    </div>
+
+</form>
+
+<hr />
+
+@if (Model == null) {
+    <h4 style="color: red">Некорректные значения фильтра. Дата начала периода не может быть больше даты конца периода.</h4>
+}
+else if (Model.Count == 0) {
+    <h4 style="color: darkblue">Записей не найдено.</h4>
+}
+else {
+    <div>
+        <p style="color:darkblue; font-size:18px">
+            Число выпущенных светильников: @ViewBag.TotalRecords шт.
+        </p>
+        @if (ViewBag.TotalRecords > 200) {
+            <p>
+                Отображено светильников 200 шт.
+            </p>
+        }
+        @if (ViewBag.EmployeeName == "Все сотрудники")
+        {
+            <div class="border-style">
+                <h6 style="color:green; font-size:18px">Зарплата всех сотрудников с @ViewBag.StartDateG по @ViewBag.EndDateG:</h6>
+                <div style="width:700px;overflow:auto;">
+                    @foreach (EmployeeSalary empSal in ViewBag.Salaries) {
+                        <div style="width:50%;float:left;">
+                            <span><b>@empSal.Name : </b></span>
+                        </div>
+                        <div style="width:50%;float:left;">
+                            <button style="width:160px">@empSal.Salary руб.</button>
+                        </div>
+                    }
+                </div>
+                <button style="margin:5px;margin-left:150px" class="btn btn-primary">Выгрузить детализацию в Excel файл</button>
+            </div>
+        }
+        else {
+            <div class="border-style">
+                <h6 style="color:green; font-size:18px">Зарплата сотрудника с @ViewBag.StartDateG по @ViewBag.EndDateG:</h6>
+                <div>
+                    <span><b>@ViewBag.Salaries[0].Name : </b></span> <button>@ViewBag.Salaries[0].Salary руб.</button>
+                </div>
+                <button style="margin:5px;margin-left:150px" class="btn btn-primary">Выгрузить детализацию в Excel файл</button>
+             </div>
+        }
+    </div>
+
+    <table class="table table-bordered align-content-center">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Spec)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Model)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].BitrixOrder)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Comment)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].LabelPrintTs)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].LabelPrintUser)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].AlProfileCutTs)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].CutUser)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].AlProfileDrillTs)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].DrillUser)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].LedModuleMountingTs)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].MountingUser)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].LightSolderingTs)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].SolderingUser)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].LightAssemblingTs)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].AssemblingUser)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].LightCheckingPackagingTs)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].CheckingPackagingUser)
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Spec)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Model.ModelName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BitrixOrder)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Comment)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LabelPrintTs)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LabelPrintUser.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AlProfileCutTs)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CutUser.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AlProfileDrillTs)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DrillUser.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LedModuleMountingTs)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MountingUser.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LightSolderingTs)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SolderingUser.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LightAssemblingTs)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AssemblingUser.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LightCheckingPackagingTs)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CheckingPackagingUser.Name)
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -5,6 +5,6 @@ namespace IonosLedWebMvc.Ver2.Repos
 {
     public interface ILampRepo
     {
-        IQueryable<LedLamp> GetAllAsync();
+        IQueryable<LedLamp> GetAllAsQueryable();
     }
 }

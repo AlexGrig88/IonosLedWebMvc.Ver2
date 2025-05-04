@@ -5,7 +5,10 @@ namespace IonosLedWebMvc.Ver2.Dtos
 {
     public class LedLampDto
     {
+        [DisplayName("Сер.№")]
         public uint Id { get; set; }
+
+        public uint? ModelId { get; set; }
 
         [DisplayName("Спека")]
         public string? Spec { get; set; }
@@ -54,6 +57,7 @@ namespace IonosLedWebMvc.Ver2.Dtos
             return new LedLampDto
             {
                 Id = lamp.Id,
+                ModelId = lamp.ModelId,
                 Spec = lamp?.Spec ?? "",
                 BitrixOrder = lamp?.BitrixOrder ?? 0,
                 Comment = lamp?.Comment ?? "",
