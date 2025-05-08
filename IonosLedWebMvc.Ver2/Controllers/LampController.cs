@@ -17,15 +17,16 @@ namespace IonosLedWebMvc.Ver2.Controllers
         private const string ALL_EMPLOYEES = "Все сотрудники";
         private const string ALL_MODELS = "Все модели";
 
+        private DateTime DATE_NOW_FAKE_TEST = new DateTime(2024, 10, 30, 17, 32, 0); // для теста ставим текущим последний день в базе, потом вернуть DateTime.Now
+
         public LampController(ApplicationContext context, LampService lampService)
         {
             _context = context;
             _lampService = lampService;
         }
 
-        public async Task<IActionResult> IndexGetPost(string? startDate, string? endDate, string? employeeName, string? modelName, int pageNumber, bool checkForAllTime, uint? bitrixSearch)
+        public async Task<IActionResult> IndexGetPost(string? startDate, string? endDate, string? employeeName, string? modelName, int pageNumber, bool checkToday, uint? bitrixSearch)
         {
-
             var correctParameters = await GetCorrectFilterParameters(startDate, endDate, employeeName, modelName, pageNumber);
 
             pageNumber = correctParameters.PageNumber;
@@ -41,15 +42,19 @@ namespace IonosLedWebMvc.Ver2.Controllers
             DateTime startDt = correctParameters.StartDt;
             DateTime endDt = correctParameters.EndDt;
 
-            if (bitrixSearch.HasValue || checkForAllTime) {
-                startDt = new DateTime(2021, 1, 1);
+            if (bitrixSearch.HasValue) {
+                startDt = new DateTime(2023, 1, 1);
                 var now = DateTime.Now;
-                endDt = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, 0);
-                
+                endDt = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, 0); 
+            }
+            else if (checkToday) {
+                endDt = DATE_NOW_FAKE_TEST;
+                startDt = DATE_NOW_FAKE_TEST.Date;
             }
 
             ViewBag.StartDate = $"{startDt:s}";
             ViewBag.EndDate = $"{endDt:s}";
+            ViewBag.Check = checkToday;
 
 
             if (startDt > endDt) {
@@ -119,17 +124,19 @@ namespace IonosLedWebMvc.Ver2.Controllers
 
             if (startDate == null && endDate == null) {
                 // устанавливаем текущий день
-                endDt = new DateTime(startDt.Year, startDt.Month, startDt.Day, startDt.Hour, startDt.Minute, 0);
-                startDt = startDt.Subtract(new TimeSpan(startDt.Hour, startDt.Minute, startDt.Second));
-
+                endDt = DATE_NOW_FAKE_TEST;
+                startDt = DATE_NOW_FAKE_TEST.Date;
+ 
             }
             else if (startDate == null) {
                 startDt = new DateTime(2022, 2, 22);
                 endDt = DateTime.Parse(endDate);
+
             }
             else if (endDate == null) { 
                 endDt = new DateTime(startDt.Year, startDt.Month, startDt.Day, startDt.Hour, startDt.Minute, 0);
                 startDt = DateTime.Parse(startDate);
+
             }
             else {
                 endDt = DateTime.Parse(endDate);

@@ -64,7 +64,7 @@
     <a asp-action="Edit" asp-route-id="@Model?.LampModel.Id" class="btn btn-primary">Редактировать</a> |
     <a asp-action="Index">Назад к списку</a>
 
-    <h5 style="margin-top: 24px">Поиск всех выпущенных светильников модели в период:</h5>
+    <h5 style="margin-top: 24px">Поиск всех выпущенных светильников текущей модели в период:</h5>
 
     <form asp-action="Details" class="row gy-2 gx-3 align-items-center">
         <div class="col-auto">
@@ -200,6 +200,9 @@
                     <th>
                         @Html.DisplayNameFor(model => model.LampsPaginated.LampDto.LabelPrintTs)
                     </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LampsPaginated.LampDto.LabelPrintUser)
+                    </th>
 
                     <th>
                         ...
@@ -207,6 +210,9 @@
 
                     <th>
                         @Html.DisplayNameFor(model => model.LampsPaginated.LampDto.LightCheckingPackagingTs)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LampsPaginated.LampDto.CheckingPackagingUser)
                     </th>
 
                 </tr>
@@ -229,6 +235,9 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.LabelPrintTs)
                         </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LabelPrintUser.Name)
+                        </td>
 
 
                         <td>
@@ -237,6 +246,10 @@
 
                         <td>
                             @Html.DisplayFor(modelItem => item.LightCheckingPackagingTs)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CheckingPackagingUser.Name)
                         </td>
 
                     </tr>

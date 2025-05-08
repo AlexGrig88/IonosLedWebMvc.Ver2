@@ -43,6 +43,15 @@
         </select>
     </div>
 
+    <div class="col-auto" >
+        <div class="form-check" style="margin-top:20px">
+            <input id="checkToday" class="form-check-input" name="checkToday" type="checkbox" value="true" @(ViewBag.Check ? "checked" : "")>
+            <label class="form-check-label" for="checkToday">
+                За текущий день
+            </label>
+        </div>
+    </div>
+
     <div class="col-auto">
         <input type="hidden" name="pageNumber" value="1" />
     </div>

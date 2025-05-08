@@ -11,6 +11,7 @@ namespace IonosLedWebMvc.Ver2.Models
         public int PageSize { get; set; }
         public int TotalPages { get; private set; }
         public LedLampDto LampDto { get; set; } = new LedLampDto();
+        public bool IsTodayRange = true;
 
         public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
         {
