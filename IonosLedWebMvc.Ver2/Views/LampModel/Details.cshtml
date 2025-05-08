@@ -1,4 +1,4 @@
-﻿@model IonosLedWebMvc.Ver2.Dtos.LampModelDto
+﻿@model IonosLedWebMvc.Ver2.Dtos.LampModelDetailsPageDto
 
 @{
     ViewData["Title"] = "Details";
@@ -11,62 +11,62 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ModelName)
+            @Html.DisplayNameFor(model => model.LampModel.ModelName)
         </dt>
         <dd class="col-sm-10 fw-weight-bold">
-            @Html.DisplayFor(model => model.ModelName)
+            @Html.DisplayFor(model => model.LampModel.ModelName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Sections)
+            @Html.DisplayNameFor(model => model.LampModel.Sections)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Sections)
+            @Html.DisplayFor(model => model.LampModel.Sections)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CutPrice)
+            @Html.DisplayNameFor(model => model.LampModel.CutPrice)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CutPrice)
+            @Html.DisplayFor(model => model.LampModel.CutPrice)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DrillPrice)
+            @Html.DisplayNameFor(model => model.LampModel.DrillPrice)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DrillPrice)
+            @Html.DisplayFor(model => model.LampModel.DrillPrice)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MountPrice)
+            @Html.DisplayNameFor(model => model.LampModel.MountPrice)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MountPrice)
+            @Html.DisplayFor(model => model.LampModel.MountPrice)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SolderPrice)
+            @Html.DisplayNameFor(model => model.LampModel.SolderPrice)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SolderPrice)
+            @Html.DisplayFor(model => model.LampModel.SolderPrice)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AssemblyPrice)
+            @Html.DisplayNameFor(model => model.LampModel.AssemblyPrice)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AssemblyPrice)
+            @Html.DisplayFor(model => model.LampModel.AssemblyPrice)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CheckPrice)
+            @Html.DisplayNameFor(model => model.LampModel.CheckPrice)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CheckPrice)
+            @Html.DisplayFor(model => model.LampModel.CheckPrice)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Редактировать</a> |
+    <a asp-action="Edit" asp-route-id="@Model?.LampModel.Id" class="btn btn-primary">Редактировать</a> |
     <a asp-action="Index">Назад к списку</a>
 
-    <h5 style="margin-top: 24px">Поиск всех выпущенных светильников данной модели в период</h5>
+    <h5 style="margin-top: 24px">Поиск всех выпущенных светильников модели в период:</h5>
 
-    <form asp-action="IndexGetPost" class="row gy-2 gx-3 align-items-center">
+    <form asp-action="Details" class="row gy-2 gx-3 align-items-center">
         <div class="col-auto">
             <div class="input-group">
                 <div class="input-group-text"> C </div>
@@ -88,10 +88,161 @@
         </div>
 
         <div class="col-auto">
+            <input type="hidden" name="modelId" value="@Model?.LampModel.Id" />
+        </div>
+
+        <div class="col-auto">
             <button type="submit" class="btn btn-primary">Применить</button>
         </div>
 
     </form>
 
+    @if (Model.LampsPaginated != null && Model.LampsPaginated.Items.Count > 0) 
+    {
+        <div style="display:inline;">
+            <div style="color:blue; font-size:18px; float:left; margin-top:16px;">
+                Всего найдено записей: @ViewBag.TotalRecords
+            </div>
+
+            @*  Пагинация  *@
+            <div style="float:right;">
+                <nav>
+                    <ul class="pagination justify-content-end">
+                        <li class="page-item @(Model.LampsPaginated.PageIndex == 1 ? "disabled" : "")">
+                            <a class="page-link" asp-route-pageNumber="1"
+                               asp-route-startDate="@ViewBag.StartDate"
+                               asp-route-endDate="@ViewBag.EndDate"
+                               asp-route-modelId="@Model?.LampModel.Id">
+                                <span>Первая</span>
+                            </a>
+                        </li>
+                        <li class="page-item @(Model.LampsPaginated.HasPreviousPage ? "" : "disabled")">
+                            <a class="page-link" asp-route-pageNumber="@(Model.LampsPaginated.PageIndex - 1)"
+                               asp-route-startDate="@ViewBag.StartDate"
+                               asp-route-endDate="@ViewBag.EndDate"
+                               asp-route-modelId="@Model?.LampModel.Id">
+                                <i class="bi bi-arrow-left"></i>
+                            </a>
+                        </li>
+                        @{
+                            int leftEnd = Model.LampsPaginated.TotalPages > 4 ? 4 : Model.LampsPaginated.TotalPages;
+                            int rightStart = Model.LampsPaginated.TotalPages > 8 ? Model.LampsPaginated.TotalPages - 3 : 5;
+
+                        }
+                        @for (int i = 1; i <= leftEnd; i++) {
+                            <li class="page-item @(Model.LampsPaginated.PageIndex == i ? "active" : "")">
+                                <a class="page-link" asp-route-pageNumber="@i"
+                                   asp-route-startDate="@ViewBag.StartDate"
+                                   asp-route-endDate="@ViewBag.EndDate"
+                                   asp-route-modelId="@Model?.LampModel.Id">
+                                    @i
+                                </a>
+                            </li>
+                        }
+                        @if (Model.LampsPaginated.TotalPages > 8) {
+                            <li class="page-item">
+                                <a class="page-link">...</a>
+                            </li>
+                            <li class="page-item @(Model.LampsPaginated.PageIndex > 4 && Model.LampsPaginated.PageIndex <  Model.LampsPaginated.TotalPages - 3 ? "active" : "")">
+                                <a class="page-link">@(Model.LampsPaginated.PageIndex <= leftEnd ? leftEnd + 1 : Model.LampsPaginated.PageIndex >= rightStart ? rightStart - 1 : Model.LampsPaginated.PageIndex)</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link">...</a>
+                            </li>
+                        }
+                        @for (int i = rightStart; i <= Model.LampsPaginated.TotalPages; i++) {
+                            <li class="page-item @(Model.LampsPaginated.PageIndex == i ? "active" : "")">
+                                <a class="page-link" asp-route-pageNumber="@i"
+                                   asp-route-startDate="@ViewBag.StartDate"
+                                   asp-route-endDate="@ViewBag.EndDate"
+                                   asp-route-modelId="@Model?.LampModel.Id">
+                                    @i
+                                </a>
+                            </li>
+                        }
+
+
+                        <li class="page-item @(Model.LampsPaginated.HasNextPage ? "" : "disabled")">
+                            <a class="page-link" asp-route-pageNumber="@(Model.LampsPaginated.PageIndex + 1)"
+                               asp-route-startDate="@ViewBag.StartDate"
+                               asp-route-endDate="@ViewBag.EndDate"
+                               asp-route-modelId="@Model?.LampModel.Id">
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </li>
+                        <li class="page-item @(Model.LampsPaginated.PageIndex == Model.LampsPaginated.TotalPages ? "disabled" : "")">
+                            <a class="page-link" asp-route-pageNumber="@Model.LampsPaginated.TotalPages"
+                               asp-route-startDate="@ViewBag.StartDate"
+                               asp-route-endDate="@ViewBag.EndDate"
+                               asp-route-modelId="@Model?.LampModel.Id">
+                                <span>Последняя</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <table class="table table-bordered align-content-center table-sm">
+            <thead>
+                <tr>
+                    <th>
+                        Сер.№
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LampsPaginated.LampDto.Spec)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LampsPaginated.LampDto.BitrixOrder)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LampsPaginated.LampDto.Comment)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LampsPaginated.LampDto.LabelPrintTs)
+                    </th>
+
+                    <th>
+                        ...
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.LampsPaginated.LampDto.LightCheckingPackagingTs)
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.LampsPaginated.Items) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Spec)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BitrixOrder)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Comment)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LabelPrintTs)
+                        </td>
+
+
+                        <td>
+                            ...
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LightCheckingPackagingTs)
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 
 </div>

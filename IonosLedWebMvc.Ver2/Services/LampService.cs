@@ -59,6 +59,9 @@ namespace IonosLedWebMvc.Ver2.Services
             return dictModelToCount;
         }
 
+        public IQueryable<LedLamp> GetAllByModelAndDate(uint modelId, DateTime startDt, DateTime endDt) => 
+                    _lampRepository.GetDateFiltering(startDt, endDt).Where(lamp => lamp.ModelId == modelId);
+
     }
     
 }

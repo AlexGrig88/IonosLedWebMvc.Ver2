@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using IonosLedWebMvc.Ver2.Data;
 using IonosLedWebMvc.Ver2.Dtos;
 using IonosLedWebMvc.Ver2.Services;
+using DocumentFormat.OpenXml.Wordprocessing;
+using IonosLedWebMvc.Ver2.Models;
 
 namespace IonosLedWebMvc.Ver2.Controllers
 {
@@ -30,23 +32,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
             return View(models.Select(m => LampModelDto.FromLampModel(m, modelNameToCount)).OrderByDescending(m => m.CountReleased));
         }
 
-        // GET: LampModel/Details/5
-        public async Task<IActionResult> Details(uint? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var lampModel = await _context.LampModels
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (lampModel == null)
-            {
-                return NotFound();
-            }
-
-            return View(LampModelDto.FromLampModel(lampModel));
-        }
 
         // GET: LampModel/Create
         public IActionResult Create()
@@ -156,9 +142,52 @@ namespace IonosLedWebMvc.Ver2.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+
+        // GET: LampModel/Details/5
+        public async Task<IActionResult> Details(uint? id, string modelId, string? startDate, string? endDate, int pageNumber)
+        {
+            int correctPageNumber = pageNumber < 1 ? 1 : pageNumber;
+
+            if (id == null) {
+                return NotFound();
+            }
+
+            var lampModel = await _context.LampModels
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (lampModel == null) {
+                return NotFound();
+            }
+
+            if (startDate == null && endDate == null) {
+                return View(new LampModelDetailsPageDto(LampModelDto.FromLampModel(lampModel), null));
+            }
+            // если применяем фильтрацию, то Id получаем через скрытое строковое поле modelId
+            var mId = uint.Parse(modelId);
+            DateTime endDt = DateTime.Parse(endDate);
+            DateTime startDt = DateTime.Parse(startDate);
+            ViewBag.StartDate = $"{startDt:s}";
+            ViewBag.EndDate = $"{endDt:s}";
+            var lamps = _lampService.GetAllByModelAndDate(mId, startDt, endDt);
+
+            int pageSize = 20;
+            var lampsPaginated = await PaginatedList<LedLamp>.CreateAsync(lamps, correctPageNumber, pageSize);
+
+            // для расчета полученного числа записей необходимо получить значение колличества записей на последней странице, т.к. она может не полная
+            var lastPageNumber = lampsPaginated.TotalPages < 1 ? 1 : lampsPaginated.TotalPages;
+            var lastPage = await PaginatedList<LedLamp>.CreateAsync(lamps, lastPageNumber, pageSize);
+            var totalRecords = lampsPaginated.TotalPages * pageSize - (pageSize - lastPage.Items.Count);
+            ViewBag.TotalRecords = totalRecords < 0 ? 0 : totalRecords;
+
+            return View(new LampModelDetailsPageDto(LampModelDto.FromLampModel(lampModel), lampsPaginated));
+
+        }
+
+
         private bool LampModelExists(uint id)
         {
             return _context.LampModels.Any(e => e.Id == id);
         }
+
     }
 }

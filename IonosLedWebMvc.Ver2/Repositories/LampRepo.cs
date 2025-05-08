@@ -28,5 +28,8 @@ namespace IonosLedWebMvc.Ver2.Repos
             return lamps;
         }
         public IQueryable<LedLamp> GetAllReleased() => _context.LedLamps.Where(lamp => lamp.LightCheckingPackagingTs != null);
+
+        public IQueryable<LedLamp> GetDateFiltering(DateTime startDt, DateTime endDt) => 
+            _context.LedLamps.Where(lamp => lamp.LightCheckingPackagingTs != null && lamp.LightCheckingPackagingTs >= startDt && lamp.LightCheckingPackagingTs < endDt);
     }
 }
