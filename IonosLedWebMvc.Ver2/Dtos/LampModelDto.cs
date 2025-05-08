@@ -17,33 +17,45 @@ namespace IonosLedWebMvc.Ver2.Dtos
         [DisplayName("Число секций")]
         public byte Sections { get; set; }
 
+        [Required(ErrorMessage = "Поле обязательно для заполнения")]
         [DisplayName("Нарезка")]
-        [RegularExpression(@"^\d{1,9}\,?\d{0,2}$")]
+        [RegularExpression(@"^\d{1,9}\,?\d{0,2}$", ErrorMessage = "Некорректный формат денежного числа")]
         public string CutPrice { get; set; }
 
+        [Required(ErrorMessage = "Поле обязательно для заполнения")]
         [DisplayName("Сверление")]
-        [RegularExpression(@"^\d{1,9}\,?\d{0,2}$")]
+        [RegularExpression(@"^\d{1,9}\,?\d{0,2}$", ErrorMessage = "Некорректный формат денежного числа")]
         public string DrillPrice { get; set; }
-        
 
+        [Required(ErrorMessage = "Поле обязательно для заполнения")]
         [DisplayName("Монтаж")]
-        [RegularExpression(@"^\d{1,9}\,?\d{0,2}$")]
+        [RegularExpression(@"^\d{1,9}\,?\d{0,2}$", ErrorMessage = "Некорректный формат денежного числа")]
         public string MountPrice { get; set; }
 
+        [Required(ErrorMessage = "Поле обязательно для заполнения")]
         [DisplayName("Пайка")]
-        [RegularExpression(@"^\d{1,9}\,?\d{0,2}$")]
+        [RegularExpression(@"^\d{1,9}\,?\d{0,2}$", ErrorMessage = "Некорректный формат денежного числа")]
         public string SolderPrice { get; set; }
 
+        [Required(ErrorMessage = "Поле обязательно для заполнения")]
         [DisplayName("Сборка")]
-        [RegularExpression(@"^\d{1,9}\,?\d{0,2}$")]
+        [RegularExpression(@"^\d{1,9}\,?\d{0,2}$", ErrorMessage = "Некорректный формат денежного числа")]
         public string AssemblyPrice { get; set; }
 
+        [Required(ErrorMessage = "Поле обязательно для заполнения")]
         [DisplayName("Упаковка")]
-        [RegularExpression(@"^\d{1,9}\,?\d{0,2}$")]
+        [RegularExpression(@"^\d{1,9}\,?\d{0,2}$", ErrorMessage = "Некорректный формат денежного числа")]
         public string CheckPrice { get; set; }
 
-        public static LampModelDto FromLampModel(LampModel model) =>
-            new LampModelDto()
+        [DisplayName("Всего изготовлено(шт.)")]
+        public int CountReleased { get; set; }
+
+        public static LampModelDto FromLampModel(LampModel model, Dictionary<uint, int>? modelsCount = null)
+        {
+            if (modelsCount != null && !modelsCount.ContainsKey(model.Id)) {
+                modelsCount = null;
+            }
+            return new LampModelDto()
             {
                 Id = model.Id,
                 ModelName = model.ModelName,
@@ -53,8 +65,10 @@ namespace IonosLedWebMvc.Ver2.Dtos
                 MountPrice = model.MountPrice.ToString(),
                 SolderPrice = model.SolderPrice.ToString(),
                 AssemblyPrice = model.AssemblyPrice.ToString(),
-                CheckPrice = model.CheckPrice.ToString()
+                CheckPrice = model.CheckPrice.ToString(),
+                CountReleased = modelsCount?[model.Id] ?? 0
             };
+        }
 
         public static LampModel ToLampModel(LampModelDto modelDto) =>
             new LampModel()

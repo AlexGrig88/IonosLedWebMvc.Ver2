@@ -114,10 +114,11 @@ namespace IonosLedWebMvc.Ver2.Controllers
                 HelperFunctions.Swap<string>(allModels, 0, allModels.FindIndex(m => m == modelName));
                 allModels.Add(ALL_MODELS);
             }
-            DateTime startDt = DateTime.Now;
+            DateTime startDt = new DateTime(2024, 10, 30, 17, 32, 0);    // // для теста ставим текущим последний день в базе, потом вернуть DateTime.Now
             DateTime endDt = DateTime.Now;
 
             if (startDate == null && endDate == null) {
+                // устанавливаем текущий день
                 endDt = new DateTime(startDt.Year, startDt.Month, startDt.Day, startDt.Hour, startDt.Minute, 0);
                 startDt = startDt.Subtract(new TimeSpan(startDt.Hour, startDt.Minute, startDt.Second));
 

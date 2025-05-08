@@ -1,18 +1,17 @@
 ﻿using IonosLedWebMvc.Ver2.Data;
 using IonosLedWebMvc.Ver2.Models;
 using IonosLedWebMvc.Ver2.Repos;
+using Microsoft.EntityFrameworkCore;
 using System.Text;
 
 namespace IonosLedWebMvc.Ver2.Services
 {
     public class LampService
     {
-        private readonly ApplicationContext _context;
         private readonly ILampRepo _lampRepository;
 
         public LampService(ApplicationContext context, ILampRepo lampRepo)
         {
-            _context = context;
             _lampRepository = lampRepo;
         }
 
@@ -43,6 +42,22 @@ namespace IonosLedWebMvc.Ver2.Services
              GetLampsTimeFiltering(startDt, endDt).Where(p => p.Model != null && p.Model.ModelName == modelName);
 
         public IQueryable<LedLamp> GetLampsSearchBitrixNum(uint bitrixNum) => _lampRepository.GetAllAsQueryable().Where(p => p.BitrixOrder != null && p.BitrixOrder == bitrixNum);
+
+        public async Task<Dictionary<uint, int>> GetCountedModelsAsync()
+        {
+            var modelsToCount = await _lampRepository.GetAllReleased()
+                .GroupBy(lamp => lamp.ModelId)
+                .Select(g => new { ModelId = g.Key, Count = g.Count() })
+                .ToListAsync();
+
+            var dictModelToCount = new Dictionary<uint, int>();
+            foreach (var mc in modelsToCount)
+            {
+/*                string modelName = models.FirstOrDefault(m => m.Id == mc.ModelId)?.ModelName ?? "";
+*/                dictModelToCount.Add(mc.ModelId ?? 0, mc.Count);
+            }
+            return dictModelToCount;
+        }
 
     }
     

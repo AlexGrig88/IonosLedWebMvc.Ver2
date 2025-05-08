@@ -7,23 +7,27 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IonosLedWebMvc.Ver2.Data;
 using IonosLedWebMvc.Ver2.Dtos;
+using IonosLedWebMvc.Ver2.Services;
 
 namespace IonosLedWebMvc.Ver2.Controllers
 {
     public class LampModelController : Controller
     {
         private readonly ApplicationContext _context;
+        private readonly LampService _lampService;
 
-        public LampModelController(ApplicationContext context)
+        public LampModelController(ApplicationContext context, LampService lampService)
         {
             _context = context;
+            _lampService = lampService;
         }
 
         // GET: LampModel
         public async Task<IActionResult> Index()
         {
             var models = await _context.LampModels.ToListAsync();
-            return View(models.Select(LampModelDto.FromLampModel));
+            var modelNameToCount = await _lampService.GetCountedModelsAsync();
+            return View(models.Select(m => LampModelDto.FromLampModel(m, modelNameToCount)).OrderByDescending(m => m.CountReleased));
         }
 
         // GET: LampModel/Details/5
@@ -34,14 +38,14 @@ namespace IonosLedWebMvc.Ver2.Controllers
                 return NotFound();
             }
 
-            var lampModelDto = await _context.LampModelDto
+            var lampModel = await _context.LampModels
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (lampModelDto == null)
+            if (lampModel == null)
             {
                 return NotFound();
             }
 
-            return View(lampModelDto);
+            return View(LampModelDto.FromLampModel(lampModel));
         }
 
         // GET: LampModel/Create

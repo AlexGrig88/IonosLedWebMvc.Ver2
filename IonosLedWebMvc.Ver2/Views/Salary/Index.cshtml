@@ -13,17 +13,13 @@
     <div class="col-auto">
         <label for="startDate" class="control-label">Начало периода</label>
         <input name="startDate" class="form-control" value="@ViewBag.StartDate"
-               type="datetime-local"
-               min="2020-01-01T00:00"
-               max="2030-01-01T00:00" />
+               type="datetime-local" min="2020-01-01T00:00" max="2030-01-01T00:00" />
     </div>
 
     <div class="col-auto">
         <label for="endDate" class="control-label">Конец периода</label>
         <input name="endDate" class="form-control" value="@ViewBag.EndDate"
-               type="datetime-local"
-               min="2020-01-01T00:00"
-               max="2030-01-01T00:00" />
+               type="datetime-local" min="2020-01-01T00:00" max="2030-01-01T00:00" />
     </div>
 
     <div class="col-auto">
@@ -52,16 +48,23 @@ else if (Model.Count == 0) {
 else {
     <div>
         <p style="color:darkblue; font-size:18px">
-            Число выпущенных светильников: @ViewBag.TotalRecords шт.
+            Число записей: @ViewBag.TotalRecords шт.
         </p>
+
+        @if (ViewBag.ShowLampsWithoutModel == 1) {
+            <p style="color:red; font-size:18px">
+                Число записей без указанной модели: @ViewBag.TotalRecordsWithoutModel  шт.
+            </p>
+        }
+        
         @if (ViewBag.TotalRecords > 200) {
             <p>
                 Отображено светильников 200 шт.
             </p>
         }
-        @if (ViewBag.EmployeeName == "Все сотрудники")
+        @if (!string.IsNullOrEmpty(ViewBag.EmployeeName))
         {
-            <div class="border-style">
+@*             <div class="border-style">
                 <h6 style="color:green; font-size:18px">Зарплата всех сотрудников с @ViewBag.StartDateG по @ViewBag.EndDateG:</h6>
                 <div style="width:700px;overflow:auto;">
                     @foreach (EmployeeSalary empSal in ViewBag.Salaries) {
@@ -74,20 +77,29 @@ else {
                     }
                 </div>
                 @Html.RouteLink("Выгрузить детализацию в Excel файл", new { controller = "Salary", action = "DownloadFile", fileName = @ViewBag.EmployeeName }, new { id = "sam", @class = "btn btn-primary min-margin-top" })
-            </div>
-        }
-        else {
+            </div> *@
             <div class="border-style">
                 <h6 style="color:green; font-size:18px">Зарплата сотрудника с @ViewBag.StartDateG по @ViewBag.EndDateG:</h6>
                 <div>
-                    <span><b>@ViewBag.Salaries[0].Name : </b></span> <button>@ViewBag.Salaries[0].Salary руб.</button>
+                    <span><b>@ViewBag.AmployeeAndSalary.Name : </b></span> <button>@ViewBag.AmployeeAndSalary.Salary руб.</button>
                 </div>
+                
                 @Html.RouteLink("Выгрузить детализацию в Excel файл", new { controller = "Salary", action = "DownloadFile", fileName = @ViewBag.EmployeeName }, new { id = "sam", @class = "btn btn-primary min-margin-top" })
-             </div>
+
+                @if (ViewBag.ShowLampsWithoutModel == 1) {
+                    @Html.RouteLink("Показать записи без указанной модели", new { controller = "Salary", action = "Index",
+                            startDate = @ViewBag.StartDateG,
+                            endDate = @ViewBag.EndDateG,
+                            employeeName = @ViewBag.EmployeeName,
+                            showLampsWithoutModel = ViewBag.ShowLampsWithoutModel
+                        },
+                            new { id = "sam", @class = "btn btn-danger min-margin-top" }   )
+                }
+            </div>
         }
     </div>
 
-    <table class="table table-bordered align-content-center">
+    <table class="table table-bordered align-content-center table-sm">
         <thead>
             <tr>
                 <th>

@@ -14,7 +14,7 @@ namespace IonosLedWebMvc.Ver2.Services
             _context = context;
         }
 
-        public List<EmployeeSalary> CalculateSalary(List<LedLamp> products, DateTime startDate, DateTime endDate)
+        public (List<EmployeeSalary> employeeSalaryList, List<LedLamp> lampWithoutModelList) CalculateSalary(List<LedLamp> products, DateTime startDate, DateTime endDate)
         {
             List<LedLamp> lampWithoutModel = new List<LedLamp>();         // Список для хранения записей без указания модели 
 
@@ -84,7 +84,7 @@ namespace IonosLedWebMvc.Ver2.Services
                 emploeeSalaries.Add(new EmployeeSalary($"{pair.Key}. {dictUserIdToUserName[pair.Key]}", pair.Value));
             }
 
-            return emploeeSalaries;
+            return (emploeeSalaries, lampWithoutModel);
 
         }
 

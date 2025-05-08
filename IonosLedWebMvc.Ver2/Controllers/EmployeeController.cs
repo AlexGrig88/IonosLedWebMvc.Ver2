@@ -9,24 +9,30 @@ using IonosLedWebMvc.Ver2.Data;
 using IonosLedWebMvc.Ver2.Dtos;
 using IonosLedWebMvc.Ver2.Models;
 using IonosLedWebMvc.Ver2.Infrastructure;
+using DocumentFormat.OpenXml.Spreadsheet;
+using IonosLedWebMvc.Ver2.Services;
 
 namespace IonosLedWebMvc.Ver2.Controllers
 {
     public class EmployeeController : Controller
     {
         private readonly ApplicationContext _context;
+        private readonly UserEventsService _eventsService;
+
         private List<string> _rolesList = new List<string>();
 
-        public EmployeeController(ApplicationContext context)
+        public EmployeeController(ApplicationContext context, UserEventsService eventsService)
         {
             _context = context;
+            _eventsService = eventsService;
         }
 
         // GET: Employee
         public async Task<IActionResult> Index()
         {
             var usersList = await _context.Users.Include(u => u.Role).ToListAsync();
-            return View(usersList.Select(u => EmployeeDto.FromUser(u)).OrderBy(u => u.Name));
+            var userIdToEvent = await _eventsService.GetStatusForLastMonth(usersList);
+            return View(usersList.Select(u => EmployeeDto.FromUser(u, userIdToEvent)).OrderBy(u => u.Name));
         }
 
         // GET: Employee/Details/5
@@ -38,6 +44,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
             }
 
             var user = await _context.Users
+                .Include(u => u.Role)
                 .FirstOrDefaultAsync(u => u.Id == id);
             if (user == null)
             {

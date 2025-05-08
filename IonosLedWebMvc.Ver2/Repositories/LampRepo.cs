@@ -1,5 +1,4 @@
 ﻿using IonosLedWebMvc.Ver2.Data;
-using IonosLedWebMvc.Ver2.Dtos;
 using IonosLedWebMvc.Ver2.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,6 +27,6 @@ namespace IonosLedWebMvc.Ver2.Repos
                 .Include(p => p.Model);
             return lamps;
         }
-
+        public IQueryable<LedLamp> GetAllReleased() => _context.LedLamps.Where(lamp => lamp.LightCheckingPackagingTs != null);
     }
 }

@@ -7,7 +7,7 @@ namespace IonosLedWebMvc.Ver2.Infrastructure
     {
         public static string fileName = "Details_For_Salary_UserAuth.xlsx";
 
-        public static void GererateAndSaveFile(List<LedLamp> lamps, string fileName, string employeeName)
+        public static void GererateAndSaveFile(List<LedLamp> lamps, string fileName, string employeeName, decimal? salary)
         {
 
             var headers = new List<string>() 
@@ -18,7 +18,7 @@ namespace IonosLedWebMvc.Ver2.Infrastructure
 
             using var wbook = new XLWorkbook();
             var ws = wbook.Worksheets.Add("Детализация по светильникам");
-            ws.Cell(1,1).Value = "Сотрудник: " + employeeName;
+            ws.Cell(1, 1).Value = $"Сотрудник {employeeName}: {salary} руб.";
             ws.Cell(1, 1).Style.Font.Italic = true;
             ws.Cell(1, 1).Style.Font.FontColor = XLColor.Red;
 

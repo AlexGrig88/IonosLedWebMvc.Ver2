@@ -6,6 +6,7 @@ using IonosLedWebMvc.Ver2.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace IonosLedWebMvc.Ver2.Controllers
 {
@@ -15,7 +16,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
         private readonly ApplicationContext _context;
         private readonly LampService _lampService;
         private readonly SalaryService _salaryService;
-        private const string ALL_EMPLOYEES = "Все сотрудники";
+/*        private const string ALL_EMPLOYEES = "Все сотрудники";*/
         private const int DAY_OF_SALARY = 5;
 
         private static string _fileNameForExcel = "";
@@ -29,20 +30,16 @@ namespace IonosLedWebMvc.Ver2.Controllers
 
         }
 
-        public async Task<IActionResult> Index(string? startDate, string? endDate, string? employeeName)
+        public async Task<IActionResult> Index(string? startDate, string? endDate, string? employeeName, int? showLampsWithoutModel)
         {
-            ViewBag.FirstEnter = true;
 
-            employeeName ??= ALL_EMPLOYEES;
+/*            employeeName ??= ALL_EMPLOYEES;*/
 
             var allEmployees = await _context.Users.Select(u => u.Name).ToListAsync();
-            if (employeeName == ALL_EMPLOYEES) {
-                allEmployees.Insert(0, employeeName);
-            }
-            else {
+            if (!string.IsNullOrEmpty(employeeName)) {
                 HelperFunctions.Swap<string>(allEmployees, 0, allEmployees.FindIndex(emp => emp == employeeName));
-                allEmployees.Add(ALL_EMPLOYEES);
             }
+
             ViewBag.AllEmployees = allEmployees;
             ViewBag.EmployeeName = employeeName;
 
@@ -83,28 +80,28 @@ namespace IonosLedWebMvc.Ver2.Controllers
             if (endDt - startDt > new TimeSpan(62, 0, 0, 0)) {
                 return View();
             }
-            if (startDate == null && endDate == null) {
+
+            if (string.IsNullOrEmpty(employeeName) || (startDate == null && endDate == null)) {
                 return View(new List<LedLampDto>());
             }
 
-            var lamps = _lampService.GetLampsTimeFiltering(startDt, endDt);
-
-            if (employeeName != ALL_EMPLOYEES) {
-                lamps = _lampService.GetLampsTimeAndEmployeeFiltering(startDt, endDt, employeeName);
-            }
-            var lampList = await lamps.ToListAsync();
-
-            List<EmployeeSalary> salaries = _salaryService.CalculateSalary(lampList, startDt, endDt);
-            if (employeeName == ALL_EMPLOYEES) {
-                ViewBag.Salaries = salaries;
-            }
-            else {
-                ViewBag.Salaries = salaries.Where(s => s.Name.Contains(employeeName)).ToList();
-            }
-
-            var lampDtoList = lamps.Select(l => LedLampDto.FromLedLamp(l)).ToList();
+            var lampList = await _lampService.GetLampsTimeAndEmployeeFiltering(startDt, endDt, employeeName).ToListAsync();
             ViewBag.TotalRecords = lampList.Count;
 
+            var tuple = _salaryService.CalculateSalary(lampList, startDt, endDt);
+
+            var empSalary = tuple.employeeSalaryList.FirstOrDefault(s => s.Name.Contains(employeeName));
+            ViewBag.AmployeeAndSalary = empSalary;
+
+
+            List<LedLampDto>? lampDtoList = null;
+
+            if (showLampsWithoutModel.HasValue && showLampsWithoutModel.Value == 1) {
+                lampDtoList = tuple.lampWithoutModelList.Select(LedLampDto.FromLedLamp).ToList();
+            }
+            else {
+                lampDtoList = lampList.Select(LedLampDto.FromLedLamp).ToList();
+            }
             //////////////////////////////////////////////
             // создание файла excel с детализацией
             string path = Path.Combine(_environment.WebRootPath, "ExcelFilesDir");
@@ -112,8 +109,14 @@ namespace IonosLedWebMvc.Ver2.Controllers
                 Directory.CreateDirectory(path);
             }
             _fileNameForExcel = Path.Combine(path, "Details_For_" + employeeName + ".xlsx");
-            ExcelCreator.GererateAndSaveFile(lampList, _fileNameForExcel, employeeName);
+            ExcelCreator.GererateAndSaveFile(lampList, _fileNameForExcel, employeeName, empSalary.Salary);
             ///////////////////////////////////////////////////////
+
+
+            showLampsWithoutModel = tuple.lampWithoutModelList.Count > 0 ? 1 : 0;
+            ViewBag.TotalRecordsWithoutModel = tuple.lampWithoutModelList.Count;
+            ViewBag.ShowLampsWithoutModel = showLampsWithoutModel;
+            
 
             return View(lampDtoList.Take(200).ToList());
 

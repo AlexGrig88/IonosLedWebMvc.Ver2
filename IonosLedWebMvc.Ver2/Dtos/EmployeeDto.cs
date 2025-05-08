@@ -21,7 +21,22 @@ namespace IonosLedWebMvc.Ver2.Dtos
         [DisplayName("Должность")]
         public string RoleName { get; set; } = string.Empty;
 
-        public static EmployeeDto FromUser(User user) => new EmployeeDto() { Id = user.Id, Name = user.Name, Pin = user.Pin, RoleName = user.Role.RoleName};
+        [DisplayName("Системный статус")]
+        public string Status { get; set; } = string.Empty;
+
+        public static EmployeeDto FromUser(User user, Dictionary<uint, string>? userIdToEvent = null)
+        {
+
+            return new EmployeeDto() { 
+                Id = user.Id,
+                Name = user.Name,
+                Pin = user.Pin,
+                RoleName = user.Role.RoleName,
+                Status = userIdToEvent?[user.Id] ?? string.Empty,
+            };
+        }
+
+
         public static User ToUser(EmployeeDto emp)
         {
             var user = new User() { Id = emp.Id, Name = emp.Name, Pin = emp.Pin };
