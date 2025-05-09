@@ -48,3 +48,11 @@ body {
 .width-btn {
     width: 60px !important;
 }
+
+.sidebar-active {
+    background-color: blueviolet;
+    width: 220px;
+    border-radius: 4px;
+    padding-left: 10px;
+    padding-right: 5px
+}

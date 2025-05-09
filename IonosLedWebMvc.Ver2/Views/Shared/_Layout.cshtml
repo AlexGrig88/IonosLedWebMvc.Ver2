@@ -12,13 +12,13 @@
 <body>
     <div class="container-fluid">
         <div class="row flex-nowrap">
-            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark" style="width:260px">
                 <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
                     <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                         <span class="fs-5 d-none d-sm-inline" style="font-size: 28px!important; color:greenyellow!important">ИОНОС УП</span>
                     </a>
                     <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                        <li class="nav-item">
+                        <li class="nav-item @(ViewData["Title"].ToString().Contains("Home") ? "sidebar-active" : "")">
                             <a asp-controller="Home" asp-action="Index" class="nav-link align-middle px-0 text-white">
                                 <i class="fs-4 bi bi-house-fill"></i><span class="ms-1 d-none d-sm-inline"> Главная</span>
                             </a>
@@ -26,33 +26,35 @@
 
                         <hr />
 
-                        <li class="nav-item">
+                        <li class="nav-item @(ViewData["Title"].ToString().Contains("Employee") ? "sidebar-active" : "")">
                             <a asp-controller="Employee" asp-action="Index" class="nav-link align-middle px-0 text-white">
                                 <i class="fs-4 bi bi-people-fill"></i><span class="ms-1 d-none d-sm-inline">Сотрудники</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item @(ViewData["Title"].ToString().Contains("Role") ? "sidebar-active" : "")">
                             <a asp-controller="Role" asp-action="Index" class="nav-link align-middle px-0 text-white">
                                 <i class="bi bi-signpost-2"></i><span class="ms-1 d-none d-sm-inline">Должности и права</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item @(ViewData["Title"].ToString().Contains("Model") ? "sidebar-active" : "")">
                             <a asp-controller="LampModel" asp-action="Index" class="nav-link align-middle px-0 text-white">
                                 <i class="bi bi-lightbulb-fill"></i><span class="ms-1 d-none d-sm-inline"> Модели светильников</span>
                             </a>
                         </li>
 
-                        <li class="nav-item">
+                        <li class="nav-item @(ViewData["Title"].ToString().Contains("Lamps") ? "sidebar-active" : "")">
                             <a asp-controller="Lamp" asp-action="IndexGetPost" class="nav-link align-middle px-0 text-white">
                                 <i class="bi bi-database-fill"></i><span class="ms-1 d-none d-sm-inline"> Выпуск светильников</span>
                             </a>
                         </li>
 
-                        <li class="nav-item">
+                        <li class="nav-item @(ViewData["Title"].ToString().Contains("Salary") ? "sidebar-active" : "")">
                             <a asp-controller="Salary" asp-action="Index" class="nav-link align-middle px-0 text-white">
                                 <i class="bi bi-cash"></i><span class="ms-1 d-none d-sm-inline"> Расчет ЗП</span>
                             </a>
                         </li>
+
+                        <hr>
 
                     </ul>
                     <hr>
