@@ -60,9 +60,17 @@
         </dd>
     </dl>
 </div>
+<h5 style="margin-top:24px">Заметки по тех процессу и прочие необходимые замечания</h5>
+<div class="form-floating mb-3" style="width:50%">
+    <label for="floatingTextarea2Disabled">Дополнительные заметки</label>
+    <textarea class="form-control" placeholder="Здесь пока никто не писал" id="floatingTextarea2Disabled" style="height: 100px" disabled>
+        </textarea>
+</div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.LampModel.Id" class="btn btn-primary">Редактировать</a> |
     <a asp-action="Index">Назад к списку</a>
+
+
 
     <h5 style="margin-top: 24px">Поиск всех выпущенных светильников текущей модели в период:</h5>
 

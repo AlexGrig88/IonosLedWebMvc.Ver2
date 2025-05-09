@@ -56,3 +56,8 @@ body {
     padding-left: 10px;
     padding-right: 5px
 }
+
+.delete-title {
+    margin-top: 20px;
+    color: darkred;
+}

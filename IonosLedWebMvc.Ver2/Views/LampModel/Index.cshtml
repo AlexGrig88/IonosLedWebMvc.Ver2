@@ -75,12 +75,13 @@
                     @Html.DisplayFor(modelItem => item.CountReleased)
                 </td>
             <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-warning btn-sm width-btn" title="Детализация">
+                        <i class="bi bi-info-circle"></i>
+                    </a> |
                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm width-btn" title="Редактировать">
                         <i class="bi bi-pencil-fill"></i>
                     </a> |
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-secondary btn-sm width-btn" title="Детализация по модели">
-                        <i class="bi bi-info-square"></i>
-                    </a> |
+
                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm width-btn" title="Удалить">
                         <i class="bi bi-trash-fill"></i>
                         </a>

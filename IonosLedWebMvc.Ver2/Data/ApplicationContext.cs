@@ -27,6 +27,7 @@ public partial class ApplicationContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<UserEvent> UserEvents { get; set; }
+    public virtual DbSet<Note> Notes { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
         /*optionsBuilder.UseMySql("server=127.0.0.1;user=root;database=ionosprod_ver2;port=3306;password=admin", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.4.4-mysql"));*/
@@ -37,6 +38,17 @@ public partial class ApplicationContext : DbContext
         modelBuilder
             .UseCollation("utf8mb4_0900_ai_ci")
             .HasCharSet("utf8mb4");
+
+        modelBuilder.Entity<Note>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("notes");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Text).HasColumnName("text");
+            entity.Property(e => e.LampModelId).HasColumnName("lamp_model_id");
+
+        });
 
         modelBuilder.Entity<LampModel>(entity =>
         {
