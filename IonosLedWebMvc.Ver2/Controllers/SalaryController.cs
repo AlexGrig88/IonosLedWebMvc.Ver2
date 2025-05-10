@@ -85,7 +85,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
                 return View(new List<LedLampDto>());
             }
 
-            var lampList = await _lampService.GetLampsTimeAndEmployeeFiltering(startDt, endDt, employeeName).ToListAsync();
+            var lampList = await _lampService.GetLampsTimeAndEmployeeFiltering(startDt, endDt, employeeName, "all").ToListAsync();
             ViewBag.TotalRecords = lampList.Count;
 
             var tuple = _salaryService.CalculateSalary(lampList, startDt, endDt);

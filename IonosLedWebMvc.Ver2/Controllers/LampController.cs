@@ -1,6 +1,7 @@
 ﻿using IonosLedWebMvc.Ver2.Data;
 using IonosLedWebMvc.Ver2.Infrastructure;
 using IonosLedWebMvc.Ver2.Models;
+using IonosLedWebMvc.Ver2.Models.Entities;
 using IonosLedWebMvc.Ver2.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
 
         private readonly ApplicationContext _context;
         private readonly LampService _lampService;
-        private int page_size_dynamic = 20;
+        private int page_size_dynamic = 10;
         private const string ALL_EMPLOYEES = "Все сотрудники";
         private const string ALL_MODELS = "Все модели";
 
@@ -25,11 +26,26 @@ namespace IonosLedWebMvc.Ver2.Controllers
             _lampService = lampService;
         }
 
-        public async Task<IActionResult> IndexGetPost(string? startDate, string? endDate, string? employeeName, string? modelName, int pageNumber, bool checkToday, uint? bitrixSearch)
+        // string? startDate, string? endDate, string? employeeName, string? modelName, int pageNumber, bool checkToday, uint? bitrixSearch
+        public async Task<IActionResult> IndexGetPost(IndexLampParameter parameter)
         {
+            string? startDate = parameter.StartDate;
+            string? endDate = parameter.EndDate;
+            string? employeeName = parameter.EmployeeName;
+            string? modelName = parameter.ModelName;
+            int pageNumber = parameter.PageNumber;
+            bool checkToday = parameter.CheckToday;
+            uint? bitrixSearch = parameter.BitrixSearch;
+            page_size_dynamic = parameter.RecordsCount == 0 ? page_size_dynamic : parameter.RecordsCount;
+            ViewData["RecordsCount"] = page_size_dynamic;
+
+            ViewBag.SelectedOperation = parameter.SelectedOperation ?? "all";
+            string selectedFlag = parameter.SelectedOperation ?? "all";
+
             var correctParameters = await GetCorrectFilterParameters(startDate, endDate, employeeName, modelName, pageNumber);
 
             pageNumber = correctParameters.PageNumber;
+            checkToday = !checkToday ? correctParameters.CheckToday : checkToday;
             ViewBag.AllEmployees = correctParameters.EmployeeNames;
             ViewBag.AllModels = correctParameters.ModelNames;
 
@@ -61,25 +77,39 @@ namespace IonosLedWebMvc.Ver2.Controllers
                 return View();
             }
 
+            if (startDate == null && endDate == null && !bitrixSearch.HasValue) {
+                return View(new PaginatedList<LedLamp>(true));
+            }
+
             IQueryable<LedLamp> lamps = null;
+
             if (bitrixSearch.HasValue) {
                 lamps = _lampService.GetLampsSearchBitrixNum(bitrixSearch.Value);
                 ViewBag.BitrixNum = bitrixSearch.Value.ToString();
             }
             else {
                 ViewBag.BitrixNum = null;
-                lamps = _lampService.GetLampsTimeFiltering(startDt, endDt);
-
-
+                lamps = selectedFlag switch
+                {
+                    "all" => _lampService.GetLampsTimeFiltering(startDt, endDt),
+                    "print" => _lampService.GetLabelPrintTimeFiltering(startDt, endDt),
+                    "cut" => _lampService.GetCutTimeFiltering(startDt, endDt),
+                    "drill" => _lampService.GetDrillTimeFiltering(startDt, endDt),
+                    "mount" => _lampService.GetMountTimeFiltering(startDt, endDt),
+                    "solder" => _lampService.GetSolderTimeFiltering(startDt, endDt),
+                    "assembly" => _lampService.GetAssemblyTimeFiltering(startDt, endDt),
+                    "packeg" => _lampService.GetPackegTimeFiltering(startDt, endDt),
+                    _ => throw new NotImplementedException("Ошибка!!!, проверить!")
+                };
 
                 if (modelName != ALL_MODELS && employeeName != ALL_EMPLOYEES) {
-                    lamps = _lampService.GetLampsTimeAndEmployeeAndModelFiltering(startDt, endDt, employeeName, modelName);
+                    lamps = _lampService.GetLampsTimeAndEmployeeAndModelFiltering(startDt, endDt, employeeName, modelName, selectedFlag);
                 }
                 else if (employeeName != ALL_EMPLOYEES) {
-                    lamps = _lampService.GetLampsTimeAndEmployeeFiltering(startDt, endDt, employeeName);
+                    lamps = _lampService.GetLampsTimeAndEmployeeFiltering(startDt, endDt, employeeName, selectedFlag);
                 }
                 else if (modelName != ALL_MODELS) {
-                    lamps = _lampService.GetLampsTimeAndAndModelFiltering(startDt, endDt, modelName);
+                    lamps = _lampService.GetLampsTimeAndAndModelFiltering(startDt, endDt, modelName, selectedFlag);
                 }
             }
 
@@ -122,11 +152,12 @@ namespace IonosLedWebMvc.Ver2.Controllers
             DateTime startDt = new DateTime(2024, 10, 30, 17, 32, 0);    // // для теста ставим текущим последний день в базе, потом вернуть DateTime.Now
             DateTime endDt = DateTime.Now;
 
+            var checkToday = false;
             if (startDate == null && endDate == null) {
                 // устанавливаем текущий день
                 endDt = DATE_NOW_FAKE_TEST;
                 startDt = DATE_NOW_FAKE_TEST.Date;
- 
+                checkToday = true;
             }
             else if (startDate == null) {
                 startDt = new DateTime(2022, 2, 22);
@@ -142,7 +173,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
                 endDt = DateTime.Parse(endDate);
                 startDt = DateTime.Parse(startDate);
             }
-            return new FilterParametersLedLamp() { StartDt = startDt, EndDt = endDt, EmployeeNames = allEmployees, ModelNames = allModels, PageNumber = correctPageNumber };
+            return new FilterParametersLedLamp() { StartDt = startDt, EndDt = endDt, EmployeeNames = allEmployees, ModelNames = allModels, PageNumber = correctPageNumber, CheckToday = checkToday };
             
         }
 

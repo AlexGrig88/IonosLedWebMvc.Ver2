@@ -10,6 +10,7 @@ using IonosLedWebMvc.Ver2.Dtos;
 using IonosLedWebMvc.Ver2.Services;
 using DocumentFormat.OpenXml.Wordprocessing;
 using IonosLedWebMvc.Ver2.Models;
+using IonosLedWebMvc.Ver2.Models.Entities;
 
 namespace IonosLedWebMvc.Ver2.Controllers
 {
@@ -170,7 +171,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
             ViewBag.EndDate = $"{endDt:s}";
             var lamps = _lampService.GetAllByModelAndDate(mId, startDt, endDt);
 
-            int pageSize = 20;
+            int pageSize = 40;
             var lampsPaginated = await PaginatedList<LedLamp>.CreateAsync(lamps, correctPageNumber, pageSize);
 
             // для расчета полученного числа записей необходимо получить значение колличества записей на последней странице, т.к. она может не полная

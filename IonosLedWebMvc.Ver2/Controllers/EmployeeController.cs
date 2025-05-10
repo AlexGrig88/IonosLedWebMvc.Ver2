@@ -7,10 +7,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IonosLedWebMvc.Ver2.Data;
 using IonosLedWebMvc.Ver2.Dtos;
-using IonosLedWebMvc.Ver2.Models;
 using IonosLedWebMvc.Ver2.Infrastructure;
 using DocumentFormat.OpenXml.Spreadsheet;
 using IonosLedWebMvc.Ver2.Services;
+using IonosLedWebMvc.Ver2.Models.Entities;
 
 namespace IonosLedWebMvc.Ver2.Controllers
 {

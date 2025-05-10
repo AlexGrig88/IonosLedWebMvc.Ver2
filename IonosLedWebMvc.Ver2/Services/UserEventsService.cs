@@ -1,5 +1,5 @@
 ﻿using IonosLedWebMvc.Ver2.Data;
-using IonosLedWebMvc.Ver2.Models;
+using IonosLedWebMvc.Ver2.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace IonosLedWebMvc.Ver2.Services

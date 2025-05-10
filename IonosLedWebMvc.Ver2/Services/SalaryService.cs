@@ -1,6 +1,7 @@
 ﻿using IonosLedWebMvc.Ver2.Data;
 using IonosLedWebMvc.Ver2.Dtos;
 using IonosLedWebMvc.Ver2.Models;
+using IonosLedWebMvc.Ver2.Models.Entities;
 using System.Text;
 
 namespace IonosLedWebMvc.Ver2.Services

@@ -4,7 +4,7 @@
     ViewData["Title"] = "IndexRole";
 }
 
-<h2>Роли (Должности)</h2>
+<h2>Должности(роли)</h2>
 
 <p>
     <a asp-action="Create" class="btn btn-primary min-margin-top">Создать новую должность</a>
@@ -73,7 +73,7 @@
                 @Html.DisplayFor(modelItem => item.PermissionChiefLightProduction)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary">Изменить</a> |
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary">Изменить</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Удалить</a>
             </td>
         </tr>

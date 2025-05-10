@@ -60,11 +60,12 @@
         </dd>
     </dl>
 </div>
-<h5 style="margin-top:24px">Заметки по тех процессу и прочие необходимые замечания</h5>
+<h5 style="margin-top:24px">Дополнительные сведения</h5>
 <div class="form-floating mb-3" style="width:50%">
-    <label for="floatingTextarea2Disabled">Дополнительные заметки</label>
-    <textarea class="form-control" placeholder="Здесь пока никто не писал" id="floatingTextarea2Disabled" style="height: 100px" disabled>
-        </textarea>
+    
+    <textarea class="form-control" placeholder="Здесь пока никто не писал" id="floatingTextarea2Disabled" style="height: 200px" disabled>
+      </textarea>
+    <label for="floatingTextarea2Disabled">Пока записей нет</label>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.LampModel.Id" class="btn btn-primary">Редактировать</a> |
@@ -265,5 +266,4 @@
             </tbody>
         </table>
     }
-
 </div>

@@ -12,12 +12,18 @@ namespace IonosLedWebMvc.Ver2.Models
         public int TotalPages { get; private set; }
         public LedLampDto LampDto { get; set; } = new LedLampDto();
         public bool IsTodayRange = true;
+        public bool IsFirstEnter = false;
 
         public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
         {
             PageIndex = pageIndex;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
             Items = items;
+            IsFirstEnter = false;
+        }
+        public PaginatedList(bool isFirstEnter)
+        {
+            IsFirstEnter = isFirstEnter;
         }
 
         public bool HasPreviousPage => (PageIndex > 1);

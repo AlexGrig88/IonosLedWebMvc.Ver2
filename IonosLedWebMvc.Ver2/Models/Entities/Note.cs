@@ -1,4 +1,4 @@
-﻿namespace IonosLedWebMvc.Ver2.Models
+﻿namespace IonosLedWebMvc.Ver2.Models.Entities
 {
     public class Note
     {

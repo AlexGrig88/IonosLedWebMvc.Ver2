@@ -1,4 +1,5 @@
 ﻿using IonosLedWebMvc.Ver2.Models;
+using IonosLedWebMvc.Ver2.Models.Entities;
 
 namespace IonosLedWebMvc.Ver2.Dtos
 {

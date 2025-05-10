@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using IonosLedWebMvc.Ver2.Models;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 using IonosLedWebMvc.Ver2.Dtos;
+using IonosLedWebMvc.Ver2.Models.Entities;
 
 namespace IonosLedWebMvc.Ver2.Data;
 

@@ -1,4 +1,4 @@
-﻿using IonosLedWebMvc.Ver2.Models;
+﻿using IonosLedWebMvc.Ver2.Models.Entities;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 

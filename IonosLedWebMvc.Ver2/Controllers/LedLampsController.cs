@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IonosLedWebMvc.Ver2.Data;
-using IonosLedWebMvc.Ver2.Models;
+using IonosLedWebMvc.Ver2.Models.Entities;
 
 namespace IonosLedWebMvc.Ver2.Controllers
 {

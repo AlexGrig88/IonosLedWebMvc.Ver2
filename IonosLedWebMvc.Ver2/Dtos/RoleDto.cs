@@ -1,4 +1,4 @@
-﻿using IonosLedWebMvc.Ver2.Models;
+﻿using IonosLedWebMvc.Ver2.Models.Entities;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -8,7 +8,7 @@ namespace IonosLedWebMvc.Ver2.Dtos
     {
         public uint Id { get; set; }
 
-        [DisplayName("Роль")]
+        [DisplayName("Должность")]
         [Required(ErrorMessage = "Поле обязательно для заполнения")]
         public string RoleName { get; set; } = null!;
 

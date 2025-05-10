@@ -42,6 +42,9 @@
 @if (Model == null) {
     <h4 style="color: red">Некорректные значения фильтра. Дата начала периода не может быть больше даты конца периода. Период для расчета не должен привышать 2-ух месяцев.</h4>
 }
+else if (Model.Count == 0 && ViewBag.EmployeeName == null) {
+    
+}
 else if (Model.Count == 0) {
     <h4 style="color: darkblue">Записей не найдено.</h4>
 }
@@ -99,7 +102,7 @@ else {
         }
     </div>
 
-    <table class="table table-bordered align-content-center table-sm">
+    <table class="table table-bordered align-content-center table-sm" style="font-size:14px">
         <thead>
             <tr>
                 <th>
@@ -129,7 +132,7 @@ else {
                 <th>
                     @Html.DisplayNameFor(model => model[0].CutUser)
                 </th>
-@*                 <th>
+                <th>
                     @Html.DisplayNameFor(model => model[0].AlProfileDrillTs)
                 </th>
                 <th>
@@ -152,10 +155,8 @@ else {
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model[0].AssemblingUser)
-                </th> *@
-                <th>
-                    ...
                 </th>
+   
                 <th>
                     @Html.DisplayNameFor(model => model[0].LightCheckingPackagingTs)
                 </th>
@@ -195,7 +196,7 @@ else {
                     <td>
                         @Html.DisplayFor(modelItem => item.CutUser.Name)
                     </td>
-@*                     <td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.AlProfileDrillTs)
                     </td>
                     <td>
@@ -218,9 +219,6 @@ else {
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.AssemblingUser.Name)
-                    </td> *@
-                    <td>
-                        ...
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.LightCheckingPackagingTs)

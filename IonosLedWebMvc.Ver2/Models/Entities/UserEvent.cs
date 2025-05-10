@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace IonosLedWebMvc.Ver2.Models;
+namespace IonosLedWebMvc.Ver2.Models.Entities;
 
 public partial class UserEvent
 {
