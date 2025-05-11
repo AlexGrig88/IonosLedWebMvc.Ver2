@@ -1,15 +1,14 @@
 ﻿using IonosLedWebMvc.Ver2.Data;
 using IonosLedWebMvc.Ver2.Dtos;
 using IonosLedWebMvc.Ver2.Infrastructure;
-using IonosLedWebMvc.Ver2.Models;
 using IonosLedWebMvc.Ver2.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace IonosLedWebMvc.Ver2.Controllers
 {
+    [Authorize]
     public class SalaryController : Controller
     {
         private readonly IWebHostEnvironment _environment;

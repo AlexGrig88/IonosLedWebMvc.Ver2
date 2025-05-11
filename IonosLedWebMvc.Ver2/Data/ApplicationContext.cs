@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 using IonosLedWebMvc.Ver2.Dtos;
 using IonosLedWebMvc.Ver2.Models.Entities;
+using IonosLedWebMvc.Ver2.ViewModels;
 
 namespace IonosLedWebMvc.Ver2.Data;
 
@@ -17,6 +18,8 @@ public partial class ApplicationContext : DbContext
         : base(options)
     {
     }
+
+    public virtual DbSet<UserAuth> UserAuths { get; set; }
 
     public virtual DbSet<LampModel> LampModels { get; set; }
 
@@ -47,6 +50,19 @@ public partial class ApplicationContext : DbContext
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Text).HasColumnName("text");
             entity.Property(e => e.LampModelId).HasColumnName("lamp_model_id");
+
+        });
+
+        modelBuilder.Entity<UserAuth>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("user_auth");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Email).HasColumnName("email");
+            entity.Property(e => e.Password).HasColumnName("password");
+            entity.Property(e => e.Username).HasColumnName("username");
+            entity.Property(e => e.Phone).HasColumnName("phone");
 
         });
 
@@ -251,4 +267,6 @@ public DbSet<IonosLedWebMvc.Ver2.Dtos.EmployeeDto> EmployeeDto { get; set; } = d
 public DbSet<IonosLedWebMvc.Ver2.Dtos.RoleDto> RoleDto { get; set; } = default!;
 
 public DbSet<IonosLedWebMvc.Ver2.Dtos.LampModelDto> LampModelDto { get; set; } = default!;
+
+public DbSet<IonosLedWebMvc.Ver2.ViewModels.LoginViewModel> LoginViewModel { get; set; } = default!;
 }

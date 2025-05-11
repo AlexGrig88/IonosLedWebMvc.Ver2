@@ -1,5 +1,6 @@
 ﻿using IonosLedWebMvc.Ver2.Data;
 using IonosLedWebMvc.Ver2.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
@@ -23,8 +24,9 @@ namespace IonosLedWebMvc.Ver2.Controllers
         }
 
 
-        // GET: Role/Create
-        public IActionResult Create()
+		// GET: Role/Create
+		[Authorize]
+		public IActionResult Create()
         {
             return View();
         }
@@ -34,7 +36,8 @@ namespace IonosLedWebMvc.Ver2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,RoleName,PermissionSettings,PermissionAlProfileCut,PermissionAlProfileDrill,PermissionLedModuleMounting,PermissionLightSoldering,PermissionLightAssembling,PermissionLightCheckingPackaging,PermissionChiefLightProduction")] RoleDto roleDto)
+		[Authorize]
+		public async Task<IActionResult> Create([Bind("Id,RoleName,PermissionSettings,PermissionAlProfileCut,PermissionAlProfileDrill,PermissionLedModuleMounting,PermissionLightSoldering,PermissionLightAssembling,PermissionLightCheckingPackaging,PermissionChiefLightProduction")] RoleDto roleDto)
         {
             if (ModelState.IsValid)
             {
@@ -45,8 +48,9 @@ namespace IonosLedWebMvc.Ver2.Controllers
             return View(roleDto);
         }
 
-        // GET: Role/Edit/5
-        public async Task<IActionResult> Edit(uint? id)
+		// GET: Role/Edit/5
+		[Authorize]
+		public async Task<IActionResult> Edit(uint? id)
         {
             if (id == null)
             {
@@ -66,7 +70,8 @@ namespace IonosLedWebMvc.Ver2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(uint id, [Bind("Id,RoleName,PermissionSettings,PermissionAlProfileCut,PermissionAlProfileDrill,PermissionLedModuleMounting,PermissionLightSoldering,PermissionLightAssembling,PermissionLightCheckingPackaging,PermissionChiefLightProduction")] RoleDto roleDto)
+		[Authorize]
+		public async Task<IActionResult> Edit(uint id, [Bind("Id,RoleName,PermissionSettings,PermissionAlProfileCut,PermissionAlProfileDrill,PermissionLedModuleMounting,PermissionLightSoldering,PermissionLightAssembling,PermissionLightCheckingPackaging,PermissionChiefLightProduction")] RoleDto roleDto)
         {
             if (id != roleDto.Id)
             {
@@ -98,8 +103,9 @@ namespace IonosLedWebMvc.Ver2.Controllers
             return View(roleDto);
         }
 
-        // GET: Role/Delete/5
-        public async Task<IActionResult> Delete(uint? id)
+		// GET: Role/Delete/5
+		[Authorize]
+		public async Task<IActionResult> Delete(uint? id)
         {
             if (id == null)
             {
@@ -119,7 +125,8 @@ namespace IonosLedWebMvc.Ver2.Controllers
         // POST: Role/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(uint id)
+		[Authorize]
+		public async Task<IActionResult> DeleteConfirmed(uint id)
         {
             var foundRole = await _context.Roles.FindAsync(id);
 

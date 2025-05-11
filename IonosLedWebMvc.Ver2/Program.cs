@@ -2,6 +2,7 @@ using IonosLedWebMvc.Ver2.Data;
 using IonosLedWebMvc.Ver2.Infrastructure;
 using IonosLedWebMvc.Ver2.Repos;
 using IonosLedWebMvc.Ver2.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,13 +13,18 @@ string? connection = builder.Configuration.GetConnectionString("DefaultConnectio
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseMySql(connection, ServerVersion.Parse("8.4.4-mysql")));
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options => { options.LoginPath = "/Account/Login"; });
+
 builder.Services.AddScoped<ILampRepo, LampRepo>();
 builder.Services.AddScoped<LampService>();
 builder.Services.AddScoped<SalaryService>();
 builder.Services.AddScoped<UserEventsService>();
 
+/*builder.Services.AddSession();*/
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment()) {
@@ -32,7 +38,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
+/*app.UseSession();*/
 
 app.MapControllerRoute(
     name: "default",

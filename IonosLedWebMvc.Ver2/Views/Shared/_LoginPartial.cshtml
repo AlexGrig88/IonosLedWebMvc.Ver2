@@ -1,0 +1,19 @@
+﻿@if (Context.User.Identity.Name != null) {
+
+		<ul class="nav navbar-nav navbar-right">
+			<li class="nav-item">
+				Админ @Context.User.Identity.Name
+			</li>
+			<li>
+				<a class="nav-link align-middle px-0 text-white" asp-controller="Account" asp-action="Logout" style="color:cornflowerblue!important"><i class="bi bi-box-arrow-in-left"></i> Выйти</a>
+			</li>
+		</ul>
+	
+}
+else {
+	<ul class="nav navbar-nav navbar-right @(ViewData["Title"].ToString().Contains("Login") ? "sidebar-active" : "")" >
+		<li>
+			<a class="nav-link align-middle px-0 text-white" asp-controller="Account" asp-action="Login" style="color:cornflowerblue!important"><i class="bi bi-box-arrow-in-right"></i> Войти</a>
+		</li>
+	</ul>
+}

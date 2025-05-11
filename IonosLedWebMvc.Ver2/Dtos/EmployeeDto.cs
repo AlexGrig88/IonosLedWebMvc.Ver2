@@ -21,7 +21,7 @@ namespace IonosLedWebMvc.Ver2.Dtos
         [DisplayName("Должность")]
         public string RoleName { get; set; } = string.Empty;
 
-        [DisplayName("Системный статус")]
+        [DisplayName("Cтатус")]
         public string Status { get; set; } = string.Empty;
 
         public List<UserEventDto> UserEventsDto { get; set; } = new List<UserEventDto>();
