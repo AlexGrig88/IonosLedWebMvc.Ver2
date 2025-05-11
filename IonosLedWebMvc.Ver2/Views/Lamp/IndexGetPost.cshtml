@@ -141,12 +141,111 @@
     <h4 style="color: red">Некорректные значения фильтра. Дата начала периода не может быть больше даты конца периода.</h4>
 }
 else if (Model.IsFirstEnter && ViewBag.BitrixNum == null) {
+    <div style="color:blue; font-size:18px;margin-bottom:26px;">
+        Число записей: 0
+    </div>
+    <table class="table table-bordered align-content-center table-sm" style="font-size:14px">
+        <thead>
+            <tr>
+                <th>
+                    Сер.№
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LampDto.Spec)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LampDto.Model)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LampDto.BitrixOrder)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LampDto.Comment)
+                </th>
 
+                    <th>
+                        @Html.DisplayNameFor(model => model.LampDto.LabelPrintTs)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LampDto.LabelPrintUser)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.LampDto.AlProfileCutTs)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LampDto.CutUser)
+                    </th>
+                
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.LampDto.AlProfileDrillTs)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LampDto.DrillUser)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.LampDto.LedModuleMountingTs)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LampDto.MountingUser)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.LampDto.LightSolderingTs)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LampDto.SolderingUser)
+                    </th>
+ 
+                    <th>
+                        @Html.DisplayNameFor(model => model.LampDto.LightAssemblingTs)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LampDto.AssemblingUser)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.LampDto.LightCheckingPackagingTs)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LampDto.CheckingPackagingUser)
+                    </th>
+              
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < 11; ++i) {
+                <tr>
+                    <td style="height:50px"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
 else {
     <div style="display:inline">
         <div style="color:blue; font-size:18px; float:left">
-            Число полученных записей: @ViewBag.TotalRecords шт. @(ViewBag.BitrixNum != null ? $" для номера Bitrix = {ViewBag.BitrixNum}" : "")
+            Число записей: @ViewBag.TotalRecords  @(ViewBag.BitrixNum != null ? $" для номера Bitrix = {ViewBag.BitrixNum}" : "")
         </div>
 
        @*  Пагинация  *@
@@ -255,7 +354,7 @@ else {
             </nav>
         </div>
     </div>
-    if (ViewBag.BitrixNum == null && Model.Items.Count > 0) {
+    if (ViewBag.BitrixNum == null) {
     <table class="table table-bordered align-content-center table-sm" style="font-size:14px">
         <thead>
             <tr>
