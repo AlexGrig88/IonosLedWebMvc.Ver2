@@ -12,5 +12,6 @@
         public int RecordsCount { get; set; }
 
         public string? SelectedOperation { get; set; }
+        public string? OrderSerial { get; set; }
     }
 }

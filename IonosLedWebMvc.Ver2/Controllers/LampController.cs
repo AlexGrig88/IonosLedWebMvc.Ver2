@@ -39,6 +39,10 @@ namespace IonosLedWebMvc.Ver2.Controllers
             page_size_dynamic = parameter.RecordsCount == 0 ? page_size_dynamic : parameter.RecordsCount;
             ViewData["RecordsCount"] = page_size_dynamic;
 
+            ViewData["CurrentSort"] = parameter.OrderSerial;
+            ViewData["NameSortParam"] = string.IsNullOrEmpty(parameter.OrderSerial) ? "serial_desc" : "";
+           
+
             ViewBag.SelectedOperation = parameter.SelectedOperation ?? "all";
             string selectedFlag = parameter.SelectedOperation ?? "all";
 
@@ -110,6 +114,15 @@ namespace IonosLedWebMvc.Ver2.Controllers
                 }
                 else if (modelName != ALL_MODELS) {
                     lamps = _lampService.GetLampsTimeAndAndModelFiltering(startDt, endDt, modelName, selectedFlag);
+                }
+
+                switch (parameter.OrderSerial) {
+                    case "serial_desc":
+                        lamps = lamps.OrderByDescending(p => p.Id);
+                        break;
+                    default:
+                        lamps = lamps.OrderBy(p => p.Id); 
+                        break;
                 }
             }
 

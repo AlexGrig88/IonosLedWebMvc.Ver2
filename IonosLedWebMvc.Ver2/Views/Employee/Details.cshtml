@@ -29,9 +29,43 @@
             @Html.DisplayFor(model => model.RoleName)
         </dd>
     </dl>
+    <br/>
+    <hr />
+    <h5>Системные события за поледний месяц</h5>
+    <div style="color:blue; font-size:18px;">
+        Количество событий: @Model.UserEventsDto.Count
+    </div>
+    @if (Model.UserEventsDto.Count > 0) {
+        <table class="table table-bordered align-content-center table-sm">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserEventsDto[0].Ts)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserEventsDto[0].Event)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.UserEventsDto)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Ts)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Event)
+                        </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    }
+
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Редактировать</a>
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary min-margin-top">Редактировать</a>
     <br/>
     <a asp-action="Index">Назад к списку</a>
 </div>

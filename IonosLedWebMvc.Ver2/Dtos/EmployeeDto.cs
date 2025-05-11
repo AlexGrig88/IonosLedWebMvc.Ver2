@@ -24,6 +24,8 @@ namespace IonosLedWebMvc.Ver2.Dtos
         [DisplayName("Системный статус")]
         public string Status { get; set; } = string.Empty;
 
+        public List<UserEventDto> UserEventsDto { get; set; } = new List<UserEventDto>();
+
         public static EmployeeDto FromUser(User user, Dictionary<uint, string>? userIdToEvent = null)
         {
 
@@ -33,6 +35,19 @@ namespace IonosLedWebMvc.Ver2.Dtos
                 Pin = user.Pin,
                 RoleName = user.Role.RoleName,
                 Status = userIdToEvent?[user.Id] ?? string.Empty,
+            };
+        }
+
+        public static EmployeeDto FromUserWithEvents(User user, List<UserEventDto> uEventsDto)
+        {
+
+            return new EmployeeDto()
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Pin = user.Pin,
+                RoleName = user.Role.RoleName,
+                UserEventsDto = uEventsDto
             };
         }
 

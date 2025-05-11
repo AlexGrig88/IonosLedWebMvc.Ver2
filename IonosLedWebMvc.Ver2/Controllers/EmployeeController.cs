@@ -31,27 +31,32 @@ namespace IonosLedWebMvc.Ver2.Controllers
         public async Task<IActionResult> Index()
         {
             var usersList = await _context.Users.Include(u => u.Role).ToListAsync();
-            var userIdToEvent = await _eventsService.GetStatusForLastMonth(usersList);
+
+            // возьмём последние события за последнюю неделю
+            var userIdToEvent = await _eventsService.GetLastEventFor(new TimeSpan(31, 0, 0, 0), usersList);
             return View(usersList.Select(u => EmployeeDto.FromUser(u, userIdToEvent)).OrderBy(u => u.Name));
         }
 
         // GET: Employee/Details/5
         public async Task<IActionResult> Details(uint? id)
         {
+           
             if (id == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.Users
+            var foundUser = await _context.Users
                 .Include(u => u.Role)
                 .FirstOrDefaultAsync(u => u.Id == id);
-            if (user == null)
+            if (foundUser == null)
             {
                 return NotFound();
             }
+            // возьмём последние события за последнюю неделю
+            var userEventsList = await _eventsService.GetAllEventsFor(new TimeSpan(31, 0, 0, 0), foundUser);
 
-            return View(EmployeeDto.FromUser(user));
+            return View(EmployeeDto.FromUserWithEvents(foundUser, userEventsList.Select(UserEventDto.FromUserEvent).ToList()));
         }
 
         // GET: Employee/Create

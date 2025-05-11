@@ -103,13 +103,13 @@
             <input type="hidden" name="pageNumber" value="1" />
         </div>
         <div class="col-auto">
-            <label for="recordsCount" class="control-label fb">Число записей на стр.:</label>
+            <label for="recordsCount" class="control-label fb">Число записей на стрaнице:</label>
             <input name="recordsCount" class="form-control"
                    type="number" min="1" value="@ViewData["RecordsCount"]" />
         </div>
 
         <div class="col-auto" style="margin-top:30px">
-            <button type="submit" class="btn btn-primary">Применить</button>
+            <button type="submit" class="btn btn-primary"><i class="bi bi-funnel"></i> Применить</button>
         </div>
 
     </div>
@@ -130,7 +130,7 @@
     </div>
 
     <div class="col-auto" style="margin-top: 30px">
-        <button type="submit" class="btn btn-dark">Искать за всё время</button>
+        <button type="submit" class="btn btn-dark"> <i class="bi bi-search"></i> Искать</button>
     </div>
 </form>
 
@@ -161,7 +161,8 @@ else {
                            asp-route-modelName="@ViewBag.ModelName"
                            asp-route-recordsCount="@ViewData["RecordsCount"]"
                            asp-route-SelectedOperation="@ViewBag.SelectedOperation"
-                           asp-route-bitrixSearch="@ViewBag.BitrixNum">
+                           asp-route-bitrixSearch="@ViewBag.BitrixNum"
+                           asp-route-orderSerial="@ViewData["CurrentSort"]">
                             <span>Первая</span>
                         </a>
                     </li>
@@ -173,7 +174,8 @@ else {
                            asp-route-modelName="@ViewBag.ModelName"
                            asp-route-recordsCount="@ViewData["RecordsCount"]"
                            asp-route-SelectedOperation="@ViewBag.SelectedOperation"
-                           asp-route-bitrixSearch="@ViewBag.BitrixNum">
+                           asp-route-bitrixSearch="@ViewBag.BitrixNum"
+                           asp-route-orderSerial="@ViewData["CurrentSort"]">
                             <i class="bi bi-arrow-left"></i>
                         </a>
                     </li>
@@ -191,7 +193,8 @@ else {
                                asp-route-modelName="@ViewBag.ModelName"
                                asp-route-recordsCount="@ViewData["RecordsCount"]"
                                asp-route-SelectedOperation="@ViewBag.SelectedOperation"
-                               asp-route-bitrixSearch="@ViewBag.BitrixNum">
+                               asp-route-bitrixSearch="@ViewBag.BitrixNum"
+                               asp-route-orderSerial="@ViewData["CurrentSort"]">
                             @i</a>
                     </li>
                     }
@@ -215,7 +218,8 @@ else {
                                asp-route-modelName="@ViewBag.ModelName"
                                asp-route-recordsCount="@ViewData["RecordsCount"]"
                                asp-route-SelectedOperation="@ViewBag.SelectedOperation"
-                               asp-route-bitrixSearch="@ViewBag.BitrixNum">
+                               asp-route-bitrixSearch="@ViewBag.BitrixNum"
+                               asp-route-orderSerial="@ViewData["CurrentSort"]">
                             @i</a>
                         </li>
                     }
@@ -229,7 +233,8 @@ else {
                            asp-route-modelName="@ViewBag.ModelName"
                            asp-route-recordsCount="@ViewData["RecordsCount"]"
                            asp-route-SelectedOperation="@ViewBag.SelectedOperation"
-                           asp-route-bitrixSearch="@ViewBag.BitrixNum">
+                           asp-route-bitrixSearch="@ViewBag.BitrixNum"
+                           asp-route-orderSerial="@ViewData["CurrentSort"]">
                             <i class="bi bi-arrow-right"></i>
                         </a>
                     </li>
@@ -241,7 +246,8 @@ else {
                            asp-route-modelName="@ViewBag.ModelName"
                            asp-route-recordsCount="@ViewData["RecordsCount"]"
                            asp-route-SelectedOperation="@ViewBag.SelectedOperation"
-                           asp-route-bitrixSearch="@ViewBag.BitrixNum">
+                           asp-route-bitrixSearch="@ViewBag.BitrixNum"
+                           asp-route-orderSerial="@ViewData["CurrentSort"]">
                             <span>Последняя</span>
                         </a>
                     </li>
@@ -253,8 +259,18 @@ else {
     <table class="table table-bordered align-content-center table-sm" style="font-size:14px">
         <thead>
             <tr>
-                <th>
-                    Сер.№
+                    <th>
+                    <a asp-action="IndexGetPost" style="font-weight:700"
+                           asp-route-orderSerial=@ViewData["NameSortParam"]
+                           asp-route-startDate="@ViewBag.StartDate"
+                           asp-route-endDate="@ViewBag.EndDate"
+                           asp-route-employeeName="@ViewBag.EmployeeName"
+                           asp-route-modelName="@ViewBag.ModelName"
+                           asp-route-recordsCount="@ViewData["RecordsCount"]"
+                           asp-route-SelectedOperation="@ViewBag.SelectedOperation">
+
+                            Сер.№ <i class="bi bi-arrow-@(string.IsNullOrEmpty(ViewData["CurrentSort"]?.ToString()) ? "up" : "down")"></i>
+                    </a>
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.LampDto.Spec)
