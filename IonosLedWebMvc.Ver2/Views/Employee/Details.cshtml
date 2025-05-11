@@ -29,9 +29,14 @@
             @Html.DisplayFor(model => model.RoleName)
         </dd>
     </dl>
-    <br/>
     <hr />
-    <h5>Системные события за поледний месяц</h5>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary min-margin-top">Редактировать</a>
+        <br />
+        <a asp-action="Index">Назад к списку</a>
+    </div>
+
+    <h5 style="margin-top:18px">Системные события за поледний месяц</h5>
     <div style="color:blue; font-size:18px;">
         Количество событий: @Model.UserEventsDto.Count
     </div>
@@ -64,8 +69,4 @@
     }
 
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary min-margin-top">Редактировать</a>
-    <br/>
-    <a asp-action="Index">Назад к списку</a>
-</div>
+

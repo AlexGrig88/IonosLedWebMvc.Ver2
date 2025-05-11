@@ -161,6 +161,8 @@ namespace IonosLedWebMvc.Ver2.Controllers
             }
 
             if (startDate == null && endDate == null) {
+                ViewBag.StartDate = $"{DateTime.Now.Date:s}";
+                ViewBag.EndDate = $"{DateTime.Now.Date:s}";
                 return View(new LampModelDetailsPageDto(LampModelDto.FromLampModel(lampModel), null));
             }
             // если применяем фильтрацию, то Id получаем через скрытое строковое поле modelId
