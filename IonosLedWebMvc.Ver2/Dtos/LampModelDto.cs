@@ -10,7 +10,7 @@ namespace IonosLedWebMvc.Ver2.Dtos
 
         [Required(ErrorMessage = "Поле обязательно для заполнения")]
         [DisplayName("Название модели")]
-        [StringLength(20, MinimumLength = 2, ErrorMessage = "Длина строки должна быть от 2 до 20 символов")]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "Длина строки должна быть от 2 до 50 символов")]
         public string ModelName { get; set; } = null!;
 
         [Required(ErrorMessage = "Поле обязательно для заполнения")]

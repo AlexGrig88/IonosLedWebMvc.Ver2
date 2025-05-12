@@ -1,8 +1,8 @@
 using IonosLedWebMvc.Ver2.Data;
-using IonosLedWebMvc.Ver2.Infrastructure;
 using IonosLedWebMvc.Ver2.Repos;
 using IonosLedWebMvc.Ver2.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,8 +13,13 @@ string? connection = builder.Configuration.GetConnectionString("DefaultConnectio
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseMySql(connection, ServerVersion.Parse("8.4.4-mysql")));
 
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options => { options.LoginPath = "/Account/Login"; });
+/*builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie( options =>
+	{
+		options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+		options.SlidingExpiration = true;
+		options.AccessDeniedPath = "/Forbidden/";
+	});*/
 
 builder.Services.AddScoped<ILampRepo, LampRepo>();
 builder.Services.AddScoped<LampService>();
@@ -33,13 +38,18 @@ if (!app.Environment.IsDevelopment()) {
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+/*app.UseHttpsRedirection();*/
 app.UseStaticFiles();
 
 app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+/*var cookiePolicyOptions = new CookiePolicyOptions
+{
+	MinimumSameSitePolicy = SameSiteMode.Strict,
+};
+app.UseCookiePolicy(cookiePolicyOptions);*/
 /*app.UseSession();*/
 
 app.MapControllerRoute(

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IonosLedWebMvc.Ver2.Controllers
 {
-    [Authorize]
+
     public class SalaryController : Controller
     {
         private readonly IWebHostEnvironment _environment;

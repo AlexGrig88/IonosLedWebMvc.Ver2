@@ -23,6 +23,11 @@ namespace IonosLedWebMvc.Ver2.Controllers
         {
             return View();
         }
+		public IActionResult Forbidden()
+		{
+			return View();
+		}
+		
 
-    }
+	}
 }

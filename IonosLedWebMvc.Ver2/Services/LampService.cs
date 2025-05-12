@@ -40,13 +40,13 @@ namespace IonosLedWebMvc.Ver2.Services
         public IQueryable<LedLamp> GetLampsTimeAndEmployeeFiltering(DateTime startDt, DateTime endDt, string employeeName, string operationFlag)
         {
             return operationFlag switch {
-                "all" => GetLampsTimeFiltering(startDt, endDt).Where(p => (p.LabelPrintUser != null && p.LabelPrintUser.Name == employeeName) ||
-                                (p.CutUser != null && p.CutUser.Name == employeeName) ||
-                                (p.DrillUser != null && p.DrillUser.Name == employeeName) ||
-                                (p.MountingUser != null && p.MountingUser.Name == employeeName) ||
-                                (p.AssemblingUser != null && p.AssemblingUser.Name == employeeName) ||
-                                (p.SolderingUser != null && p.SolderingUser.Name == employeeName) ||
-                                (p.CheckingPackagingUser != null && p.CheckingPackagingUser.Name == employeeName)
+                "all" => _lampRepository.GetAllAsQueryable().Where(p => (p.LabelPrintUser != null && p.LabelPrintUser.Name == employeeName && (p.LabelPrintTs >= startDt && p.LabelPrintTs < endDt) ) ||
+                                (p.CutUser != null && p.CutUser.Name == employeeName && (p.AlProfileCutTs >= startDt && p.AlProfileCutTs < endDt)) ||
+                                (p.DrillUser != null && p.DrillUser.Name == employeeName && (p.AlProfileDrillTs >= startDt && p.AlProfileDrillTs < endDt)) ||
+                                (p.MountingUser != null && p.MountingUser.Name == employeeName && (p.LedModuleMountingTs >= startDt && p.LedModuleMountingTs < endDt)) ||
+                                (p.AssemblingUser != null && p.AssemblingUser.Name == employeeName && (p.LightAssemblingTs >= startDt && p.LightAssemblingTs < endDt)) ||
+                                (p.SolderingUser != null && p.SolderingUser.Name == employeeName && (p.LightSolderingTs >= startDt && p.LightSolderingTs < endDt)) ||
+                                (p.CheckingPackagingUser != null && p.CheckingPackagingUser.Name == employeeName && (p.LightCheckingPackagingTs >= startDt && p.LightCheckingPackagingTs < endDt))
                                 ),
                 "print" => GetLabelPrintTimeFiltering(startDt, endDt).Where(p => p.LabelPrintUser != null && p.LabelPrintUser.Name == employeeName),
                 "cut" => GetCutTimeFiltering(startDt, endDt).Where(p => p.CutUser != null && p.CutUser.Name == employeeName),

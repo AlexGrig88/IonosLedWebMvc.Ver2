@@ -25,7 +25,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
 
 
 		// GET: Role/Create
-		[Authorize]
+
 		public IActionResult Create()
         {
             return View();
@@ -36,7 +36,6 @@ namespace IonosLedWebMvc.Ver2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-		[Authorize]
 		public async Task<IActionResult> Create([Bind("Id,RoleName,PermissionSettings,PermissionAlProfileCut,PermissionAlProfileDrill,PermissionLedModuleMounting,PermissionLightSoldering,PermissionLightAssembling,PermissionLightCheckingPackaging,PermissionChiefLightProduction")] RoleDto roleDto)
         {
             if (ModelState.IsValid)
@@ -49,7 +48,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
         }
 
 		// GET: Role/Edit/5
-		[Authorize]
+
 		public async Task<IActionResult> Edit(uint? id)
         {
             if (id == null)
@@ -70,7 +69,6 @@ namespace IonosLedWebMvc.Ver2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-		[Authorize]
 		public async Task<IActionResult> Edit(uint id, [Bind("Id,RoleName,PermissionSettings,PermissionAlProfileCut,PermissionAlProfileDrill,PermissionLedModuleMounting,PermissionLightSoldering,PermissionLightAssembling,PermissionLightCheckingPackaging,PermissionChiefLightProduction")] RoleDto roleDto)
         {
             if (id != roleDto.Id)
@@ -104,7 +102,6 @@ namespace IonosLedWebMvc.Ver2.Controllers
         }
 
 		// GET: Role/Delete/5
-		[Authorize]
 		public async Task<IActionResult> Delete(uint? id)
         {
             if (id == null)
@@ -125,7 +122,6 @@ namespace IonosLedWebMvc.Ver2.Controllers
         // POST: Role/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-		[Authorize]
 		public async Task<IActionResult> DeleteConfirmed(uint id)
         {
             var foundRole = await _context.Roles.FindAsync(id);

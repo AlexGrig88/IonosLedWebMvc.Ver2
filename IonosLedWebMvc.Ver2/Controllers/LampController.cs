@@ -14,7 +14,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
 
         private readonly ApplicationContext _context;
         private readonly LampService _lampService;
-        private int page_size_dynamic = 10;
+        private int page_size_dynamic = 20;
         private const string ALL_EMPLOYEES = "Все сотрудники";
         private const string ALL_MODELS = "Все модели";
 
@@ -44,12 +44,11 @@ namespace IonosLedWebMvc.Ver2.Controllers
            
 
             ViewBag.SelectedOperation = parameter.SelectedOperation ?? "all";
-            string selectedFlag = parameter.SelectedOperation ?? "all";
+            string selectedOperation = parameter.SelectedOperation ?? "all";
 
             var correctParameters = await GetCorrectFilterParameters(startDate, endDate, employeeName, modelName, pageNumber);
 
             pageNumber = correctParameters.PageNumber;
-            checkToday = !checkToday ? correctParameters.CheckToday : checkToday;
             ViewBag.AllEmployees = correctParameters.EmployeeNames;
             ViewBag.AllModels = correctParameters.ModelNames;
 
@@ -93,7 +92,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
             }
             else {
                 ViewBag.BitrixNum = null;
-                lamps = selectedFlag switch
+                lamps = selectedOperation switch
                 {
                     "all" => _lampService.GetLampsTimeFiltering(startDt, endDt),
                     "print" => _lampService.GetLabelPrintTimeFiltering(startDt, endDt),
@@ -107,13 +106,13 @@ namespace IonosLedWebMvc.Ver2.Controllers
                 };
 
                 if (modelName != ALL_MODELS && employeeName != ALL_EMPLOYEES) {
-                    lamps = _lampService.GetLampsTimeAndEmployeeAndModelFiltering(startDt, endDt, employeeName, modelName, selectedFlag);
+                    lamps = _lampService.GetLampsTimeAndEmployeeAndModelFiltering(startDt, endDt, employeeName, modelName, selectedOperation);
                 }
                 else if (employeeName != ALL_EMPLOYEES) {
-                    lamps = _lampService.GetLampsTimeAndEmployeeFiltering(startDt, endDt, employeeName, selectedFlag);
+                    lamps = _lampService.GetLampsTimeAndEmployeeFiltering(startDt, endDt, employeeName, selectedOperation);
                 }
                 else if (modelName != ALL_MODELS) {
-                    lamps = _lampService.GetLampsTimeAndAndModelFiltering(startDt, endDt, modelName, selectedFlag);
+                    lamps = _lampService.GetLampsTimeAndAndModelFiltering(startDt, endDt, modelName, selectedOperation);
                 }
 
                 switch (parameter.OrderSerial) {
@@ -128,7 +127,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
 
             if (bitrixSearch.HasValue) page_size_dynamic = 50;
 
-            var lampsPaginated = await PaginatedList<LedLamp>.CreateAsync(lamps, pageNumber, page_size_dynamic);
+			var lampsPaginated = await PaginatedList<LedLamp>.CreateAsync(lamps, pageNumber, page_size_dynamic);
 
             // для расчета полученного числа записей необходимо получить значение колличества записей на последней странице, т.к. она может не полная
             var lastPageNumber = lampsPaginated.TotalPages < 1 ? 1 : lampsPaginated.TotalPages;
@@ -165,12 +164,11 @@ namespace IonosLedWebMvc.Ver2.Controllers
             DateTime startDt = new DateTime(2024, 10, 30, 17, 32, 0);    // // для теста ставим текущим последний день в базе, потом вернуть DateTime.Now
             DateTime endDt = DateTime.Now;
 
-            var checkToday = false;
+            
             if (startDate == null && endDate == null) {
                 // устанавливаем текущий день
                 endDt = DATE_NOW_FAKE_TEST;
                 startDt = DATE_NOW_FAKE_TEST.Date;
-                checkToday = true;
             }
             else if (startDate == null) {
                 startDt = new DateTime(2022, 2, 22);
@@ -186,7 +184,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
                 endDt = DateTime.Parse(endDate);
                 startDt = DateTime.Parse(startDate);
             }
-            return new FilterParametersLedLamp() { StartDt = startDt, EndDt = endDt, EmployeeNames = allEmployees, ModelNames = allModels, PageNumber = correctPageNumber, CheckToday = checkToday };
+            return new FilterParametersLedLamp() { StartDt = startDt, EndDt = endDt, EmployeeNames = allEmployees, ModelNames = allModels, PageNumber = correctPageNumber };
             
         }
 

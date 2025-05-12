@@ -39,7 +39,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
         }
 
         // GET: Employee/Details/5
-        [Authorize]
+
         public async Task<IActionResult> Details(uint? id)
         {
            
@@ -62,7 +62,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
         }
 
         // GET: Employee/Create
-        [Authorize]
+
         public IActionResult Create()
         {
             if (_rolesList.Count == 0)
@@ -76,7 +76,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-		[Authorize]
+
 		public async Task<IActionResult> Create([Bind("Id,Name,Pin,RoleName")] EmployeeDto employeeDto)
         {
             if (ModelState.IsValid)
@@ -90,7 +90,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
         }
 
 		// GET: Employee/Edit/5
-		[Authorize]
+
 		public async Task<IActionResult> Edit(uint? id)
         {
             if (id == null)
@@ -117,7 +117,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-		[Authorize]
+
 		public async Task<IActionResult> Edit(uint id, [Bind("Id,Name,Pin,RoleName")] EmployeeDto employeeDto)
         {
             if (id != employeeDto.Id) return NotFound();
@@ -148,7 +148,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
         }
 
 		// GET: Employee/Delete/5
-		[Authorize]
+
 		public async Task<IActionResult> Delete(uint? id)
         {
             if (id == null) return NotFound();
@@ -166,7 +166,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
         // POST: Employee/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-		[Authorize]
+
 		public async Task<IActionResult> DeleteConfirmed(uint id)
         {
             var foundUser = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Id == id);
