@@ -31,7 +31,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
 
 
 		// GET: LampModel/Create
-
+		[Authorize]
 		public IActionResult Create()
         {
             return View();
@@ -54,7 +54,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
         }
 
 		// GET: LampModel/Edit/5
-
+		[Authorize]
 		public async Task<IActionResult> Edit(uint? id)
         {
             if (id == null)
@@ -75,6 +75,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+		[Authorize]
 		public async Task<IActionResult> Edit(uint id, [Bind("Id,ModelName,Sections,CutPrice,DrillPrice,MountPrice,SolderPrice,AssemblyPrice,CheckPrice")] LampModelDto lampModelDto)
         {
             if (id != lampModelDto.Id)
@@ -108,7 +109,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
         }
 
 		// GET: LampModel/Delete/5
-	
+		[Authorize]
 		public async Task<IActionResult> Delete(uint? id)
         {
             if (id == null)
@@ -129,6 +130,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
         // POST: LampModel/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+		[Authorize]
 		public async Task<IActionResult> DeleteConfirmed(uint id)
         {
             var foundModel = await _context.LampModels.FindAsync(id);

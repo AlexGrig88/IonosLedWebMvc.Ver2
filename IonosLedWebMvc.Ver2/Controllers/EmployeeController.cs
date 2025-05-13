@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using IonosLedWebMvc.Ver2.Data;
 using IonosLedWebMvc.Ver2.Dtos;
 using IonosLedWebMvc.Ver2.Infrastructure;
-using DocumentFormat.OpenXml.Spreadsheet;
 using IonosLedWebMvc.Ver2.Services;
 using IonosLedWebMvc.Ver2.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
 
 namespace IonosLedWebMvc.Ver2.Controllers
 {
-    public class EmployeeController : Controller
+	public class EmployeeController : Controller
     {
         private readonly ApplicationContext _context;
         private readonly UserEventsService _eventsService;
@@ -38,9 +32,9 @@ namespace IonosLedWebMvc.Ver2.Controllers
             return View(usersList.Select(u => EmployeeDto.FromUser(u, userIdToEvent)).OrderBy(u => u.Name));
         }
 
-        // GET: Employee/Details/5
-
-        public async Task<IActionResult> Details(uint? id)
+		// GET: Employee/Details/5
+		[Authorize]
+		public async Task<IActionResult> Details(uint? id)
         {
            
             if (id == null)
@@ -61,9 +55,9 @@ namespace IonosLedWebMvc.Ver2.Controllers
             return View(EmployeeDto.FromUserWithEvents(foundUser, userEventsList.Select(UserEventDto.FromUserEvent).ToList()));
         }
 
-        // GET: Employee/Create
-
-        public IActionResult Create()
+		// GET: Employee/Create
+		[Authorize]
+		public IActionResult Create()
         {
             if (_rolesList.Count == 0)
                 _rolesList = _context.Roles.Select(r => r.RoleName).ToList();
@@ -76,7 +70,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-
+		[Authorize]
 		public async Task<IActionResult> Create([Bind("Id,Name,Pin,RoleName")] EmployeeDto employeeDto)
         {
             if (ModelState.IsValid)
@@ -90,7 +84,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
         }
 
 		// GET: Employee/Edit/5
-
+		[Authorize]
 		public async Task<IActionResult> Edit(uint? id)
         {
             if (id == null)
@@ -117,7 +111,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-
+		[Authorize]
 		public async Task<IActionResult> Edit(uint id, [Bind("Id,Name,Pin,RoleName")] EmployeeDto employeeDto)
         {
             if (id != employeeDto.Id) return NotFound();
@@ -148,7 +142,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
         }
 
 		// GET: Employee/Delete/5
-
+		[Authorize]
 		public async Task<IActionResult> Delete(uint? id)
         {
             if (id == null) return NotFound();
@@ -166,7 +160,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
         // POST: Employee/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-
+		[Authorize]
 		public async Task<IActionResult> DeleteConfirmed(uint id)
         {
             var foundUser = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Id == id);

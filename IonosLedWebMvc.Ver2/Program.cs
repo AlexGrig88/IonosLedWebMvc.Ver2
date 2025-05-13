@@ -13,13 +13,8 @@ string? connection = builder.Configuration.GetConnectionString("DefaultConnectio
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseMySql(connection, ServerVersion.Parse("8.4.4-mysql")));
 
-/*builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie( options =>
-	{
-		options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
-		options.SlidingExpiration = true;
-		options.AccessDeniedPath = "/Forbidden/";
-	});*/
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie();
 
 builder.Services.AddScoped<ILampRepo, LampRepo>();
 builder.Services.AddScoped<LampService>();

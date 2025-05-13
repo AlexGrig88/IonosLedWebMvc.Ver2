@@ -58,9 +58,9 @@ namespace IonosLedWebMvc.Ver2.Controllers
         public async Task<IActionResult> Logout()
         {
             // Clear the user's session
-/*            HttpContext.Session.Clear();*/
+            /*            HttpContext.Session.Clear();*/
 
- /*           await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);*/
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             // Redirect to the login page or home page
             return RedirectToAction("Login");

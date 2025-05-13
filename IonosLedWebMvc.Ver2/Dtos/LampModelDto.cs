@@ -19,32 +19,32 @@ namespace IonosLedWebMvc.Ver2.Dtos
 
         [Required(ErrorMessage = "Поле обязательно для заполнения")]
         [DisplayName("Нарезка")]
-        [RegularExpression(@"^\d{1,9}\,?\d{0,2}$", ErrorMessage = "Некорректный формат денежного числа")]
+        [RegularExpression(@"^\d{1,9}\,?\d{0,2}$", ErrorMessage = "Некорректный формат денежного числа (разделитель - запятая)")]
         public string CutPrice { get; set; }
 
         [Required(ErrorMessage = "Поле обязательно для заполнения")]
         [DisplayName("Сверление")]
-        [RegularExpression(@"^\d{1,9}\,?\d{0,2}$", ErrorMessage = "Некорректный формат денежного числа")]
+        [RegularExpression(@"^\d{1,9}\,?\d{0,2}$", ErrorMessage = "Некорректный формат денежного числа (разделитель - запятая)")]
         public string DrillPrice { get; set; }
 
         [Required(ErrorMessage = "Поле обязательно для заполнения")]
         [DisplayName("Монтаж")]
-        [RegularExpression(@"^\d{1,9}\,?\d{0,2}$", ErrorMessage = "Некорректный формат денежного числа")]
+        [RegularExpression(@"^\d{1,9}\,?\d{0,2}$", ErrorMessage = "Некорректный формат денежного числа (разделитель - запятая)")]
         public string MountPrice { get; set; }
 
         [Required(ErrorMessage = "Поле обязательно для заполнения")]
         [DisplayName("Пайка")]
-        [RegularExpression(@"^\d{1,9}\,?\d{0,2}$", ErrorMessage = "Некорректный формат денежного числа")]
+        [RegularExpression(@"^\d{1,9}\,?\d{0,2}$", ErrorMessage = "Некорректный формат денежного числа (разделитель - запятая)")]
         public string SolderPrice { get; set; }
 
         [Required(ErrorMessage = "Поле обязательно для заполнения")]
         [DisplayName("Сборка")]
-        [RegularExpression(@"^\d{1,9}\,?\d{0,2}$", ErrorMessage = "Некорректный формат денежного числа")]
+        [RegularExpression(@"^\d{1,9}\,?\d{0,2}$", ErrorMessage = "Некорректный формат денежного числа (разделитель - запятая)")]
         public string AssemblyPrice { get; set; }
 
         [Required(ErrorMessage = "Поле обязательно для заполнения")]
         [DisplayName("Упаковка")]
-        [RegularExpression(@"^\d{1,9}\,?\d{0,2}$", ErrorMessage = "Некорректный формат денежного числа")]
+        [RegularExpression(@"^\d{1,9}\,?\d{0,2}$", ErrorMessage = "Некорректный формат денежного числа (разделитель - запятая)")]
         public string CheckPrice { get; set; }
 
         [DisplayName("Всего изготовлено(шт.)")]
