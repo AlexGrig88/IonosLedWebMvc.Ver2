@@ -18,5 +18,8 @@ namespace IonosLedWebMvc.Ver2.ViewModels
         [DataType(DataType.Password)]
         [DisplayName("Пароль")]
         public string Password { get; set; }
+
+        [DisplayName("Запомнить меня")]
+        public bool IsSavedDession { get; set; }
     }
 }

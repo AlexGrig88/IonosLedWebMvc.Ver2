@@ -20,8 +20,9 @@ builder.Services.AddScoped<ILampRepo, LampRepo>();
 builder.Services.AddScoped<LampService>();
 builder.Services.AddScoped<SalaryService>();
 builder.Services.AddScoped<UserEventsService>();
+builder.Services.AddScoped<StatisticsService>();
 
-/*builder.Services.AddSession();*/
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -45,7 +46,7 @@ app.UseAuthorization();
 	MinimumSameSitePolicy = SameSiteMode.Strict,
 };
 app.UseCookiePolicy(cookiePolicyOptions);*/
-/*app.UseSession();*/
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

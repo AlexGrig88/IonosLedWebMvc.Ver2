@@ -11,6 +11,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
     public class AccountController : Controller
     {
         private readonly ApplicationContext _context;
+        private const string IS_SAVED_SESSION = "IsSavedSession";
 
         public AccountController(ApplicationContext context)
         {
@@ -33,18 +34,24 @@ namespace IonosLedWebMvc.Ver2.Controllers
                     var claims = new List<Claim>()
                         {
                             new Claim(ClaimTypes.Name, currUserAuth.Username),
-                            new Claim(ClaimTypes.Role, "Admin")
+                            new Claim(ClaimTypes.Role, "Admin"),
+                            new Claim(IS_SAVED_SESSION, loginModel.IsSavedDession ? "true" : "false")
                             // add any additional claims
                         };
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-/*                    var authProperties = new AuthenticationProperties
-                    {
-                        IsPersistent = true,
-                        ExpiresUtc = DateTimeOffset.UtcNow.AddDays(7),
-                    };*/
+                    if (loginModel.IsSavedDession) {
+                        var authProperties = new AuthenticationProperties
+                        {
+                            IsPersistent = true,
+                            ExpiresUtc = DateTimeOffset.UtcNow.AddDays(7),
+                        };
 
-/*                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);*/
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+                    }
+                    else {
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                    }
+
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -59,8 +66,13 @@ namespace IonosLedWebMvc.Ver2.Controllers
         {
             // Clear the user's session
             /*            HttpContext.Session.Clear();*/
-
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            if (HttpContext.User.Identity != null && HttpContext.User.Identity.IsAuthenticated) {
+/*                if (HttpContext.User.Claims.Any(c => c.Type == IS_SAVED_SESSION && c.Value == "true")) {
+                    HttpContext.Session.Clear();
+                }*/
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            }
+            
 
             // Redirect to the login page or home page
             return RedirectToAction("Login");

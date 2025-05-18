@@ -39,6 +39,10 @@ namespace IonosLedWebMvc.Ver2.Repos
 
         public IQueryable<LedLamp> GetAllReleased() => _context.LedLamps.Where(lamp => lamp.LightCheckingPackagingTs != null);
 
+		// отличие от GetDateFiltering в том, что мы не соединяем ни с какими таблицами
+		public IQueryable<LedLamp> GetAllRealesedForThePeriodAsync(DateTime startDt, DateTime endDt) =>
+            _context.LedLamps.Where(lamp => lamp.LightCheckingPackagingTs != null && lamp.LightCheckingPackagingTs >= startDt && lamp.LightCheckingPackagingTs < endDt);
+
         public IQueryable<LedLamp> GetDateFiltering(DateTime startDt, DateTime endDt) => 
             _context.LedLamps
                 .Include(p => p.LabelPrintUser)

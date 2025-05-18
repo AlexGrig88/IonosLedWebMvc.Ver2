@@ -54,6 +54,12 @@
                             </a>
                         </li>
 
+                        <li class="nav-item @(ViewData["Title"].ToString().Contains("Statistics") ? "sidebar-active" : "")">
+                            <a asp-controller="Statistics" asp-action="Index" class="nav-link align-middle px-0 text-white">
+                                <i class="bi bi-bar-chart-line"></i><span class="ms-1 d-none d-sm-inline">Статистика</span>
+                            </a>
+                        </li>
+
                         <hr />
                         <br />
                         @await Html.PartialAsync("_LoginPartial")

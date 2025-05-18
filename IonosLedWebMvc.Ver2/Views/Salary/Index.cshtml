@@ -50,21 +50,32 @@ else if (Model.Count == 0) {
 }
 else {
     <div>
-        <p style="color:darkblue; font-size:18px">
-            Число записей: @ViewBag.TotalRecords шт.
-        </p>
-
-        @if (ViewBag.ShowLampsWithoutModel == 1) {
-            <p style="color:red; font-size:18px">
-                Число записей без указанной модели: @ViewBag.TotalRecordsWithoutModel  шт.
-            </p>
-        }
+        <dl class="row">
+            <dt class="col-sm-3">
+                Число записей:
+            </dt>
+            <dd class="col-sm-9" style="font-weight:600; font-size:1.1em; color:blue">
+                @ViewBag.TotalRecords шт.
+            </dd>
         
-        @if (ViewBag.TotalRecords > 200) {
-            <p>
-                Отображено светильников 200 шт.
-            </p>
-        }
+            @if (ViewBag.ShowLampsWithoutModel == 1) {
+                <dt class="col-sm-3">
+                    Число записей без указанной модели:
+                </dt>
+                <dd class="col-sm-9" style="font-weight:600; font-size:1.1em;color:red">
+                    @ViewBag.TotalRecordsWithoutModel шт.
+                </dd>
+            }
+        
+            @if (ViewBag.TotalRecords > 200) {
+                <dt class="col-sm-3">
+                    Отображено: 
+                </dt>
+                <dd class="col-sm-9" style="font-weight:600; font-size:1.1em;">
+                    200 шт.
+                </dd>
+            }
+        </dl>
         @if (!string.IsNullOrEmpty(ViewBag.EmployeeName))
         {
 @*             <div class="border-style">
@@ -97,6 +108,15 @@ else {
                             showLampsWithoutModel = ViewBag.ShowLampsWithoutModel
                         },
                             new { id = "sam", @class = "btn btn-danger min-margin-top" }   )
+                    @Html.RouteLink("К списку", new
+                        {
+                            controller = "Salary",
+                            action = "Index",
+                            startDate = @ViewBag.StartDateG,
+                            endDate = @ViewBag.EndDateG,
+                            employeeName = @ViewBag.EmployeeName
+                        },
+                             new { id = "sam", @class = "btn btn-outline-primary mstart-5 min-margin-top" })
                 }
             </div>
         }

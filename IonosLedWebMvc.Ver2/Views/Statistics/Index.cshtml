@@ -1,0 +1,125 @@
+﻿@using System.Text
+@model Dictionary<DateTime, int>
+
+@{
+	ViewData["Title"] = "IndexStatistics";
+}
+<!DOCTYPE html>
+<html>
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+
+@{
+	string hAxisTitle = "рабочие дни c 20.10.2024 по 20.11.2024";
+	string startDt = "20.10.2024";
+	string arrAsStr = "";
+	if (Model == null || Model.Count == 0) {
+		arrAsStr = "[0, 0]";
+	} else {
+		var sb = new StringBuilder();
+		foreach (var item in Model) {
+			sb.Append($"[new Date({item.Key.Year}, {item.Key.Month}, {item.Key.Day}), {item.Value}],");
+		}
+		arrAsStr = sb.ToString();
+	}
+
+}
+
+<div class="container">
+	<div class="text-center">
+		<h1 class="display-4" style="color: darkblue; font-weight:400">Статистика производства</h1>
+
+			
+		<h4>Временной интервал(от текущего числа) для расчета статистики</h4>
+		<form asp-action="Index">
+			<div class="slidecontainer">
+				<input type="range" min="0" max="4" value="@ViewData["SelectedRange"]" class="slider" id="myRange" name="selectedRange">
+				<span>
+					0<span id="demo">
+						<span class="span-margin">
+							1 мес<span id="demo">
+								<span class="span-margin">
+									3 мес<span id="demo">
+										<span class="span-margin">
+											6 мес<span id="demo">
+												<span class="span-margin">
+													1 год<span id="demo">
+			</div>
+			<button type="submit" class="btn btn-primary">Применить</button>
+		</form>
+	</div>
+
+
+
+	<div id="myChart2" style="width:100%; max-width:1200px; height:600px;"></div>
+	<hr />
+	<div class="text-center">
+		<h4>Гистограмма популярности моделей</h4>
+		<div id="myChart" style="width:100%; max-width:1200px; height:600px;"></div>
+	</div>
+
+
+	<script>
+		google.charts.load('current', { 'packages': ['corechart'] });
+		google.charts.setOnLoadCallback(drawChart);
+
+		function drawChart() {
+
+			// Set Data
+			const data = google.visualization.arrayToDataTable([
+				['Модель', 'шт.'],
+				['Sreet-50 | 150', 55],
+				['Prom 100|200', 49],
+				['Spain', 44],
+				['USA', 24],
+				['Argentina', 15]
+			]);
+
+			// Set Options
+			const options = {
+				title: 'Рейтинг популярности моделей светильников'
+			};
+
+			// Draw
+			const chart = new google.visualization.BarChart(document.getElementById('myChart'));
+			chart.draw(data, options);
+
+		}
+
+		google.charts.load('current', { packages: ['corechart'] });
+		google.charts.setOnLoadCallback(drawChart2);
+
+		function drawChart2() {
+
+
+			// Set Data
+			const data = google.visualization.arrayToDataTable([
+					['Day', 'Count'],
+				 @arrAsStr
+		]);
+
+			// Set Options
+			const options = {
+				title: 'Динамика производства',
+				hAxis: { 
+					title: 'рабочие дни c @ViewData["StartDate"] по @ViewData["EndDate"]',
+					
+					},
+				vAxis: { title: 'Количество светильников(шт)' },
+				legend: 'none',
+				pointSize: 6,
+				pointShape: 'circle'
+			};
+
+			// Draw
+			const chart = new google.visualization.LineChart(document.getElementById('myChart2'));
+			chart.draw(data, options);
+
+		}
+
+	</script>
+
+</div>
+</html>
+
+
+

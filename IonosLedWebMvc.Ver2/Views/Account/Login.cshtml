@@ -23,16 +23,16 @@
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
 
-            <div class="form-group" style="margin-top:10px">
+            <div class="form-group mt-10">
                 <div class="checkbox mb-3">
                     <label>
-                        <input type="checkbox" value="remember-me"> Запомнить меня
+                        <input asp-for="IsSavedDession"> @Html.DisplayNameFor(model => model.IsSavedDession)
                     </label>
                 </div>
                 <input type="submit" value="Войти" class="btn btn-primary" />
             </div>
-            <div>
-                <a asp-controller="Home" asp-action="Index">Вернуться на главную</a>
+            <div class="mt-10">
+                <a asp-controller="Home" asp-action="Index" >Вернуться на главную</a>
             </div>
         </form>
     </div>
