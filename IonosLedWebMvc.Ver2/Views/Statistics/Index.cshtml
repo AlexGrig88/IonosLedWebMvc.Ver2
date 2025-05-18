@@ -79,15 +79,10 @@
 			// Set Data
 			const data = google.visualization.arrayToDataTable([
 				['Модель', 'шт.'],
-				["@arrModel[0]", @arrCount[0]],
-				["@arrModel[1]", @arrCount[1]],
-				["@arrModel[2]", @arrCount[2]],
-				["@arrModel[3]", @arrCount[3]],
-				["@arrModel[4]", @arrCount[4]],
-				["@arrModel[5]", @arrCount[5]],
-				["@arrModel[6]", @arrCount[6]],
-				["@arrModel[7]", @arrCount[7]],
-			]);
+				@for (int i = 0; i < arrModel.Count; ++i) {
+			@:["@arrModel[i]", @arrCount[i]],
+		}
+		]);
 
 			// Set Options
 			const options = {
