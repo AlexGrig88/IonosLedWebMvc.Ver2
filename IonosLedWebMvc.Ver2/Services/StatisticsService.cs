@@ -1,4 +1,5 @@
 ﻿using IonosLedWebMvc.Ver2.Data;
+using IonosLedWebMvc.Ver2.Models;
 using IonosLedWebMvc.Ver2.Repos;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,21 +15,32 @@ namespace IonosLedWebMvc.Ver2.Services
             _lampRepo = lampRepo;
         }
 
-		public async Task<Dictionary<DateTime, int>> GetMapDaysToCountLampAsync(DateTime startDate)
+		public async Task<StatisticModel> GetMapDaysToCountLampAsync(DateTime startDate)
 		{
 
-			var lamps =  await _lampRepo.GetAllRealesedForThePeriodAsync(startDate, DATE_NOW_FAKE_TEST).Select(l => l.LightCheckingPackagingTs!.Value.Date).ToListAsync();
-			var dayToCountList = lamps.GroupBy(g => g).Select(g => new { Day = g.Key, Count = g.Count()}).OrderBy(p => p.Day).ToList();
-/*			int day = 1;
-			var dict = new Dictionary<int, int>();
-			foreach ( var item in dayToCountList) {
-				dict[day++] = item.Count;
-			}*/
-			var dict = new Dictionary<DateTime, int>();
-			foreach (var day in dayToCountList) {
-				dict[day.Day] = day.Count;
+			var lamps =  await _lampRepo.GetAllRealesedForThePeriodAsync(startDate, DATE_NOW_FAKE_TEST).ToListAsync();
+			var dayToCountList = lamps
+				.GroupBy(g => g.LightCheckingPackagingTs!.Value.Date)
+				.Select(g => new { Day = g.Key, Count = g.Count()})
+				.OrderBy(p => p.Day)
+				.ToList();
+			var dictDate = new Dictionary<DateTime, int>();
+			foreach (var item in dayToCountList) {
+                dictDate[item.Day] = item.Count;
 			}
-			return dict;
+
+            var lampModelToCountList = lamps
+				.Where(l => l.Model != null && l.Model.ModelName != null)
+				.GroupBy(g => g.Model!.ModelName)
+				.Select(g => new { ModelName = g.Key, Count = g.Count() })
+				.OrderByDescending(p => p.Count)
+				.ToList();
+			var dictModelName = new Dictionary<string, int>();
+			foreach (var item in lampModelToCountList) {
+				dictModelName[item.ModelName] = item.Count;
+			}
+
+            return new StatisticModel() { DateToCountDict = dictDate, LampModelToCountDict = dictModelName };
 		}
 	}
 }

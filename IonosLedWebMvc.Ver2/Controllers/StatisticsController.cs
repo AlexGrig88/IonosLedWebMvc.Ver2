@@ -27,8 +27,8 @@ namespace IonosLedWebMvc.Ver2.Controllers
 			ViewData["SelectedRange"] = selectedRange;
 			ViewData["StartDate"] = $"{startDate:d}";
 			ViewData["EndDate"] = $"{DATE_NOW_FAKE_TEST:d}";
-			var dayToCountLamp = await _statisticsService.GetMapDaysToCountLampAsync(startDate);
-            return View(dayToCountLamp);
+			var statModel = await _statisticsService.GetMapDaysToCountLampAsync(startDate);
+            return View(statModel);
         }
     }
 }

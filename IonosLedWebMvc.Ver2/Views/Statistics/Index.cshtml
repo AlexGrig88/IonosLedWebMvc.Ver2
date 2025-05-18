@@ -1,5 +1,5 @@
 ﻿@using System.Text
-@model Dictionary<DateTime, int>
+@model StatisticModel
 
 @{
 	ViewData["Title"] = "IndexStatistics";
@@ -9,17 +9,29 @@
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 
 @{
-	string hAxisTitle = "рабочие дни c 20.10.2024 по 20.11.2024";
-	string startDt = "20.10.2024";
 	string arrAsStr = "";
-	if (Model == null || Model.Count == 0) {
+	if (Model.DateToCountDict == null || Model.DateToCountDict.Count == 0) {
 		arrAsStr = "[0, 0]";
 	} else {
 		var sb = new StringBuilder();
-		foreach (var item in Model) {
+		foreach (var item in Model.DateToCountDict) {
 			sb.Append($"[new Date({item.Key.Year}, {item.Key.Month}, {item.Key.Day}), {item.Value}],");
 		}
 		arrAsStr = sb.ToString();
+	}
+
+	string arrModelsAsStr = "";
+	var arrModel = new List<string>();
+	var arrCount = new List<int>();
+	if (Model.LampModelToCountDict == null || Model.LampModelToCountDict.Count == 0) {
+		arrModelsAsStr = "['0', 0]";
+	}
+	else {
+		foreach (var item in Model.LampModelToCountDict) {
+			arrModel.Add(item.Key);
+			arrCount.Add(item.Value);
+		}
+
 	}
 
 }
@@ -67,11 +79,14 @@
 			// Set Data
 			const data = google.visualization.arrayToDataTable([
 				['Модель', 'шт.'],
-				['Sreet-50 | 150', 55],
-				['Prom 100|200', 49],
-				['Spain', 44],
-				['USA', 24],
-				['Argentina', 15]
+				["@arrModel[0]", @arrCount[0]],
+				["@arrModel[1]", @arrCount[1]],
+				["@arrModel[2]", @arrCount[2]],
+				["@arrModel[3]", @arrCount[3]],
+				["@arrModel[4]", @arrCount[4]],
+				["@arrModel[5]", @arrCount[5]],
+				["@arrModel[6]", @arrCount[6]],
+				["@arrModel[7]", @arrCount[7]],
 			]);
 
 			// Set Options
@@ -93,7 +108,7 @@
 
 			// Set Data
 			const data = google.visualization.arrayToDataTable([
-					['Day', 'Count'],
+					['День', 'Количество'],
 				 @arrAsStr
 		]);
 
@@ -102,7 +117,6 @@
 				title: 'Динамика производства',
 				hAxis: { 
 					title: 'рабочие дни c @ViewData["StartDate"] по @ViewData["EndDate"]',
-					
 					},
 				vAxis: { title: 'Количество светильников(шт)' },
 				legend: 'none',
