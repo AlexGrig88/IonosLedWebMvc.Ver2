@@ -44,17 +44,16 @@
 		<h4>Временной интервал(от текущего числа) для расчета статистики</h4>
 		<form asp-action="Index">
 			<div class="slidecontainer">
-				<input type="range" min="0" max="4" value="@ViewData["SelectedRange"]" class="slider" id="myRange" name="selectedRange">
-				<span>
-					0<span id="demo">
-						<span class="span-margin">
-							1 мес<span id="demo">
-								<span class="span-margin">
-									3 мес<span id="demo">
-										<span class="span-margin">
-											6 мес<span id="demo">
-												<span class="span-margin">
-													1 год<span id="demo">
+				<input type="range" min="0" max="7" value="@ViewData["SelectedRange"]" class="slider" id="myRange" name="selectedRange">
+				<span id="demo">0</span>
+				<span id="demo" class="span-margin">1 мес</span>
+				<span id="demo" class="span-margin">2 мес</span>
+				<span id="demo" class="span-margin">3 мес</span>
+				<span id="demo" class="span-margin">4 мес</span>
+				<span id="demo" class="span-margin">5 мес</span>
+				<span id="demo" class="span-margin">6 мес</span>
+				<span id="demo" class="span-margin">1 год</span>
+
 			</div>
 			<button type="submit" class="btn btn-primary">Применить</button>
 		</form>

@@ -19,9 +19,12 @@ namespace IonosLedWebMvc.Ver2.Controllers
 			DateTime startDate = selectedRange switch
 			{
 				1 => DATE_NOW_FAKE_TEST.Subtract(new TimeSpan(30, 0, 0, 0)),
-				2 => DATE_NOW_FAKE_TEST.Subtract(new TimeSpan(92, 0, 0, 0)),
-				3 => DATE_NOW_FAKE_TEST.Subtract(new TimeSpan(183, 0, 0, 0)),
-				4 => DATE_NOW_FAKE_TEST.Subtract(new TimeSpan(365, 0, 0, 0)),
+				2 => DATE_NOW_FAKE_TEST.Subtract(new TimeSpan(61, 0, 0, 0)),
+				3 => DATE_NOW_FAKE_TEST.Subtract(new TimeSpan(92, 0, 0, 0)),
+				4 => DATE_NOW_FAKE_TEST.Subtract(new TimeSpan(122, 0, 0, 0)),
+				5 => DATE_NOW_FAKE_TEST.Subtract(new TimeSpan(153, 0, 0, 0)),
+				6 => DATE_NOW_FAKE_TEST.Subtract(new TimeSpan(183, 0, 0, 0)),
+				7 => DATE_NOW_FAKE_TEST.Subtract(new TimeSpan(365, 0, 0, 0)),
 				_ => DATE_NOW_FAKE_TEST,
 			};
 			ViewData["SelectedRange"] = selectedRange;
