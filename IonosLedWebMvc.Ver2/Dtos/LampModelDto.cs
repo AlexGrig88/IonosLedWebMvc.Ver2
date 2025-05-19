@@ -29,7 +29,7 @@ namespace IonosLedWebMvc.Ver2.Dtos
 
         [Required(ErrorMessage = "Поле обязательно для заполнения")]
         [DisplayName("Монтаж")]
-        [RegularExpression(@"^\d{1,9}\,.?\d{0,2}$", ErrorMessage = "Некорректный формат денежного числа (разделитель - запятая)")]
+        [RegularExpression(@"^\d{1,9}\.?\d{0,2}$", ErrorMessage = "Некорректный формат денежного числа (разделитель - запятая)")]
         public string MountPrice { get; set; }
 
         [Required(ErrorMessage = "Поле обязательно для заполнения")]
