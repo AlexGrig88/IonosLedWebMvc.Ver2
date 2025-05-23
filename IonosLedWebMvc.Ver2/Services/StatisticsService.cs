@@ -15,7 +15,7 @@ namespace IonosLedWebMvc.Ver2.Services
             _lampRepo = lampRepo;
         }
 
-		public async Task<Dictionary<DateTime, int>> GetMapDaysToCountLampAsync(DateTime startDate)
+		public async Task<(Dictionary<DateTime, int>, int)> GetMapDaysToCountLampAsync(DateTime startDate)
 		{
 
 			var lamps =  await _lampRepo.GetAllRealesedForThePeriodAsync(startDate, DATE_NOW_FAKE_TEST).ToListAsync();
@@ -29,7 +29,7 @@ namespace IonosLedWebMvc.Ver2.Services
                 dictDate[item.Day] = item.Count;
 			}
 
-            return dictDate;
+            return (dictDate, lamps.Count);
 		}
 
 		public async Task<Dictionary<string, int>> GetMapLampModelToCountAsync(DateTime startDate)

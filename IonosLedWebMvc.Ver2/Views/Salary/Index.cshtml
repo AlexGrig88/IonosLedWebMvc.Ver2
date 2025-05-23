@@ -51,27 +51,27 @@ else if (Model.Count == 0) {
 else {
     <div>
         <dl class="row">
-            <dt class="col-sm-3">
+            <dt class="col-sm-2">
                 Число записей:
             </dt>
-            <dd class="col-sm-9" style="font-weight:600; font-size:1.1em; color:blue">
+            <dd class="col-sm-10" style="font-weight:600; font-size:1.1em; color:blue">
                 @ViewBag.TotalRecords шт.
             </dd>
         
             @if (ViewBag.ShowLampsWithoutModel == 1) {
-                <dt class="col-sm-3">
-                    Число записей без указанной модели:
+                <dt class="col-sm-2">
+                    Число записей без модели:
                 </dt>
-                <dd class="col-sm-9" style="font-weight:600; font-size:1.1em;color:red">
+                <dd class="col-sm-10" style="font-weight:600; font-size:1.1em;color:red">
                     @ViewBag.TotalRecordsWithoutModel шт.
                 </dd>
             }
         
             @if (ViewBag.TotalRecords > 200) {
-                <dt class="col-sm-3">
+                <dt class="col-sm-2">
                     Отображено: 
                 </dt>
-                <dd class="col-sm-9" style="font-weight:600; font-size:1.1em;">
+                <dd class="col-sm-10" style="font-weight:600; font-size:1.1em;">
                     200 шт.
                 </dd>
             }

@@ -96,10 +96,12 @@ namespace IonosLedWebMvc.Ver2.Controllers
             List<LedLampDto>? lampDtoList = null;
 
             if (showLampsWithoutModel.HasValue && showLampsWithoutModel.Value == 1) {
-                lampDtoList = tuple.lampWithoutModelList.Select(LedLampDto.FromLedLamp).ToList();
+                //lampDtoList = tuple.lampWithoutModelList.Select(LedLampDto.FromLedLamp).ToList();
+                lampDtoList = tuple.lampWithoutModelList.Select(l => new LedLampDto(l, employeeName)).ToList();
             }
             else {
-                lampDtoList = lampList.Select(LedLampDto.FromLedLamp).ToList();
+                //lampDtoList = lampList.Select(LedLampDto.FromLedLamp).ToList();
+                lampDtoList = lampList.Select(l => new LedLampDto(l, employeeName)).ToList();
             }
             //////////////////////////////////////////////
             // создание файла excel с детализацией
@@ -108,7 +110,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
                 Directory.CreateDirectory(path);
             }
             _fileNameForExcel = Path.Combine(path, "Details_For_" + employeeName + ".xlsx");
-            ExcelCreator.GererateAndSaveFile(lampList, _fileNameForExcel, employeeName, empSalary.Salary);
+            ExcelCreator.GererateAndSaveFile(lampDtoList, _fileNameForExcel, employeeName, empSalary.Salary);
             ///////////////////////////////////////////////////////
 
 

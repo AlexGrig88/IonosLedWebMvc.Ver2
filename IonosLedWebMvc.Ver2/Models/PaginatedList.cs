@@ -5,6 +5,7 @@ namespace IonosLedWebMvc.Ver2.Models
 {
     public class PaginatedList<T>
     {
+        public List<LedLampDto> LampDtoItems { get; set; } = new List<LedLampDto>();
         public List<T> Items { get; set; }
         public int TotalItems { get; set; }
         public int PageIndex { get; set; }
@@ -35,7 +36,10 @@ namespace IonosLedWebMvc.Ver2.Models
         public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, int pageIndex, int pageSize)
         {
             var count = await source.CountAsync(); //total number of items in the source data.      
-            var items = await source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = await source
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
             return new PaginatedList<T>(items, count, pageIndex, pageSize);
 
         }

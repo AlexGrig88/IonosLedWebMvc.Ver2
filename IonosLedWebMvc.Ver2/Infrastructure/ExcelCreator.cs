@@ -1,4 +1,5 @@
 ﻿using ClosedXML.Excel;
+using IonosLedWebMvc.Ver2.Dtos;
 using IonosLedWebMvc.Ver2.Models.Entities;
 
 namespace IonosLedWebMvc.Ver2.Infrastructure
@@ -7,7 +8,7 @@ namespace IonosLedWebMvc.Ver2.Infrastructure
     {
         public static string fileName = "Details_For_Salary_UserAuth.xlsx";
 
-        public static void GererateAndSaveFile(List<LedLamp> lamps, string fileName, string employeeName, decimal? salary)
+        public static void GererateAndSaveFile(List<LedLampDto> lamps, string fileName, string employeeName, decimal? salary)
         {
 
             var headers = new List<string>() 
@@ -29,7 +30,7 @@ namespace IonosLedWebMvc.Ver2.Infrastructure
             int col = 1;
             for (int i = 0; i < lamps.Count; i++)
             {
-                LedLamp curr = lamps[i];
+                LedLampDto curr = lamps[i];
                 ws.Cell(i + 3, col).Value = curr.Id;
                 ws.Cell(i + 3, col + 1).Value = curr.Spec;
                 ws.Cell(i + 3, col + 2).Value = curr.Model != null ? curr.Model.ModelName : "";
@@ -37,25 +38,29 @@ namespace IonosLedWebMvc.Ver2.Infrastructure
                 ws.Cell(i + 3, col + 3).Value = curr.BitrixOrder;
                 ws.Cell(i + 3, col + 4).Value = curr.Comment;
 
-                ws.Cell(i + 3, col + 5).Value = curr.LabelPrintTs ?? new DateTime();
+                if (curr.LabelPrintTs == null) {
+                    ws.Cell(i + 3, col + 5).Value = "";
+				} else {
+                    ws.Cell(i + 3, col + 5).Value = curr.LabelPrintTs.ToString();
+				}
                 ws.Cell(i + 3, col + 6).Value = curr.LabelPrintUser != null ? curr.LabelPrintUser.Name : "";
 
-                ws.Cell(i + 3, col + 7).Value = curr.AlProfileCutTs ?? new DateTime();
+                ws.Cell(i + 3, col + 7).Value = curr.AlProfileCutTs == null ? "" : curr.AlProfileCutTs.ToString();
                 ws.Cell(i + 3, col + 8).Value = curr.CutUser != null ? curr.CutUser.Name : "";
 
-                ws.Cell(i + 3, col + 9).Value = curr.AlProfileDrillTs ?? new DateTime();
+                ws.Cell(i + 3, col + 9).Value = curr.AlProfileDrillTs == null ? "" : curr.AlProfileDrillTs.ToString();
                 ws.Cell(i + 3, col + 10).Value = curr.DrillUser != null ? curr.DrillUser.Name : "";
 
-                ws.Cell(i + 3, col + 11).Value = curr.LedModuleMountingTs ?? new DateTime();
+                ws.Cell(i + 3, col + 11).Value = curr.LedModuleMountingTs == null ? "" : curr.LedModuleMountingTs.ToString();
                 ws.Cell(i + 3, col + 12).Value = curr.MountingUser != null ? curr.MountingUser.Name : "";
 
-                ws.Cell(i + 3, col + 13).Value = curr.LightSolderingTs ?? new DateTime();
+                ws.Cell(i + 3, col + 13).Value = curr.LightSolderingTs == null ? "" : curr.LightSolderingTs.ToString();
                 ws.Cell(i + 3, col + 14).Value = curr.SolderingUser != null ? curr.SolderingUser.Name : "";
 
-                ws.Cell(i + 3, col + 15).Value = curr.LightAssemblingTs ?? new DateTime();
+                ws.Cell(i + 3, col + 15).Value = curr.LightAssemblingTs == null ? "" : curr.LightAssemblingTs.ToString();
                 ws.Cell(i + 3, col + 16).Value = curr.AssemblingUser != null ? curr.AssemblingUser.Name : "";
 
-                ws.Cell(i + 3, col + 17).Value = curr.LightCheckingPackagingTs ?? new DateTime();
+                ws.Cell(i + 3, col + 17).Value = curr.LightCheckingPackagingTs == null ? "" : curr.LightCheckingPackagingTs.ToString();
                 ws.Cell(i + 3, col + 18).Value = curr.CheckingPackagingUser != null ? curr.CheckingPackagingUser.Name : "";
 
             }

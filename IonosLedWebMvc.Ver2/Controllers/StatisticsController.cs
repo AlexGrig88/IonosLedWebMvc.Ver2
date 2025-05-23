@@ -13,7 +13,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
             _statisticsService = statisticsService;
         }
 
-        public async Task<IActionResult> Index(int selectedRange)
+        public async Task<IActionResult> LineGraphLamps(int selectedRange)
         {
             selectedRange = selectedRange == 0 ? 1 : selectedRange;
 			var startDate = SelectStartDate(selectedRange);
@@ -21,7 +21,8 @@ namespace IonosLedWebMvc.Ver2.Controllers
 			ViewData["SelectedRange"] = selectedRange;
 			ViewData["StartDate"] = $"{startDate:d}";
 			ViewData["EndDate"] = $"{DATE_NOW_FAKE_TEST:d}";
-			var dateToLampCount = await _statisticsService.GetMapDaysToCountLampAsync(startDate);
+			var (dateToLampCount, countLamp) = await _statisticsService.GetMapDaysToCountLampAsync(startDate);
+			ViewData["CountLamp"] = countLamp;
             return View(dateToLampCount);
         }
 

@@ -1,4 +1,5 @@
 ﻿using IonosLedWebMvc.Ver2.Data;
+using IonosLedWebMvc.Ver2.Dtos;
 using IonosLedWebMvc.Ver2.Infrastructure;
 using IonosLedWebMvc.Ver2.Models;
 using IonosLedWebMvc.Ver2.Models.Entities;
@@ -127,7 +128,8 @@ namespace IonosLedWebMvc.Ver2.Controllers
 
             if (bitrixSearch.HasValue) page_size_dynamic = 50;
 
-			var lampsPaginated = await PaginatedList<LedLamp>.CreateAsync(lamps, pageNumber, page_size_dynamic);
+            // var lampsPaginated = await PaginatedList<LedLamp>.CreateAsync(lamps, pageNumber, page_size_dynamic);
+            var lampsPaginated = await PaginatedList<LedLamp>.CreateAsync(lamps, pageNumber, page_size_dynamic);
 
             // для расчета полученного числа записей необходимо получить значение колличества записей на последней странице, т.к. она может не полная
             var lastPageNumber = lampsPaginated.TotalPages < 1 ? 1 : lampsPaginated.TotalPages;
@@ -135,6 +137,13 @@ namespace IonosLedWebMvc.Ver2.Controllers
             var totalRecords = lampsPaginated.TotalPages * page_size_dynamic - (page_size_dynamic - lastPage.Items.Count);
             ViewBag.TotalRecords = totalRecords < 0 ? 0 : totalRecords;
 
+            if (employeeName != ALL_EMPLOYEES) {
+                lampsPaginated.LampDtoItems = lampsPaginated.Items.Select(l => new LedLampDto(l, employeeName)).ToList();
+            }
+            else {
+                lampsPaginated.LampDtoItems = lampsPaginated.Items.Select(LedLampDto.FromLedLamp).ToList();
+            }
+            lampsPaginated.Items = null;
             return View(lampsPaginated);
         }
 

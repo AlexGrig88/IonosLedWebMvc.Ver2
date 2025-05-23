@@ -52,6 +52,81 @@ namespace IonosLedWebMvc.Ver2.Dtos
         [DisplayName("Модель")]
         public LampModel? Model { get; set; }
 
+        public LedLampDto() { }
+
+        public LedLampDto(LedLamp lamp, string employeeName)
+        {
+            Id = lamp.Id;
+            ModelId = lamp.ModelId;
+            Spec = lamp?.Spec ?? "";
+            BitrixOrder = lamp?.BitrixOrder ?? 0;
+            Comment = lamp?.Comment ?? "";
+            Model = lamp?.Model ?? new LampModel() { ModelName = "" };
+
+            if (lamp.LabelPrintUser == null || lamp.LabelPrintUser.Name != employeeName) {
+                LabelPrintUser = null;
+                LabelPrintTs = null;
+            } else {
+                LabelPrintUser = lamp.LabelPrintUser;
+                LabelPrintTs = lamp.LabelPrintTs;
+            }
+
+            if (lamp.CutUser == null || lamp.CutUser.Name != employeeName) {
+                CutUser = null;
+                AlProfileCutTs = null;
+            }
+            else {
+                CutUser = lamp.CutUser;
+                AlProfileCutTs = lamp.AlProfileCutTs;
+            }
+
+            if (lamp.DrillUser == null || lamp.DrillUser.Name != employeeName) {
+                DrillUser = null;
+                AlProfileDrillTs = null;
+            }
+            else {
+                DrillUser = lamp.DrillUser;
+                AlProfileDrillTs = lamp.AlProfileDrillTs;
+            }
+
+            if (lamp.MountingUser == null || lamp.MountingUser.Name != employeeName) {
+                MountingUser = null;
+                LedModuleMountingTs = null;
+            }
+            else {
+                MountingUser = lamp.MountingUser;
+                LedModuleMountingTs = lamp.LedModuleMountingTs;
+            }
+
+            if (lamp.AssemblingUser == null || lamp.AssemblingUser.Name != employeeName) {
+                AssemblingUser = null;
+                LightAssemblingTs = null;
+            }
+            else {
+                AssemblingUser = lamp.AssemblingUser;
+                LightAssemblingTs = lamp.LightAssemblingTs;
+            }
+
+            if (lamp.SolderingUser == null || lamp.SolderingUser.Name != employeeName) {
+                SolderingUser = null;
+                LightSolderingTs = null;
+            }
+            else {
+                SolderingUser = lamp.SolderingUser;
+                LightSolderingTs = lamp.LightSolderingTs;
+            }
+
+            if (lamp.CheckingPackagingUser == null || lamp.CheckingPackagingUser.Name != employeeName) {
+                CheckingPackagingUser = null;
+                LightCheckingPackagingTs = null;
+            }
+            else {
+                CheckingPackagingUser = lamp.CheckingPackagingUser;
+                LightCheckingPackagingTs = lamp.LightCheckingPackagingTs;
+            }
+        }
+
+
         public static LedLampDto FromLedLamp(LedLamp lamp)
         {
             return new LedLampDto

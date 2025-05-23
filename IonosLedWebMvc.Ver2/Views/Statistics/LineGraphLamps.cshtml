@@ -26,7 +26,7 @@
 		<br />
 			
 		<h4>Временной интервал(до текущего числа)</h4>
-		<form asp-action="Index">
+		<form asp-action="LineGraphLamps">
 			<div class="slidecontainer">
 				<input type="range" min="0" max="8" value="@ViewData["SelectedRange"]" class="slider" id="myRange" name="selectedRange">
 				<span id="demo">0</span>
@@ -43,9 +43,6 @@
 			<button type="submit" class="btn btn-primary min-margin-top">Применить</button>
 		</form>
 	</div>
-
-
-
 	<div id="myChart2" style="width:100%; max-width:1200px; height:600px;"></div>
 	<hr />
 
@@ -64,7 +61,7 @@
 
 		// Set Options
 		const options = {
-			title: 'Динамика производства',
+				title: 'Динамика производства (всего выпущено @ViewData["CountLamp"] шт.)',
 			hAxis: {
 				title: 'рабочие дни c @ViewData["StartDate"] по @ViewData["EndDate"]',
 			},
