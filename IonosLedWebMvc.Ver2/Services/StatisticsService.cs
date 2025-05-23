@@ -15,7 +15,7 @@ namespace IonosLedWebMvc.Ver2.Services
             _lampRepo = lampRepo;
         }
 
-		public async Task<StatisticModel> GetMapDaysToCountLampAsync(DateTime startDate)
+		public async Task<Dictionary<DateTime, int>> GetMapDaysToCountLampAsync(DateTime startDate)
 		{
 
 			var lamps =  await _lampRepo.GetAllRealesedForThePeriodAsync(startDate, DATE_NOW_FAKE_TEST).ToListAsync();
@@ -29,7 +29,13 @@ namespace IonosLedWebMvc.Ver2.Services
                 dictDate[item.Day] = item.Count;
 			}
 
-            var lampModelToCountList = lamps
+            return dictDate;
+		}
+
+		public async Task<Dictionary<string, int>> GetMapLampModelToCountAsync(DateTime startDate)
+		{
+			var lamps = await _lampRepo.GetAllRealesedForThePeriodAsync(startDate, DATE_NOW_FAKE_TEST).ToListAsync();
+			var lampModelToCountList = lamps
 				.Where(l => l.Model != null && l.Model.ModelName != null)
 				.GroupBy(g => g.Model!.ModelName)
 				.Select(g => new { ModelName = g.Key, Count = g.Count() })
@@ -39,8 +45,7 @@ namespace IonosLedWebMvc.Ver2.Services
 			foreach (var item in lampModelToCountList) {
 				dictModelName[item.ModelName] = item.Count;
 			}
-
-            return new StatisticModel() { DateToCountDict = dictDate, LampModelToCountDict = dictModelName };
+			return dictModelName;
 		}
 	}
 }

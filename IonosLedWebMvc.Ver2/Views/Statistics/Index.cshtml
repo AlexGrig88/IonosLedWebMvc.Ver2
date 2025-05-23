@@ -1,51 +1,36 @@
 ﻿@using System.Text
-@model StatisticModel
+@model Dictionary<DateTime, int>
 
 @{
-	ViewData["Title"] = "IndexStatistics";
+	ViewData["Title"] = "LineGraphStatistics";
 }
-<!DOCTYPE html>
-<html>
-<script src="https://www.gstatic.com/charts/loader.js"></script>
+
+@* <script src="https://www.gstatic.com/charts/loader.js"></script> *@
 
 @{
 	string arrAsStr = "";
-	if (Model.DateToCountDict == null || Model.DateToCountDict.Count == 0) {
+	if (Model == null || Model.Count == 0) {
 		arrAsStr = "[0, 0]";
 	} else {
 		var sb = new StringBuilder();
-		foreach (var item in Model.DateToCountDict) {
+		foreach (var item in Model) {
 			sb.Append($"[new Date({item.Key.Year}, {item.Key.Month}, {item.Key.Day}), {item.Value}],");
 		}
 		arrAsStr = sb.ToString();
 	}
-
-	string arrModelsAsStr = "";
-	var arrModel = new List<string>();
-	var arrCount = new List<int>();
-	if (Model.LampModelToCountDict == null || Model.LampModelToCountDict.Count == 0) {
-		arrModelsAsStr = "['0', 0]";
-	}
-	else {
-		foreach (var item in Model.LampModelToCountDict) {
-			arrModel.Add(item.Key);
-			arrCount.Add(item.Value);
-		}
-
-	}
-
 }
 
 <div class="container">
 	<div class="text-center">
-		<h1 class="display-4" style="color: darkblue; font-weight:400">Статистика производства</h1>
-
+		<h1 class="display-4" style="color: darkblue; font-weight:400">Динамика производства</h1>
+		<br />
 			
-		<h4>Временной интервал(от текущего числа) для расчета статистики</h4>
+		<h4>Временной интервал(до текущего числа)</h4>
 		<form asp-action="Index">
 			<div class="slidecontainer">
-				<input type="range" min="0" max="7" value="@ViewData["SelectedRange"]" class="slider" id="myRange" name="selectedRange">
+				<input type="range" min="0" max="8" value="@ViewData["SelectedRange"]" class="slider" id="myRange" name="selectedRange">
 				<span id="demo">0</span>
+				<span id="demo" class="span-margin">1 неделя</span>
 				<span id="demo" class="span-margin">1 мес</span>
 				<span id="demo" class="span-margin">2 мес</span>
 				<span id="demo" class="span-margin">3 мес</span>
@@ -55,7 +40,7 @@
 				<span id="demo" class="span-margin">1 год</span>
 
 			</div>
-			<button type="submit" class="btn btn-primary">Применить</button>
+			<button type="submit" class="btn btn-primary min-margin-top">Применить</button>
 		</form>
 	</div>
 
@@ -63,71 +48,39 @@
 
 	<div id="myChart2" style="width:100%; max-width:1200px; height:600px;"></div>
 	<hr />
-	<div class="text-center">
-		<h4>Гистограмма популярности моделей</h4>
-		<div id="myChart" style="width:100%; max-width:1200px; height:600px;"></div>
-	</div>
 
 
-	<script>
-		google.charts.load('current', { 'packages': ['corechart'] });
-		google.charts.setOnLoadCallback(drawChart);
-
-		function drawChart() {
-
-			// Set Data
-			const data = google.visualization.arrayToDataTable([
-				['Модель', 'шт.'],
-				@for (int i = 0; i < arrModel.Count; ++i) {
-			@:["@arrModel[i]", @arrCount[i]],
-		}
-		]);
-
-			// Set Options
-			const options = {
-				title: 'Рейтинг популярности моделей светильников'
-			};
-
-			// Draw
-			const chart = new google.visualization.BarChart(document.getElementById('myChart'));
-			chart.draw(data, options);
-
-		}
-
-		google.charts.load('current', { packages: ['corechart'] });
-		google.charts.setOnLoadCallback(drawChart2);
-
-		function drawChart2() {
+<script>
 
 
-			// Set Data
-			const data = google.visualization.arrayToDataTable([
-					['День', 'Количество'],
-				 @arrAsStr
-		]);
+	google.charts.load('current', { packages: ['corechart'] });
+	google.charts.setOnLoadCallback(drawChart2);
 
-			// Set Options
-			const options = {
-				title: 'Динамика производства',
-				hAxis: { 
-					title: 'рабочие дни c @ViewData["StartDate"] по @ViewData["EndDate"]',
-					},
-				vAxis: { title: 'Количество светильников(шт)' },
-				legend: 'none',
-				pointSize: 6,
-				pointShape: 'circle'
-			};
+	function drawChart2() {
+		// Set Data
+		const data = google.visualization.arrayToDataTable([
+			['День', 'Количество'], @arrAsStr
+				]);
 
-			// Draw
-			const chart = new google.visualization.LineChart(document.getElementById('myChart2'));
-			chart.draw(data, options);
+		// Set Options
+		const options = {
+			title: 'Динамика производства',
+			hAxis: {
+				title: 'рабочие дни c @ViewData["StartDate"] по @ViewData["EndDate"]',
+			},
+			vAxis: { title: 'Количество светильников(шт)' },
+			legend: 'none',
+			pointSize: 6,
+			pointShape: 'circle'
+		};
 
-		}
+		// Draw
+		const chart = new google.visualization.LineChart(document.getElementById('myChart2'));
+		chart.draw(data, options);
+	}
 
-	</script>
-
+</script>
 </div>
-</html>
 
 
 

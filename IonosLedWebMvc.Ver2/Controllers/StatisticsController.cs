@@ -16,22 +16,41 @@ namespace IonosLedWebMvc.Ver2.Controllers
         public async Task<IActionResult> Index(int selectedRange)
         {
             selectedRange = selectedRange == 0 ? 1 : selectedRange;
-			DateTime startDate = selectedRange switch
-			{
-				1 => DATE_NOW_FAKE_TEST.Subtract(new TimeSpan(30, 0, 0, 0)),
-				2 => DATE_NOW_FAKE_TEST.Subtract(new TimeSpan(61, 0, 0, 0)),
-				3 => DATE_NOW_FAKE_TEST.Subtract(new TimeSpan(92, 0, 0, 0)),
-				4 => DATE_NOW_FAKE_TEST.Subtract(new TimeSpan(122, 0, 0, 0)),
-				5 => DATE_NOW_FAKE_TEST.Subtract(new TimeSpan(153, 0, 0, 0)),
-				6 => DATE_NOW_FAKE_TEST.Subtract(new TimeSpan(183, 0, 0, 0)),
-				7 => DATE_NOW_FAKE_TEST.Subtract(new TimeSpan(365, 0, 0, 0)),
-				_ => DATE_NOW_FAKE_TEST,
-			};
+			var startDate = SelectStartDate(selectedRange);
+
 			ViewData["SelectedRange"] = selectedRange;
 			ViewData["StartDate"] = $"{startDate:d}";
 			ViewData["EndDate"] = $"{DATE_NOW_FAKE_TEST:d}";
-			var statModel = await _statisticsService.GetMapDaysToCountLampAsync(startDate);
-            return View(statModel);
+			var dateToLampCount = await _statisticsService.GetMapDaysToCountLampAsync(startDate);
+            return View(dateToLampCount);
         }
+
+		public async Task<IActionResult> GistoLampModels(int selectedRange)
+		{
+            selectedRange = selectedRange == 0 ? 1 : selectedRange;
+            var startDate = SelectStartDate(selectedRange);
+            ViewData["SelectedRange"] = selectedRange;
+            ViewData["StartDate"] = $"{startDate:d}";
+            ViewData["EndDate"] = $"{DATE_NOW_FAKE_TEST:d}";
+			var modelNameToCount = await _statisticsService.GetMapLampModelToCountAsync(startDate);
+			return View(modelNameToCount);
+        }
+
+
+		private DateTime SelectStartDate(int selectedRange)
+		{
+			return selectedRange switch
+			{
+				1 => DATE_NOW_FAKE_TEST.Subtract(new TimeSpan(7, 0, 0, 0)),
+				2 => DATE_NOW_FAKE_TEST.Subtract(new TimeSpan(30, 0, 0, 0)),
+				3 => DATE_NOW_FAKE_TEST.Subtract(new TimeSpan(61, 0, 0, 0)),
+				4 => DATE_NOW_FAKE_TEST.Subtract(new TimeSpan(92, 0, 0, 0)),
+				5 => DATE_NOW_FAKE_TEST.Subtract(new TimeSpan(122, 0, 0, 0)),
+				6 => DATE_NOW_FAKE_TEST.Subtract(new TimeSpan(153, 0, 0, 0)),
+				7 => DATE_NOW_FAKE_TEST.Subtract(new TimeSpan(183, 0, 0, 0)),
+				8 => DATE_NOW_FAKE_TEST.Subtract(new TimeSpan(365, 0, 0, 0)),
+				_ => DATE_NOW_FAKE_TEST,
+			};
+		}
     }
 }

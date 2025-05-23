@@ -1,0 +1,76 @@
+﻿@model Dictionary<string, int>
+@{
+	ViewData["Title"] = "GistoStatistics";
+
+	string arrModelsAsStr = "";
+	var arrModel = new List<string>();
+	var arrCount = new List<int>();
+	if (Model == null || Model.Count == 0) {
+		arrModelsAsStr = "['0', 0]";
+	}
+	else {
+		foreach (var item in Model) {
+			arrModel.Add(item.Key);
+			arrCount.Add(item.Value);
+		}
+
+	}
+}
+
+<div class="container">
+	<div class="text-center">
+		<h1 class="display-4" style="color: darkblue; font-weight:400">Рейтинг по моделям выпускаемых светильников</h1>
+		<br />
+
+		<h4>Временной интервал(до текущего числа)</h4>
+		<form asp-action="GistoLampModels">
+			<div class="slidecontainer">
+				<input type="range" min="0" max="8" value="@ViewData["SelectedRange"]" class="slider" id="myRange" name="selectedRange">
+				<span id="demo">0</span>
+				<span id="demo" class="span-margin">1 неделя</span>
+				<span id="demo" class="span-margin">1 мес</span>
+				<span id="demo" class="span-margin">2 мес</span>
+				<span id="demo" class="span-margin">3 мес</span>
+				<span id="demo" class="span-margin">4 мес</span>
+				<span id="demo" class="span-margin">5 мес</span>
+				<span id="demo" class="span-margin">6 мес</span>
+				<span id="demo" class="span-margin">1 год</span>
+
+			</div>
+			<button type="submit" class="btn btn-primary min-margin-top">Применить</button>
+		</form>
+	</div>
+
+
+	<div class="text-center">
+		<h4>Гистограмма популярности моделей c @ViewData["StartDate"] по @ViewData["EndDate"]</h4>
+		<div id="myChart" style="width:100%; max-width:1200px; height:600px;"></div>
+	</div>
+
+</div>
+
+<script>
+	google.charts.load('current', { 'packages': ['corechart'] });
+	google.charts.setOnLoadCallback(drawChart);
+
+	function drawChart() {
+
+		// Set Data
+		const data = google.visualization.arrayToDataTable([
+				['Модель', 'шт.'],
+			@for (int i = 0; i < arrModel.Count; ++i) {
+				@:["@arrModel[i]", @arrCount[i]],
+			}
+					]);
+
+		// Set Options
+		const options = {
+			title: 'Рейтинг популярности моделей светильников'
+		};
+
+		// Draw
+		const chart = new google.visualization.BarChart(document.getElementById('myChart'));
+		chart.draw(data, options);
+
+	}
+</script>

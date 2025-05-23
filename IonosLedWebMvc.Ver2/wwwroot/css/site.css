@@ -110,7 +110,7 @@ body {
     }
 
 .span-margin {
-    margin-left: 136px;
+    margin-left: 110px;
 }
 
 .mt-10 {
@@ -118,4 +118,8 @@ body {
 }
 .mstart-5 {
     margin-left:5px;
+}
+.ml-sub-item {
+    margin-left:30px;
+    margin-bottom:5px;
 }
