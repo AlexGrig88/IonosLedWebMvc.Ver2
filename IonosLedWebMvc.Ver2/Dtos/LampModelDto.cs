@@ -50,7 +50,10 @@ namespace IonosLedWebMvc.Ver2.Dtos
         [DisplayName("Всего изготовлено(шт.)")]
         public int CountReleased { get; set; }
 
-        public static LampModelDto FromLampModel(LampModel model, Dictionary<uint, int>? modelsCount = null)
+        [DisplayName("Дополнительные сведения")]
+        public string Notes {  get; set; } = string.Empty;
+
+        public static LampModelDto FromLampModel(LampModel model, Dictionary<uint, int>? modelsCount = null, string? notes = "")
         {
             if (modelsCount != null && !modelsCount.ContainsKey(model.Id)) {
                 modelsCount = null;
@@ -66,7 +69,8 @@ namespace IonosLedWebMvc.Ver2.Dtos
                 SolderPrice = model.SolderPrice.ToString(),
                 AssemblyPrice = model.AssemblyPrice.ToString(),
                 CheckPrice = model.CheckPrice.ToString(),
-                CountReleased = modelsCount?[model.Id] ?? 0
+                CountReleased = modelsCount?[model.Id] ?? 0,
+                Notes = notes
             };
         }
 
@@ -82,5 +86,24 @@ namespace IonosLedWebMvc.Ver2.Dtos
                 AssemblyPrice = Convert.ToDecimal(modelDto.AssemblyPrice),
                 CheckPrice = Convert.ToDecimal(modelDto.CheckPrice)
             };
+
+        public static LampModelDto FromSelfToString (string modelDto)
+        {
+            string[] arrDataModel = modelDto.Split(";");
+            return new LampModelDto()
+            {
+                Id = uint.Parse(arrDataModel[0]),
+                ModelName = arrDataModel[1],
+                Sections = byte.Parse(arrDataModel[2]),
+                CutPrice = arrDataModel[3],
+                DrillPrice = arrDataModel[4],
+                MountPrice = arrDataModel[5],
+                SolderPrice = arrDataModel[6],
+                AssemblyPrice = arrDataModel[7],
+                CheckPrice = arrDataModel[8],
+            };
+        }
+
+        public override string ToString() => $"{Id};{ModelName};{Sections};{CutPrice};{DrillPrice};{MountPrice};{SolderPrice};{AssemblyPrice};{CheckPrice}";
     }
 }

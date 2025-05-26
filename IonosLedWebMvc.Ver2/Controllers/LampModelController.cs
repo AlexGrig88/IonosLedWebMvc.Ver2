@@ -6,6 +6,8 @@ using IonosLedWebMvc.Ver2.Services;
 using IonosLedWebMvc.Ver2.Models;
 using IonosLedWebMvc.Ver2.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Hosting;
 
 namespace IonosLedWebMvc.Ver2.Controllers
 {
@@ -13,11 +15,13 @@ namespace IonosLedWebMvc.Ver2.Controllers
     {
         private readonly ApplicationContext _context;
         private readonly LampService _lampService;
+        private readonly LampModelService _lampModelService;
 
-        public LampModelController(ApplicationContext context, LampService lampService)
+        public LampModelController(ApplicationContext context, LampService lampService, LampModelService lampModelService)
         {
             _context = context;
             _lampService = lampService;
+            _lampModelService = lampModelService;
         }
 
         // GET: LampModel
@@ -160,10 +164,13 @@ namespace IonosLedWebMvc.Ver2.Controllers
                 return NotFound();
             }
 
+            var lampModelDetails = await _context.LampModelDetails.FirstOrDefaultAsync(m => m.LampModelId == (int)id);
+            ViewData["ImageName"] = lampModelDetails?.ImageName;
+
             if (startDate == null && endDate == null) {
                 ViewBag.StartDate = $"{DateTime.Now.Date:s}";
                 ViewBag.EndDate = $"{DateTime.Now.Date:s}";
-                return View(new LampModelDetailsPageDto(LampModelDto.FromLampModel(lampModel), null));
+                return View(new LampModelDetailsPageDto(LampModelDto.FromLampModel(lampModel, notes: lampModelDetails?.Note), null));
             }
             // если применяем фильтрацию, то Id получаем через скрытое строковое поле modelId
             var mId = uint.Parse(modelId);
@@ -182,8 +189,33 @@ namespace IonosLedWebMvc.Ver2.Controllers
             var totalRecords = lampsPaginated.TotalPages * pageSize - (pageSize - lastPage.Items.Count);
             ViewBag.TotalRecords = totalRecords < 0 ? 0 : totalRecords;
 
-            return View(new LampModelDetailsPageDto(LampModelDto.FromLampModel(lampModel), lampsPaginated));
+            return View(new LampModelDetailsPageDto(LampModelDto.FromLampModel(lampModel, notes: lampModelDetails?.Note), lampsPaginated));
+        }
 
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> FileUpload(IFormFile imageFile, uint id)
+        {
+            if (ModelState.IsValid) {
+                //Save image to wwwroot/image
+                string result = await _lampModelService.SaveOrChangeImageFile(imageFile, id);
+                //Insert record
+                //_context.Add(imageModel);
+                //await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction(nameof(Edit), new { id = id });
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AddNote(string noteArea, uint id)
+        {
+            if (ModelState.IsValid) {
+                string result = await _lampModelService.AddNoteToDb(noteArea, (int)id);
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction(nameof(Edit), new { id = id });
         }
 
 

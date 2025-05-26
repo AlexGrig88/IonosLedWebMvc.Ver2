@@ -9,63 +9,76 @@
 <div>
     <h4>Даные модели:</h4>
     <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.LampModel.ModelName)
-        </dt>
-        <dd class="col-sm-10 fw-weight-bold">
-            @Html.DisplayFor(model => model.LampModel.ModelName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LampModel.Sections)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LampModel.Sections)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LampModel.CutPrice)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LampModel.CutPrice)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LampModel.DrillPrice)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LampModel.DrillPrice)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LampModel.MountPrice)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LampModel.MountPrice)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LampModel.SolderPrice)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LampModel.SolderPrice)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LampModel.AssemblyPrice)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LampModel.AssemblyPrice)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LampModel.CheckPrice)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LampModel.CheckPrice)
-        </dd>
-    </dl>
 </div>
+
+
+
+    <div class="row">
+        <div class="col-sm-6">
+            <dl class="row">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.LampModel.ModelName)
+                </dt>
+                <dd class="col-sm-8 fw-weight-bold">
+                    @Html.DisplayFor(model => model.LampModel.ModelName)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.LampModel.Sections)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.LampModel.Sections)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.LampModel.CutPrice)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.LampModel.CutPrice)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.LampModel.DrillPrice)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.LampModel.DrillPrice)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.LampModel.MountPrice)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.LampModel.MountPrice)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.LampModel.SolderPrice)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.LampModel.SolderPrice)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.LampModel.AssemblyPrice)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.LampModel.AssemblyPrice)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.LampModel.CheckPrice)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.LampModel.CheckPrice)
+                </dd>
+            </dl>
+        </div>
+        <div class="col-sm-6">
+        <img decoding="async" src="@("~/images/lamp_models/" + ViewData["ImageName"])" asp-append-version="true" width="360px" />
+        </div>
+    </div>
+
+
+
 <h5 style="margin-top:24px">Дополнительные сведения</h5>
 <div class="form-floating mb-3" style="width:50%">
     
-    <textarea class="form-control" placeholder="Здесь пока никто не писал" id="floatingTextarea2Disabled" style="height: 200px" disabled>
+    <textarea class="form-control" name="NotesForModel" placeholder="Здесь пока никто не писал" id="NotesForModel" style="height: 200px" disabled>@Model.LampModel.Notes
       </textarea>
-    <label for="floatingTextarea2Disabled">Пока записей нет</label>
+    <label for="NotesForModel">история заметок</label>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.LampModel.Id" class="btn btn-primary">Редактировать</a> |

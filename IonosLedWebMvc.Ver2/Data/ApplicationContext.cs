@@ -30,7 +30,7 @@ public partial class ApplicationContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<UserEvent> UserEvents { get; set; }
-    public virtual DbSet<Note> Notes { get; set; }
+    public virtual DbSet<LampModelDetails> LampModelDetails { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
         /*optionsBuilder.UseMySql("server=127.0.0.1;user=root;database=ionosprod_ver2;port=3306;password=admin", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.4.4-mysql"));*/
@@ -42,14 +42,16 @@ public partial class ApplicationContext : DbContext
             .UseCollation("utf8mb4_0900_ai_ci")
             .HasCharSet("utf8mb4");
 
-        modelBuilder.Entity<Note>(entity =>
+        modelBuilder.Entity<LampModelDetails>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("notes");
+            entity.ToTable("lamp_model_details");
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Text).HasColumnName("text");
+            entity.Property(e => e.Note).HasColumnName("note");
             entity.Property(e => e.LampModelId).HasColumnName("lamp_model_id");
+            entity.Property(e => e.FileName).HasColumnName("file_name");
+            entity.Property(e => e.ImageName).HasColumnName("image_name");
 
         });
 

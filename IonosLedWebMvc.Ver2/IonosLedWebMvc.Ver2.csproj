@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\images\iostreet50.jpg" />
+    <Content Remove="wwwroot\images\iostreet50_2.jpg" />
     <Content Remove="wwwroot\images\login.jpg" />
   </ItemGroup>
 
@@ -27,12 +29,8 @@
 
   <ItemGroup>
     <Folder Include="Resources\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="wwwroot\images\login.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    <Folder Include="wwwroot\ExcelFilesDir\" />
+    <Folder Include="wwwroot\images\lamp_models\" />
   </ItemGroup>
 
   <ItemGroup>
