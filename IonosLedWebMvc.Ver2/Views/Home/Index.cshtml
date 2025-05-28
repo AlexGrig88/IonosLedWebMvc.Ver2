@@ -1,11 +1,47 @@
-﻿@{
+﻿@model IonosLedWebMvc.Ver2.Services.SingletonMode
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4" style="color: darkblue; font-weight:400">Добро пожаловать в систему управления производством "ИОНОС УП"</h1>
-    <h4>Освещаем путь в будущее...</h4>
 
-    <p><a href="https://ionos.ru/">Посетить сайт компании - Светотехнический завод ООО "ИОНОС".</a>.</p>
-    <a href="https://ionos.ru/"><img src="~/images/ionos_logo.png"></a>
+    <form asp-action="Index">
+@*         <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" name="checkMode" value="true" id="switchHome" @(Model.IsDron ? "checked" : "")>
+        </div> *@
+        <input type="hidden" name="homeMode"  value="@(Model.IsDron ? "DronMode" : "LampMode")"/>
+        <button type="submit" class="button" id="switchHome">
+            <div class="button-top">@ViewData["HomeMode"]</div>
+            <div class="button-bottom"></div>
+            <div class="button-base"></div>
+        </button>
+    </form>
+
+    <div id="homeDiv1" style="display: @(Model.IsDron ? "none" : "block");">
+        <h4>Освещаем путь в будущее...</h4>
+        <p><a href="https://ionos.ru/">Посетить сайт компании - Светотехнический завод ООО "ИОНОС".</a>.</p>
+        <a href="https://ionos.ru/"><img src="~/images/ionos_logo.png" width="360px"></a>
+    </div>
+    <div id="homeDiv2" style="display: @(Model.IsDron ? "block" : "none");">
+        <h4>Zа Победу, Zа Россию, Za Правду...</h4>
+        <img src="~/images/dron_russia.jpg" width="1180px"  alt="">
+    </div>
+
+
+
+    <script>
+        const homeDiv1 = document.getElementById("homeDiv1");
+        const homeDiv2 = document.getElementById("homeDiv2");
+        document.querySelector('#switchHome').addEventListener('click', function (e) {
+            if (homeDiv1.style.display === "none" || homeDiv1.style.display === '') {
+                homeDiv1.style.display = "block";
+                homeDiv2.style.display = "none";     
+            } else {
+                homeDiv1.style.display = "none";
+                homeDiv2.style.display = "block";
+            }
+        });
+    </script>
 </div>

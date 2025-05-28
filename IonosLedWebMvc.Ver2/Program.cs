@@ -23,6 +23,8 @@ builder.Services.AddScoped<UserEventsService>();
 builder.Services.AddScoped<StatisticsService>();
 builder.Services.AddScoped<LampModelService>();
 
+builder.Services.AddSingleton<SingletonMode>();
+
 builder.Services.AddSession();
 
 var app = builder.Build();

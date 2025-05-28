@@ -59,7 +59,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
 
 		// GET: LampModel/Edit/5
 		[Authorize]
-		public async Task<IActionResult> Edit(uint? id)
+		public async Task<IActionResult> Edit(uint? id, string? resultImgUpload)
         {
             if (id == null)
             {
@@ -71,6 +71,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
             {
                 return NotFound();
             }
+            ViewBag.ImgUploadSuccess = resultImgUpload;
             return View(LampModelDto.FromLampModel(foundModel));
         }
 
@@ -202,7 +203,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
                 //Insert record
                 //_context.Add(imageModel);
                 //await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Edit), new { id = id, resultImgUpload = result });
             }
             return RedirectToAction(nameof(Edit), new { id = id });
         }

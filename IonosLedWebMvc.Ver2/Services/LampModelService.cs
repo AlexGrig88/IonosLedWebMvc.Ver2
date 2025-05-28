@@ -36,7 +36,7 @@ namespace IonosLedWebMvc.Ver2.Services
                 _context.LampModelDetails.Update(lampModelDetails);
                 await _context.SaveChangesAsync();
             }
-            return "Ok";
+            return "Файл изображения загружен успешно";
         }
 
         public async Task<string> AddNoteToDb(string noteArea, int id)
