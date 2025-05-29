@@ -9,28 +9,22 @@ namespace IonosLedWebMvc.Ver2.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly SingletonMode _Mode;
 
-        public HomeController(ILogger<HomeController> logger, SingletonMode mode)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _Mode = mode;
         }
 
-        public IActionResult Index(string homeMode)
+        public IActionResult Index(string appMode)
         {
-            ViewData["HomeMode"] = _Mode.IsDron ? "Дроны" : "Светильники";
-            if (homeMode != null) {
-                if (homeMode == "DronMode") {
-                    _Mode.IsDron = false;
-                    ViewData["HomeMode"] = "Светильники";
-                }
-                else {
-                    _Mode.IsDron = true;
-                    ViewData["HomeMode"] = "Дроны";
-                }
+            if (appMode == null && !HttpContext.Session.Keys.Contains("AppMode")) {
+                appMode = "LampMode";
             }
-            return View(_Mode);
+            appMode = appMode == null ? HttpContext.Session.GetString("AppMode") : appMode;
+            ViewData["AppMode"] = appMode;
+            HttpContext.Session.SetString("CurrentUser", "User");
+            HttpContext.Session.SetString("AppMode", appMode);
+            return View();
         }
 
         public IActionResult Privacy()

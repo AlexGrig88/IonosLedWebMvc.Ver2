@@ -2,7 +2,6 @@ using IonosLedWebMvc.Ver2.Data;
 using IonosLedWebMvc.Ver2.Repos;
 using IonosLedWebMvc.Ver2.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,9 +22,13 @@ builder.Services.AddScoped<UserEventsService>();
 builder.Services.AddScoped<StatisticsService>();
 builder.Services.AddScoped<LampModelService>();
 
-builder.Services.AddSingleton<SingletonMode>();
-
-builder.Services.AddSession();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = ".IonosProd.Session";
+    options.IdleTimeout = TimeSpan.FromHours(24);
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
