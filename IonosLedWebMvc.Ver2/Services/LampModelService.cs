@@ -127,21 +127,21 @@ namespace IonosLedWebMvc.Ver2.Services
         }
 
         private string GetIconViewExtension(string ext) =>
-    ext switch
-    {
-        ".txt" => "bi bi-filetype-txt icon-big",
-        ".pdf" => "bi bi-file-pdf icon-big",
-        ".png" => "bi bi-file-image icon-big",
-        ".jpg" => "bi bi-file-image icon-big",
-        ".jpeg" => "bi bi-file-image icon-big",
-        ".doc" => "bi bi-filetype-doc icon-big",
-        ".docx" => "bi bi-filetype-docx icon-big",
-        ".csv" => "bi bi-filetype-csv icon-big",
-        ".html" => "bi bi-filetype-html icon-big",
-        ".xls" => "bi bi-filetype-xls icon-big",
-        ".xlsx" => "bi bi-filetype-xlsx icon-big",
-        _ => "bi bi-file icon-big"
-    };
+            ext switch
+            {
+                ".txt" => "bi bi-filetype-txt icon-big",
+                ".pdf" => "bi bi-file-pdf icon-big",
+                ".png" => "bi bi-file-image icon-big",
+                ".jpg" => "bi bi-file-image icon-big",
+                ".jpeg" => "bi bi-file-image icon-big",
+                ".doc" => "bi bi-filetype-doc icon-big",
+                ".docx" => "bi bi-filetype-docx icon-big",
+                ".csv" => "bi bi-filetype-csv icon-big",
+                ".html" => "bi bi-filetype-html icon-big",
+                ".xls" => "bi bi-filetype-xls icon-big",
+                ".xlsx" => "bi bi-filetype-xlsx icon-big",
+                _ => "bi bi-file icon-big"
+            };
 
         private string GetSizeViewFile(long size)
         {

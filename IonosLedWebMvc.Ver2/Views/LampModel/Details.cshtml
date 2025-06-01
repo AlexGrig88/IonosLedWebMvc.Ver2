@@ -94,17 +94,15 @@
                     </tr>
                 </thead>
                 <tbody>
+                @foreach (var fileRec in ViewBag.FileRecords) {
                     <tr>
-                    <td><i class="bi bi-filetype-pdf icon-big"></i> example.doc</td>
-                        <td><a class="btn btn-primary">Смотреть</a>
+                        <td><i class="@fileRec.Extension"></i> @fileRec.FileName</td>
+                        <td>
+                            <a asp-action="LookFile" asp-route-fileName="@fileRec.FileName" class="btn btn-primary width-btn" title="Просмотреть"><i class="bi bi-eye"></i></a> |
+                            <a asp-action="DownloadFile" asp-route-fileName="@fileRec.FileName" class="btn btn-secondary width-btn" title="Скачать"><i class="bi bi-download"></i></a>
                         </td>
                     </tr>
-                    <tr>
-                    <td><i class="bi bi-filetype-txt icon-big"></i> згку123ds.pdf</td>
-                        <td><a class="btn btn-primary">Смотреть</a>
-                        </td>
-                    </tr>
-
+                }
                 </tbody>
             </table>
         </div>

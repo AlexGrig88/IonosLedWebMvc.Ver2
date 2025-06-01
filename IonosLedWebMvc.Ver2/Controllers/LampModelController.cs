@@ -177,6 +177,9 @@ namespace IonosLedWebMvc.Ver2.Controllers
 
             var lampModelDetails = await _context.LampModelDetails.FirstOrDefaultAsync(m => m.LampModelId == (int)id);
             ViewData["ImageName"] = lampModelDetails?.ImageName;
+            var filesWithSizesAsStr = await _lampModelService.GetAllFilesByModelId(id);
+            List<FileRecordForView> fileRecords = _lampModelService.ParseFileRecordDB(filesWithSizesAsStr);
+            ViewBag.FileRecords = fileRecords;
 
             if (startDate == null && endDate == null) {
                 ViewBag.StartDate = $"{DateTime.Now.Date:s}";

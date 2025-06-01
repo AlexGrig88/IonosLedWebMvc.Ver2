@@ -64,7 +64,7 @@ namespace IonosLedWebMvc.Ver2.Dtos
             Model = lamp?.Model ?? new LampModel() { ModelName = "" };
 
             if (lamp.LabelPrintUser == null || lamp.LabelPrintUser.Name != employeeName) {
-                LabelPrintUser = null;
+                LabelPrintUser = new User() { Name = "" };
                 LabelPrintTs = null;
             } else {
                 LabelPrintUser = lamp.LabelPrintUser;
@@ -72,7 +72,7 @@ namespace IonosLedWebMvc.Ver2.Dtos
             }
 
             if (lamp.CutUser == null || lamp.CutUser.Name != employeeName) {
-                CutUser = null;
+                CutUser = new User() { Name = "" };
                 AlProfileCutTs = null;
             }
             else {
@@ -81,7 +81,7 @@ namespace IonosLedWebMvc.Ver2.Dtos
             }
 
             if (lamp.DrillUser == null || lamp.DrillUser.Name != employeeName) {
-                DrillUser = null;
+                DrillUser = new User() { Name = "" };
                 AlProfileDrillTs = null;
             }
             else {
@@ -90,7 +90,7 @@ namespace IonosLedWebMvc.Ver2.Dtos
             }
 
             if (lamp.MountingUser == null || lamp.MountingUser.Name != employeeName) {
-                MountingUser = null;
+                MountingUser = new User() { Name = "" };
                 LedModuleMountingTs = null;
             }
             else {
@@ -99,7 +99,7 @@ namespace IonosLedWebMvc.Ver2.Dtos
             }
 
             if (lamp.AssemblingUser == null || lamp.AssemblingUser.Name != employeeName) {
-                AssemblingUser = null;
+                AssemblingUser = new User() { Name = "" };
                 LightAssemblingTs = null;
             }
             else {
@@ -108,7 +108,7 @@ namespace IonosLedWebMvc.Ver2.Dtos
             }
 
             if (lamp.SolderingUser == null || lamp.SolderingUser.Name != employeeName) {
-                SolderingUser = null;
+                SolderingUser = new User() { Name = "" };
                 LightSolderingTs = null;
             }
             else {
@@ -117,7 +117,7 @@ namespace IonosLedWebMvc.Ver2.Dtos
             }
 
             if (lamp.CheckingPackagingUser == null || lamp.CheckingPackagingUser.Name != employeeName) {
-                CheckingPackagingUser = null;
+                CheckingPackagingUser = new User() { Name = "" };
                 LightCheckingPackagingTs = null;
             }
             else {

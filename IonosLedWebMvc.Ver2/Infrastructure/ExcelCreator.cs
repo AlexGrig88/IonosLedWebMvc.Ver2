@@ -38,33 +38,47 @@ namespace IonosLedWebMvc.Ver2.Infrastructure
                 ws.Cell(i + 3, col + 3).Value = curr.BitrixOrder;
                 ws.Cell(i + 3, col + 4).Value = curr.Comment;
 
-                if (curr.LabelPrintTs == null) {
-                    ws.Cell(i + 3, col + 5).Value = "";
-				} else {
-                    ws.Cell(i + 3, col + 5).Value = curr.LabelPrintTs.ToString();
-				}
-                ws.Cell(i + 3, col + 6).Value = curr.LabelPrintUser != null ? curr.LabelPrintUser.Name : "";
+                if (curr.LabelPrintUser != null && curr.LabelPrintUser.Name == employeeName) {
+                    if (curr.LabelPrintTs == null) {
+                        ws.Cell(i + 3, col + 5).Value = "";
+                    }
+                    else {
+                        ws.Cell(i + 3, col + 5).Value = curr.LabelPrintTs.ToString();
+                    }
+                    ws.Cell(i + 3, col + 6).Value =  curr.LabelPrintUser.Name;
+                }
 
-                ws.Cell(i + 3, col + 7).Value = curr.AlProfileCutTs == null ? "" : curr.AlProfileCutTs.ToString();
-                ws.Cell(i + 3, col + 8).Value = curr.CutUser != null ? curr.CutUser.Name : "";
+                if (curr.CutUser != null && curr.CutUser.Name == employeeName) {
+                    ws.Cell(i + 3, col + 7).Value = curr.AlProfileCutTs == null ? "" : curr.AlProfileCutTs.ToString();
+                    ws.Cell(i + 3, col + 8).Value = curr.CutUser.Name;
+                }
 
-                ws.Cell(i + 3, col + 9).Value = curr.AlProfileDrillTs == null ? "" : curr.AlProfileDrillTs.ToString();
-                ws.Cell(i + 3, col + 10).Value = curr.DrillUser != null ? curr.DrillUser.Name : "";
+                if (curr.DrillUser != null  && curr.DrillUser.Name == employeeName) {
+                    ws.Cell(i + 3, col + 9).Value = curr.AlProfileDrillTs == null ? "" : curr.AlProfileDrillTs.ToString();
+                    ws.Cell(i + 3, col + 10).Value = curr.DrillUser.Name;
+                }
 
-                ws.Cell(i + 3, col + 11).Value = curr.LedModuleMountingTs == null ? "" : curr.LedModuleMountingTs.ToString();
-                ws.Cell(i + 3, col + 12).Value = curr.MountingUser != null ? curr.MountingUser.Name : "";
+                if (curr.MountingUser != null && curr.MountingUser.Name == employeeName) {
+                    ws.Cell(i + 3, col + 11).Value = curr.LedModuleMountingTs == null ? "" : curr.LedModuleMountingTs.ToString();
+                    ws.Cell(i + 3, col + 12).Value = curr.MountingUser.Name;
+                }
 
-                ws.Cell(i + 3, col + 13).Value = curr.LightSolderingTs == null ? "" : curr.LightSolderingTs.ToString();
-                ws.Cell(i + 3, col + 14).Value = curr.SolderingUser != null ? curr.SolderingUser.Name : "";
+                if (curr.SolderingUser != null && curr.SolderingUser.Name == employeeName) {
+                    ws.Cell(i + 3, col + 13).Value = curr.LightSolderingTs == null ? "" : curr.LightSolderingTs.ToString();
+                    ws.Cell(i + 3, col + 14).Value = curr.SolderingUser.Name;
+                }
 
-                ws.Cell(i + 3, col + 15).Value = curr.LightAssemblingTs == null ? "" : curr.LightAssemblingTs.ToString();
-                ws.Cell(i + 3, col + 16).Value = curr.AssemblingUser != null ? curr.AssemblingUser.Name : "";
+                if (curr.AssemblingUser != null && curr.AssemblingUser.Name == employeeName) {
+                    ws.Cell(i + 3, col + 15).Value = curr.LightAssemblingTs == null ? "" : curr.LightAssemblingTs.ToString();
+                    ws.Cell(i + 3, col + 16).Value =  curr.AssemblingUser.Name;
+                }
 
-                ws.Cell(i + 3, col + 17).Value = curr.LightCheckingPackagingTs == null ? "" : curr.LightCheckingPackagingTs.ToString();
-                ws.Cell(i + 3, col + 18).Value = curr.CheckingPackagingUser != null ? curr.CheckingPackagingUser.Name : "";
-
+                if (curr.CheckingPackagingUser != null && curr.CheckingPackagingUser.Name == employeeName) {
+                    ws.Cell(i + 3, col + 17).Value = curr.LightCheckingPackagingTs == null ? "" : curr.LightCheckingPackagingTs.ToString();
+                    ws.Cell(i + 3, col + 18).Value =  curr.CheckingPackagingUser.Name;
+                }
             }
-            
+
             for (int i = 1; i <= headers.Count; i++) {
                 ws.Column(i).Width = 20;
 

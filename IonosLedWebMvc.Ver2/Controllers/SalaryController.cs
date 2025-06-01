@@ -132,7 +132,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
             //Read the File data into Byte Array.
             byte[] bytes = System.IO.File.ReadAllBytes(fullpath);
 
-            fileName = "Detail_" + fileName + "_" + DateTime.Now.ToString() + ".xlsx"; 
+            fileName = "Detail_" + fileName + "_" + DateTime.Now.ToString().Replace('.', '_') + ".xlsx"; 
             //Send the File to Download.
             return File(bytes, "application/octet-stream", fileName);
         }
