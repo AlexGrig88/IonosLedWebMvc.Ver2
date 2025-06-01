@@ -50,7 +50,7 @@ public partial class ApplicationContext : DbContext
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Note).HasColumnName("note");
             entity.Property(e => e.LampModelId).HasColumnName("lamp_model_id");
-            entity.Property(e => e.FileName).HasColumnName("file_name");
+            entity.Property(e => e.FileNames).HasColumnName("file_names");
             entity.Property(e => e.ImageName).HasColumnName("image_name");
 
         });

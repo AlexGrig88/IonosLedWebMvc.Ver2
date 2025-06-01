@@ -60,7 +60,7 @@
                     </div>
 
                     <div class="form-group fix-btn-create">
-                        <input type="submit" value="Сохранить" class="btn btn-primary" />
+                        <input type="submit" value="Сохранить" class="btn btn-primary" /> | <a asp-action="Index">Назад к списку</a>
                     </div>
 
                 </form>
@@ -74,16 +74,14 @@
 
         <div class="row">
             <div class="col-md-12">
-                <form method="post" asp-controller="LampModel" asp-action="FileUpload" enctype="multipart/form-data">
+                <form method="post" asp-controller="LampModel" asp-action="ImageUpload" enctype="multipart/form-data">
                     <div asp-validation-summary="All" class="text-danger"></div>
-                    <label for="imageFile">Выбрать изображение форматов .jpg,.png,.gif</label>
+                    <label for="imageFile"><b>Выберите основное изображение формата .jpg,.png,.gif</b></label>
                     <input type="file" name="imageFile" accept=".jpg,.png,.gif" class="form-control" />
-
-                    
 
                     <input type="hidden" name="id" value="@Model.Id" />
 
-                    <button type="submit" name="FileUpload" class="btn btn-primary fix-btn-create">Загрузить</button>
+                    <button type="submit" class="btn btn-primary fix-btn-create">Загрузить</button>
                     <span class="text-success">@ViewBag.ImgUploadSuccess</span>
                 </form>
             </div>
@@ -92,7 +90,7 @@
         <hr />
         <form asp-controller="LampModel" asp-action="AddNote">
             <div class="form-group">
-                <label for="NoteArea">Дополнительные сведения</label>
+                <label for="NoteArea"><b>Дополнительные сведения</b></label>
                 <textarea placeholder="Новая заметка добавится к уже имеющимся..." class="form-control" id="NoteArea" name="NoteArea" style="height: 100px"></textarea>
             </div>
 
@@ -102,13 +100,47 @@
                 <input type="submit" value="Добавить" class="btn btn-primary" />
             </div>
         </form>
+        <hr />
+        <div class="col-md-12">
+            <form method="post" enctype="multipart/form-data" asp-controller="FilesUpload" asp-action="Index">
+                <div class="form-group">
+                    <label for="files"><b>Выберите один или несколько файлов для загрузки:</b></label>
+                    <input type="file" name="files" class="form-control" multiple />
+                </div>
+
+                <input type="hidden" name="id" value="@Model.Id" />
+                <div class="form-group fix-btn-create">
+                    <input type="submit" class="btn btn-primary" value="Загрузить" />
+                    <span class="text-success">@ViewBag.FilesUploadSuccess</span>
+                </div>
+            </form>
+        </div>
+        <h5 style="margin-top:20px">Прикрепленные файлы</h5>
+        <div class="col-md-12">
+            <table class="table table-bordered align-middle">
+                <thead>
+                    <tr>
+                        <th>Файл</th>
+                        <th>Размер</th>
+                        <th>Действие</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var fileRec in ViewBag.FileRecords) {
+
+                        <tr>
+                            <td><i class="@fileRec.Extension"></i> @fileRec.FileName</td>
+                            <td>@fileRec.Size</td>
+                            <td><a asp-action="DeleteAttachmentFile" asp-route-id="@Model.Id" asp-route-fileName="@fileRec.FileName" class="btn btn-danger">Удалить</a></td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Назад к списку</a>
-
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

@@ -67,9 +67,9 @@ namespace IonosLedWebMvc.Ver2.Controllers
             // Clear the user's session
             /*            HttpContext.Session.Clear();*/
             if (HttpContext.User.Identity != null && HttpContext.User.Identity.IsAuthenticated) {
-/*                if (HttpContext.User.Claims.Any(c => c.Type == IS_SAVED_SESSION && c.Value == "true")) {
+               /* if (HttpContext.User.Claims.Any(c => c.Type == IS_SAVED_SESSION && c.Value == "true")) {*/
                     HttpContext.Session.Clear();
-                }*/
+                //}
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             }
             
@@ -82,6 +82,11 @@ namespace IonosLedWebMvc.Ver2.Controllers
         public IActionResult SecurePage()
         {
             return View();
+        }
+
+        public string AccessDenied()
+        {
+            return "Access denied";
         }
     }
 }

@@ -6,18 +6,18 @@
         public int LampModelId { get; set; }
         public string? Note { get; set; } = null!;
         public string? ImageName { get; set; } = null!;
-        public string? FileName { get; set; } = null!;
+        public string? FileNames { get; set; } = null!; // paths to files with delimetr ';'
 
         public LampModelDetails()
         {
             
         }
 
-        public LampModelDetails(int modelId, string note = "", string imgName = "", string filename = "")
+        public LampModelDetails(int modelId, string note = "", string imgName = "", string fileNames = "")
         {
             LampModelId = modelId;
             ImageName = imgName;
-            FileName = filename;
+            FileNames = fileNames;
             Note = note;
         }
     }

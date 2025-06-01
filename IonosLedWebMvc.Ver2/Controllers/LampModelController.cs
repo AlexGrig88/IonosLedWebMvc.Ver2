@@ -8,6 +8,8 @@ using IonosLedWebMvc.Ver2.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Hosting;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Vml;
 
 namespace IonosLedWebMvc.Ver2.Controllers
 {
@@ -57,9 +59,10 @@ namespace IonosLedWebMvc.Ver2.Controllers
             return View(lampModelDto);
         }
 
-		// GET: LampModel/Edit/5
-		[Authorize]
-		public async Task<IActionResult> Edit(uint? id, string? resultImgUpload)
+        // GET: LampModel/Edit/5
+        // resultFilesInfo - параметр вида "resultUploads;FileName1,FileExtensions1,FileSize1;FileName2,FileExtensions2,FileSize2;..."
+        [Authorize]
+		public async Task<IActionResult> Edit(uint? id, string? resultImgUpload, string? resultFilesUpload)
         {
             if (id == null)
             {
@@ -72,6 +75,13 @@ namespace IonosLedWebMvc.Ver2.Controllers
                 return NotFound();
             }
             ViewBag.ImgUploadSuccess = resultImgUpload;
+            ViewBag.FilesUploadSuccess = resultFilesUpload;
+
+            
+            var filesWithSizesAsStr = await _lampModelService.GetAllFilesByModelId(id);
+            List<FileRecordForView> fileRecords = _lampModelService.ParseFileRecordDB(filesWithSizesAsStr);
+            ViewBag.FileRecords = fileRecords; 
+
             return View(LampModelDto.FromLampModel(foundModel));
         }
 
@@ -195,7 +205,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> FileUpload(IFormFile imageFile, uint id)
+        public async Task<IActionResult> ImageUpload(IFormFile imageFile, uint id)
         {
             if (ModelState.IsValid) {
                 //Save image to wwwroot/image
@@ -208,13 +218,38 @@ namespace IonosLedWebMvc.Ver2.Controllers
             return RedirectToAction(nameof(Edit), new { id = id });
         }
 
+        [Authorize]
+        [HttpPost("FilesUpload")]
+        public async Task<IActionResult> FilesUpload(List<IFormFile> files, uint id)
+        {
+            if (ModelState.IsValid && files.Count > 0) {
+                var resultUpload = await _lampModelService.SaveFiles(files, id);
+                return RedirectToAction(nameof(Edit), new { id = id, resultFilesUpload = resultUpload });
+            }
+            return RedirectToAction(nameof(Edit), new { id = id });
+
+            // process uploaded files
+            // Don't rely on or trust the FileName property without validation.
+            /*return Ok(new { count = files.Count, size, filePaths });*/
+        }
+
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> AddNote(string noteArea, uint id)
         {
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid && !string.IsNullOrEmpty(noteArea)) {
                 string result = await _lampModelService.AddNoteToDb(noteArea, (int)id);
                 return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction(nameof(Edit), new { id = id });
+        }
+
+        [Authorize]
+        public async Task<IActionResult> DeleteAttachmentFile(uint? id, string? fileName)
+        {
+            string result = "";
+            if (fileName != null) {
+                result = await _lampModelService.DeleteFileFromDetailsById(id, fileName);
             }
             return RedirectToAction(nameof(Edit), new { id = id });
         }
@@ -224,6 +259,8 @@ namespace IonosLedWebMvc.Ver2.Controllers
         {
             return _context.LampModels.Any(e => e.Id == id);
         }
+
+
 
     }
 }
