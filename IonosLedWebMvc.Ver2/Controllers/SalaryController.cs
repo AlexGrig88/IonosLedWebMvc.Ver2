@@ -110,7 +110,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
                 Directory.CreateDirectory(path);
             }
             _fileNameForExcel = Path.Combine(path, "Details_For_" + employeeName + ".xlsx");
-            ExcelCreator.GererateAndSaveFile(lampDtoList, _fileNameForExcel, employeeName, empSalary.Salary);
+            ExcelCreator.GererateAndSaveFile(lampDtoList, _fileNameForExcel, employeeName, empSalary.Salary, startDt, endDt);
             ///////////////////////////////////////////////////////
 
 
