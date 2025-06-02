@@ -6,10 +6,6 @@ using IonosLedWebMvc.Ver2.Services;
 using IonosLedWebMvc.Ver2.Models;
 using IonosLedWebMvc.Ver2.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Hosting;
-using DocumentFormat.OpenXml.Office2010.Excel;
-using DocumentFormat.OpenXml.Vml;
 
 namespace IonosLedWebMvc.Ver2.Controllers
 {

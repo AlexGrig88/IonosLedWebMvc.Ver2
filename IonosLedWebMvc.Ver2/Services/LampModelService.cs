@@ -14,22 +14,29 @@ namespace IonosLedWebMvc.Ver2.Services
         private readonly IWebHostEnvironment _hostEnvironment;
         private readonly ApplicationContext _context;
         private string _wwwRootPath;
-        private string storageFilesPath;
+        private string _storageFilesPath;
+        private string _storageImagePath;
 
         public LampModelService(IWebHostEnvironment hostEnvironment, ApplicationContext context)
         {
             _hostEnvironment = hostEnvironment;
             _context = context;
             _wwwRootPath = _hostEnvironment.WebRootPath;
-            storageFilesPath = System.IO.Path.Combine(_wwwRootPath, "storage_lamp_model_files");
+            _storageFilesPath = System.IO.Path.Combine(_wwwRootPath, "storage_lamp_model_files");
+            _storageImagePath = System.IO.Path.Combine(_wwwRootPath, "images", "lamp_models");
         }
 
         public async Task<string> SaveOrChangeImageFile(IFormFile imageFile, uint id)
         {
             string fileName = System.IO.Path.GetFileNameWithoutExtension(imageFile.FileName);
             string extension = System.IO.Path.GetExtension(imageFile.FileName);
+
+            if (!Directory.Exists(_storageImagePath)) {
+                Directory.CreateDirectory(_storageImagePath);
+            }
+
             fileName = $"Model{id}" + extension;
-            string path = System.IO.Path.Combine(_wwwRootPath + "/images/lamp_models/", fileName);
+            string path = System.IO.Path.Combine(_storageImagePath, fileName);
             using (var fileStream = new FileStream(path, FileMode.Create)) {
                 await imageFile.CopyToAsync(fileStream);
             }
@@ -65,7 +72,7 @@ namespace IonosLedWebMvc.Ver2.Services
         public async Task<string> SaveFiles(List<IFormFile> files, uint id)
         {
   
-            string directoryName = System.IO.Path.Combine(storageFilesPath, $"Model{id}");
+            string directoryName = System.IO.Path.Combine(_storageFilesPath, $"Model{id}");
             if (!Directory.Exists(directoryName)) {
                 Directory.CreateDirectory(directoryName);
             }
@@ -177,7 +184,7 @@ namespace IonosLedWebMvc.Ver2.Services
 
         private void DeleteFromStaticFiles(uint? id, string fileName)
         {
-            string directoryName = System.IO.Path.Combine(storageFilesPath, $"Model{id}");
+            string directoryName = System.IO.Path.Combine(_storageFilesPath, $"Model{id}");
             if (Directory.Exists(directoryName)) {
                 string filePath = System.IO.Path.Combine(directoryName, fileName);
                 FileInfo fileInfo = new FileInfo(filePath);
