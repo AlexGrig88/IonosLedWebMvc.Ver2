@@ -46,7 +46,7 @@ body {
 }
 
 .width-btn {
-    width: 60px !important;
+    width: 65px !important;
 }
 
 .sidebar-active {
@@ -217,3 +217,86 @@ body {
     font-size: 1.1em;
     color:brown;
 }
+/*Стили для алертинга -------->*/
+.alert-good {
+    padding: 12px;
+    background-color: indianred;
+    color: white;
+    opacity: 0.8;
+}
+
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.closebtn:hover {
+    color: black;
+}
+/*---------------------------*/
+
+/*Стили модального окна удаления -------->*/
+.cancelbtn, .deletebtn {
+    float: left;
+    width: 50%;
+}
+
+.container-modal {
+    padding: 16px;
+    text-align: center;
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 20%;
+    top: 10%;
+    width: 60%; /* Full width */
+    height: 60%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: #474e5d;
+    padding-top: 50px;
+    opacity:0.9;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+/* Style the horizontal ruler */
+.modal-hr {
+    border: 1px solid #f1f1f1;
+    margin-bottom: 25px;
+}
+
+.close {
+    position: absolute;
+    right: 35px;
+    top: 15px;
+    font-size: 40px;
+    font-weight: bold;
+    color: #f1f1f1;
+}
+
+    .close:hover,
+    .close:focus {
+        color: #f44336;
+        cursor: pointer;
+    }
+
+/* Clear floats */
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+/*---------------------------*/

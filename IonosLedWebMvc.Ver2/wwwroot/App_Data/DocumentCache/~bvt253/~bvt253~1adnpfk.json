@@ -1,0 +1,23 @@
+{
+  "CacheSourceKey": "bvt253",
+  "CachePdfKey": "bvt253/bvt253-1adnpfk.pdf",
+  "CacheInfoKey": "bvt253/bvt253-1adnpfk.json",
+  "CacheCopyKey": null,
+  "Document": "Type=FileSystem;File=my_sql_helper.txt;Location=\"Type=Physical;Path=C:\\Users\\UserGrig\\CSharpProjects\\IonosLedWebMvc.Ver2\\IonosLedWebMvc.Ver2\\wwwroot\\storage_lamp_model_files\\Model25\"",
+  "DocumentFileName": "my_sql_helper.txt",
+  "DownloadFileName": null,
+  "InputOptions": {
+    "$type": "GleamTech.DocumentUltimate.WordProcessingInputOptions, GleamTech.DocumentUltimate",
+    "FieldFileName": "my_sql_helper.txt",
+    "UpdateFields": true,
+    "Encoding": null,
+    "Format": "Txt",
+    "Password": null
+  },
+  "PdfOutputOptions": {
+    "Watermarks": [],
+    "Password": null,
+    "Attachments": [],
+    "Format": "Pdf"
+  }
+}

@@ -1,0 +1,30 @@
+﻿@using GleamTech.AspNet.Core
+@using GleamTech.DocumentUltimate
+@using GleamTech.DocumentUltimate.AspNet
+@using GleamTech.DocumentUltimate.AspNet.UI
+
+@{
+    Layout = null;
+    ViewData["Title"] = "DetailsLampModel";
+}
+
+
+@{
+    var documentViewer = new DocumentViewer
+    {
+        Width = 1620,
+        Height = 880,
+        Document = ViewData["FullPath"]?.ToString()
+    };
+}
+<html>
+    <head>
+        @this.RenderHead(documentViewer)
+    </head>
+    <body>
+        <h2>Просмотр документа</h2>
+        <div class="text-center align-content-center">
+            @this.RenderBody(documentViewer)
+        </div>
+    </body>
+</html>

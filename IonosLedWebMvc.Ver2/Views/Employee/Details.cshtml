@@ -41,7 +41,7 @@
         Количество событий: @Model.UserEventsDto.Count
     </div>
     @if (Model.UserEventsDto.Count > 0) {
-        <table class="table table-bordered align-content-center table-sm">
+        <table class="table table-bordered align-content-center table-sm w-auto">
             <thead>
                 <tr>
                     <th>
@@ -59,7 +59,7 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Ts)
                         </td>
-                        <td>
+                        <td style="text-align:center">
                             @Html.DisplayFor(modelItem => item.Event)
                         </td>
                 </tr>

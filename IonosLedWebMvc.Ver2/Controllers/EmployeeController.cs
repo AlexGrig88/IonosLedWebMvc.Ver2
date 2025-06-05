@@ -11,6 +11,8 @@ namespace IonosLedWebMvc.Ver2.Controllers
 {
 	public class EmployeeController : Controller
     {
+        private const string PREFIX_OK_RESULT = "Поздравляем! ";
+        private const string PREFIX_BAD_RESULT = "Готово! ";
         private readonly ApplicationContext _context;
         private readonly UserEventsService _eventsService;
 
@@ -23,10 +25,11 @@ namespace IonosLedWebMvc.Ver2.Controllers
         }
 
         // GET: Employee
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? userActionResult)
         {
             var usersList = await _context.Users.Include(u => u.Role).ToListAsync();
-
+            ViewData["UserActionResult"] = userActionResult;
+            ViewData["OK"] = PREFIX_OK_RESULT;
             // возьмём последние события за последнюю неделю
             var userIdToEvent = await _eventsService.GetLastEventFor(new TimeSpan(31, 0, 0, 0), usersList);
             return View(usersList.Select(u => EmployeeDto.FromUser(u, userIdToEvent)).OrderBy(u => u.Name));
@@ -78,7 +81,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
                 User newUser = GetUserFromEmployeeDto(employeeDto);
                 _context.Users.Add(newUser);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { userActionResult = $"{PREFIX_OK_RESULT}Сотрудник успешно создан." });
             }
             return View(employeeDto);
         }
@@ -136,41 +139,42 @@ namespace IonosLedWebMvc.Ver2.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { userActionResult = $"{PREFIX_OK_RESULT}Данные сотрудника успешно изменены." });
             }
             return View(employeeDto);
         }
 
-		// GET: Employee/Delete/5
-		[Authorize]
-		public async Task<IActionResult> Delete(uint? id)
-        {
-            if (id == null) return NotFound();
+        /*		// GET: Employee/Delete/5
+                [Authorize]
+                public async Task<IActionResult> Delete(uint? id)
+                {
+                    if (id == null) return NotFound();
 
-            var foundUser = await _context.Users.Include(u => u.Role)
-                .FirstOrDefaultAsync(u => u.Id == id);
-            if (foundUser == null)
-            {
-                return NotFound();
-            }
+                    var foundUser = await _context.Users.Include(u => u.Role)
+                        .FirstOrDefaultAsync(u => u.Id == id);
+                    if (foundUser == null)
+                    {
+                        return NotFound();
+                    }
 
-            return View(EmployeeDto.FromUser(foundUser));
-        }
+                    return View(EmployeeDto.FromUser(foundUser));
+                }*/
 
         // POST: Employee/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        /*        [HttpPost, ActionName("Delete")]
+                [ValidateAntiForgeryToken]*/
+        [HttpPost]
 		[Authorize]
-		public async Task<IActionResult> DeleteConfirmed(uint id)
+		public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            int res = id;
             var foundUser = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Id == id);
-            if (foundUser != null)
-            {
+            if (foundUser != null) {
                 _context.Users.Remove(foundUser);
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { userActionResult = $"{PREFIX_BAD_RESULT} Сотрудник успешно удален." });
         }
 
         private bool EmployeeExists(uint id) => _context.Users.Any(e => e.Id == id);

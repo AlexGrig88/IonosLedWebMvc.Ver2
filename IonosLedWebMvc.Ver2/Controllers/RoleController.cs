@@ -9,6 +9,8 @@ namespace IonosLedWebMvc.Ver2.Controllers
 {
     public class RoleController : Controller
     {
+        private const string PREFIX_OK_RESULT = "Поздравляем! ";
+        private const string PREFIX_BAD_RESULT = "Готово! ";
         private readonly ApplicationContext _context;
 
         public RoleController(ApplicationContext context)
@@ -17,9 +19,11 @@ namespace IonosLedWebMvc.Ver2.Controllers
         }
 
         // GET: Role
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? userActionResult)
         {
             var roles = await _context.Roles.ToListAsync();
+            ViewData["UserActionResult"] = userActionResult;
+            ViewData["OK"] = PREFIX_OK_RESULT;
             return View(roles.Select(r => RoleDto.FromRole(r)));
         }
 
@@ -43,7 +47,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
             {
                 _context.Roles.Add(RoleDto.ToRole(roleDto));
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { userActionResult = $"{PREFIX_OK_RESULT} Должность успешно создана." });
             }
             return View(roleDto);
         }
@@ -98,7 +102,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { userActionResult = $"{PREFIX_OK_RESULT} Должность успешно изменена." });
             }
             return View(roleDto);
         }
@@ -140,7 +144,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
             catch (DbUpdateException) {
                 return View("ExceptionView");
             }
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { userActionResult = $"{PREFIX_BAD_RESULT} Должность удалена." });
         }
 
         private bool RoleExists(uint id)

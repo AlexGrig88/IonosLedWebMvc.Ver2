@@ -84,9 +84,11 @@
                 <a asp-action="Index">Назад к списку</a>
             </div>
         </div>
+         @if (ViewBag.FileRecords.Count > 0) 
+        {
         <div class="col-sm-6">
         <h5 style="margin-top:28px">Прикрепленные файлы</h5>
-        <table class="table table-bordered align-middle w-auto">
+            <table class="table table-bordered table-sm align-middle w-auto">
                 <thead>
                     <tr>
                         <th>Файл</th>
@@ -96,17 +98,19 @@
                 <tbody>
                 @foreach (var fileRec in ViewBag.FileRecords) {
                     <tr>
-                        <td><i class="@fileRec.Extension"></i> @fileRec.FileName</td>
+                        <td style="width:75%;"><i class="@fileRec.Extension"></i> @fileRec.FileName</td>
                         <td>
-                            <a asp-action="LookFile" asp-route-fileName="@fileRec.FileName" class="btn btn-primary width-btn" title="Просмотреть"><i class="bi bi-eye"></i></a> |
-                            <a asp-action="DownloadFile" asp-route-fileName="@fileRec.FileName" class="btn btn-secondary width-btn" title="Скачать"><i class="bi bi-download"></i></a>
+                            <a target="_blank" asp-action="MyDocumentViewer" asp-route-fullPath="@fileRec.FullPath" class="btn btn-primary width-btn" title="Просмотреть"><i class="bi bi-eye"></i></a> |
+                                <a asp-action="DownloadFile" asp-route-fullPath="@fileRec.FullPath" asp-route-fileName="@fileRec.FileName" class="btn btn-secondary width-btn" title="Скачать"><i class="bi bi-download"></i></a>
                         </td>
                     </tr>
                 }
                 </tbody>
             </table>
         </div>
+        }
     </div>
+    
 
 
 
@@ -305,4 +309,4 @@
             </tbody>
         </table>
     }
-</div>
+

@@ -4,10 +4,17 @@
     ViewData["Title"] = "IndexRole";
 }
 
-<h2>Должности(роли)</h2>
+<h2>Должности</h2>
+
+@if (ViewData["UserActionResult"] != null) {
+    <div class="alert-good fix-btn-create" style="background-color: @(ViewData["UserActionResult"].ToString().StartsWith(ViewData["OK"].ToString()) ? " forestgreen" : "indianred")">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        <strong>@ViewData["UserActionResult"].</strong>
+    </div>
+}
 
 <p>
-    <a asp-action="Create" class="btn btn-primary min-margin-top">Создать новую должность</a>
+    <a asp-action="Create" class="btn btn-primary min-margin-top">Создать новую должность <i class="bi bi-plus-lg"></i></a>
 </p>
 <table class="table">
     <thead>

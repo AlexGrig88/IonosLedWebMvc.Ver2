@@ -2,15 +2,17 @@
 {
     public class FileRecordForView
     {
-        public FileRecordForView(string? fileName, string? extension, string? size)
+        public FileRecordForView(string? fileName, string? extension, string? size, string? fullPath)
         {
             FileName = fileName;
             Extension = extension;
             Size = size;
+            FullPath = fullPath;
         }
 
         public string? FileName { get; set; }
         public string? Extension { get; set; }
         public string? Size { get; set; }
+        public string? FullPath { get; set; }
     }
 }

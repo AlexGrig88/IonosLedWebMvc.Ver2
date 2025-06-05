@@ -6,11 +6,13 @@ using IonosLedWebMvc.Ver2.Models;
 using IonosLedWebMvc.Ver2.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
+using System.Xml.Linq;
 
 namespace IonosLedWebMvc.Ver2.Services
 {
     public class LampModelService
     {
+        private const string FILE_SEPARATOR = "|;|";
         private readonly IWebHostEnvironment _hostEnvironment;
         private readonly ApplicationContext _context;
         private string _wwwRootPath;
@@ -79,6 +81,11 @@ namespace IonosLedWebMvc.Ver2.Services
             foreach (var formFile in files) {
                 if (formFile.Length > 0) {
                     string fileName = System.IO.Path.GetFileNameWithoutExtension(formFile.FileName);
+
+                    if (fileName.Contains(FILE_SEPARATOR)) {
+                        return "Файл не загружен, т.к. имеет недопустимую подстроку вида |;|";
+                    }
+
                     string extension = System.IO.Path.GetExtension(formFile.FileName);
                     string fullFileName = fileName + extension;
                     string filePath = System.IO.Path.Combine(directoryName, fullFileName);
@@ -86,7 +93,7 @@ namespace IonosLedWebMvc.Ver2.Services
                     // работа с бд.
                     var lampModelDetail = _context.LampModelDetails.FirstOrDefault(m => m.LampModelId == id);
                     // Файл в бд записывается как название файла и через запятую его размер
-                    string fileNameRecordToDB = $"{fullFileName},{formFile.Length};"; 
+                    string fileNameRecordToDB = $"{fullFileName},{formFile.Length}{FILE_SEPARATOR}"; 
 
                     if (lampModelDetail == null) {
                         _context.LampModelDetails.Add(new LampModelDetails(modelId: (int)id, fileNames: fileNameRecordToDB));
@@ -117,21 +124,32 @@ namespace IonosLedWebMvc.Ver2.Services
             return lampModelDetail?.FileNames; 
         }
 
-        public List<FileRecordForView> ParseFileRecordDB(string? filesWithSizesAsStr)
+        public List<FileRecordForView> ParseFileRecordDB(string? filesWithSizesAsStr, int modelId)
         {
             List<FileRecordForView> fileRecords = new List<FileRecordForView>();
             if (filesWithSizesAsStr != null) {
-                string[] files = filesWithSizesAsStr.Split(';');
+                string[] files = filesWithSizesAsStr.Split(FILE_SEPARATOR);
                 foreach (var f in files) {
                     if (!string.IsNullOrWhiteSpace(f)) {
-                        var fNameAndSize = f.Split(',');
-                        var ext = fNameAndSize[0].Split('.')[1];
-                        fileRecords.Add(new FileRecordForView(fNameAndSize[0], GetIconViewExtension($".{ext}"), GetSizeViewFile(long.Parse(fNameAndSize[1]))));
+                        int lastComa = f.LastIndexOf(',');
+                        string fName = f.Substring(0, lastComa);
+                        string fSize = f.Substring(lastComa + 1);
+                        var ext = fName.Split('.')[^1];
+                        fileRecords.Add(new FileRecordForView(
+                            fName,
+                            GetIconViewExtension($".{ext}"),
+                            GetSizeViewFile(long.Parse(fSize)),
+                            GetFullPath(fName, modelId)
+                            )
+                        );
                     }
                 }
             }
             return fileRecords;
         }
+
+        private string GetFullPath(string fileName, int modelId) => System.IO.Path.Combine(_storageFilesPath, $"Model{modelId}", fileName);
+        
 
         private string GetIconViewExtension(string ext) =>
             ext switch
@@ -170,9 +188,9 @@ namespace IonosLedWebMvc.Ver2.Services
             StringBuilder sb = new StringBuilder("");
             var foundModelDetail = await _context.LampModelDetails.FirstOrDefaultAsync(m => m.LampModelId == id);
             if (foundModelDetail != null && !string.IsNullOrEmpty(foundModelDetail.FileNames)) {
-                foreach (string file in foundModelDetail.FileNames.Split(';'))
+                foreach (string file in foundModelDetail.FileNames.Split(FILE_SEPARATOR))
                 {
-                    if (!file.Contains(targetFileName) && !string.IsNullOrEmpty(file)) sb.Append(file).Append(';');
+                    if (!file.Contains(targetFileName) && !string.IsNullOrEmpty(file)) sb.Append(file).Append(FILE_SEPARATOR);
                 }
                 foundModelDetail.FileNames = sb.ToString();
                 _context.LampModelDetails.Update(foundModelDetail);

@@ -78,20 +78,6 @@ else {
         </dl>
         @if (!string.IsNullOrEmpty(ViewBag.EmployeeName))
         {
-@*             <div class="border-style">
-                <h6 style="color:green; font-size:18px">Зарплата всех сотрудников с @ViewBag.StartDateG по @ViewBag.EndDateG:</h6>
-                <div style="width:700px;overflow:auto;">
-                    @foreach (EmployeeSalary empSal in ViewBag.Salaries) {
-                        <div style="width:50%;float:left;">
-                            <span><b>@empSal.Name : </b></span>
-                        </div>
-                        <div style="width:50%;float:left;">
-                            <button style="width:160px">@empSal.Salary руб.</button>
-                        </div>
-                    }
-                </div>
-                @Html.RouteLink("Выгрузить детализацию в Excel файл", new { controller = "Salary", action = "DownloadFile", fileName = @ViewBag.EmployeeName }, new { id = "sam", @class = "btn btn-primary min-margin-top" })
-            </div> *@
             <div class="border-style">
                 <h6 style="color:green; font-size:18px">Зарплата сотрудника с @ViewBag.StartDateG по @ViewBag.EndDateG:</h6>
                 <div>

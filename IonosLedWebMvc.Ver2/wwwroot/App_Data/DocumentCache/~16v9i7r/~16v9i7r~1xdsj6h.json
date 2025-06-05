@@ -1,0 +1,19 @@
+{
+  "CacheSourceKey": "16v9i7r",
+  "CachePdfKey": "16v9i7r/16v9i7r-1xdsj6h.pdf",
+  "CacheInfoKey": "16v9i7r/16v9i7r-1xdsj6h.json",
+  "CacheCopyKey": null,
+  "Document": "Type=FileSystem;File=nophoto.jpg;Location=\"Type=Physical;Path=C:\\Users\\UserGrig\\CSharpProjects\\IonosLedWebMvc.Ver2\\IonosLedWebMvc.Ver2\\wwwroot\\storage_lamp_model_files\\Model25\"",
+  "DocumentFileName": "nophoto.jpg",
+  "DownloadFileName": null,
+  "InputOptions": {
+    "Format": "Jpg",
+    "Password": null
+  },
+  "PdfOutputOptions": {
+    "Watermarks": [],
+    "Password": null,
+    "Attachments": [],
+    "Format": "Pdf"
+  }
+}

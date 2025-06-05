@@ -11,6 +11,8 @@ namespace IonosLedWebMvc.Ver2.Controllers
 {
     public class LampModelController : Controller
     {
+        private const string PREFIX_OK_RESULT = "Поздравляем! ";
+        private const string PREFIX_BAD_RESULT = "Готово! ";
         private readonly ApplicationContext _context;
         private readonly LampService _lampService;
         private readonly LampModelService _lampModelService;
@@ -23,10 +25,12 @@ namespace IonosLedWebMvc.Ver2.Controllers
         }
 
         // GET: LampModel
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? userActionResult)
         {
             var models = await _context.LampModels.ToListAsync();
             var modelNameToCount = await _lampService.GetCountedModelsAsync();
+            ViewData["UserActionResult"] = userActionResult;
+            ViewData["OK"] = PREFIX_OK_RESULT;
             return View(models.Select(m => LampModelDto.FromLampModel(m, modelNameToCount)).OrderByDescending(m => m.CountReleased));
         }
 
@@ -50,7 +54,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
             {
                 _context.LampModels.Add(LampModelDto.ToLampModel(lampModelDto));
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { userActionResult = $"{PREFIX_OK_RESULT} Модель успешно создана." });
             }
             return View(lampModelDto);
         }
@@ -75,7 +79,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
 
             
             var filesWithSizesAsStr = await _lampModelService.GetAllFilesByModelId(id);
-            List<FileRecordForView> fileRecords = _lampModelService.ParseFileRecordDB(filesWithSizesAsStr);
+            List<FileRecordForView> fileRecords = _lampModelService.ParseFileRecordDB(filesWithSizesAsStr, (int)id);
             ViewBag.FileRecords = fileRecords; 
 
             return View(LampModelDto.FromLampModel(foundModel));
@@ -114,7 +118,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { userActionResult = $"{PREFIX_OK_RESULT} Модель успешно изменена." });
             }
             return View(lampModelDto);
         }
@@ -151,7 +155,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { userActionResult = $"{PREFIX_BAD_RESULT} Модель удалена." });
         }
 
 
@@ -174,7 +178,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
             var lampModelDetails = await _context.LampModelDetails.FirstOrDefaultAsync(m => m.LampModelId == (int)id);
             ViewData["ImageName"] = lampModelDetails?.ImageName;
             var filesWithSizesAsStr = await _lampModelService.GetAllFilesByModelId(id);
-            List<FileRecordForView> fileRecords = _lampModelService.ParseFileRecordDB(filesWithSizesAsStr);
+            List<FileRecordForView> fileRecords = _lampModelService.ParseFileRecordDB(filesWithSizesAsStr, (int)id);
             ViewBag.FileRecords = fileRecords;
 
             if (startDate == null && endDate == null) {
@@ -260,6 +264,18 @@ namespace IonosLedWebMvc.Ver2.Controllers
         }
 
 
+
+        public IActionResult MyDocumentViewer(string? fullPath)
+        {
+            ViewData["FullPath"] = fullPath;
+            return View();
+        }
+
+        public FileResult DownloadFile(string? fullPath, string? fileName)
+        {
+            byte[] bytes = System.IO.File.ReadAllBytes(fullPath);
+            return File(bytes, "application/octet-stream", fileName);
+        }
 
     }
 }

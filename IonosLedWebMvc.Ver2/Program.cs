@@ -1,3 +1,4 @@
+using GleamTech.AspNet.Core;
 using IonosLedWebMvc.Ver2.Data;
 using IonosLedWebMvc.Ver2.Repos;
 using IonosLedWebMvc.Ver2.Services;
@@ -21,6 +22,10 @@ builder.Services.AddScoped<SalaryService>();
 builder.Services.AddScoped<UserEventsService>();
 builder.Services.AddScoped<StatisticsService>();
 builder.Services.AddScoped<LampModelService>();
+//----------------------
+//Add GleamTech to the ASP.NET Core services container.
+builder.Services.AddGleamTech();
+//----------------------
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
@@ -39,7 +44,10 @@ if (!app.Environment.IsDevelopment()) {
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+//----------------------
+//Register GleamTech to the ASP.NET Core HTTP request pipeline.
+app.UseGleamTech();
+//----------------------
 /*app.UseHttpsRedirection();*/
 app.UseStaticFiles();
 

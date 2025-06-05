@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.104.2" />
+    <PackageReference Include="GleamTech.DocumentUltimate" Version="7.6.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.15">
       <PrivateAssets>all</PrivateAssets>
@@ -33,11 +34,12 @@
     <Folder Include="Resources\" />
     <Folder Include="wwwroot\ExcelFilesDir\" />
     <Folder Include="wwwroot\images\lamp_models\" />
+    <Folder Include="wwwroot\storage_lamp_model_files\" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="wwwroot\images\dron_russia.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="wwwroot\images\ionos_logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
