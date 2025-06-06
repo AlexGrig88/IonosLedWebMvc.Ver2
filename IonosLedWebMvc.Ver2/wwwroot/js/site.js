@@ -11,11 +11,25 @@ function passEmployee(emplName, id) {
     modal_p.innerText = `Вы уверены, что хотите удалить сотрудника ${emplName}?`;
 };
 
-function givMeLoader() {
+function giveMeLoader() {
     const loader = document.querySelector(".loader");
-    const calc_result_view = document.querySelectorAll(".calc-result-view");
-    calc_result_view.forEach(item => {
+    const hide_for_loader = document.querySelectorAll(".hide-for-loader");
+    hide_for_loader.forEach(item => {
         item.style.display = 'none';
     });
     loader.style.display = "block";
+}
+
+function openCity(evt, cityName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
 }

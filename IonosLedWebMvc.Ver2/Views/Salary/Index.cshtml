@@ -32,7 +32,7 @@
     </div>
 
     <div class="col-auto" style="margin-top: 28px">
-        <button onclick="givMeLoader()" type="submit" class="btn btn-primary" title="Рассчитать зарплату">Рассчитать <i class="bi bi-calculator"></i></button>
+        <button onclick="giveMeLoader()" type="submit" class="btn btn-primary" title="Рассчитать зарплату">Рассчитать <i class="bi bi-calculator"></i></button>
     </div>
 
 </form>
@@ -41,16 +41,16 @@
 <div class="loader container" style="display:none"></div>
 
 @if (Model == null) {
-    <h4 class="calc-result-view" style="color: red">Некорректные значения фильтра. Дата начала периода не может быть больше даты конца периода. Период для расчета не должен привышать 2-ух месяцев.</h4>
+    <h4 class="hide-for-loader" style="color: red">Некорректные значения фильтра. Дата начала периода не может быть больше даты конца периода. Период для расчета не должен привышать 2-ух месяцев.</h4>
 }
 else if (Model.Count == 0 && ViewBag.EmployeeName == null) {
     
 }
 else if (Model.Count == 0) {
-    <h4 class="calc-result-view" style="color: darkblue">Записей не найдено.</h4>
+    <h4 class="hide-for-loader" style="color: darkblue">Записей не найдено.</h4>
 }
 else {
-    <div class="calc-result-view">
+    <div class="hide-for-loader">
         <dl class="row">
             <dt class="col-sm-2">
                 Число записей:
@@ -109,7 +109,7 @@ else {
         }
     </div>
 
-    <table class="table table-bordered align-content-center table-sm calc-result-view" style="font-size:14px">
+    <table class="table table-bordered align-content-center table-sm hide-for-loader" style="font-size:14px">
         <thead>
             <tr>
                 <th>

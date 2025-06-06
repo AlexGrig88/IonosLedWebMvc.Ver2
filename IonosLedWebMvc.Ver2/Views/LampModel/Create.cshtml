@@ -7,6 +7,9 @@
 <h1>Создание</h1>
 
 <h4>Данные модели:</h4>
+<div class="info-create">
+    <p><strong>Информация!</strong> После сохранения основной информации, перейдите в режим редактирования для добавления изображения и других данных...</p>
+</div>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -64,6 +67,7 @@
 <div>
     <a asp-action="Index">Назад к списку</a>
 </div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

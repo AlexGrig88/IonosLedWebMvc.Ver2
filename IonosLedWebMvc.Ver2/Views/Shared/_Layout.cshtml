@@ -41,7 +41,7 @@
                         <hr />
 
                         <li class="nav-item @(ViewData["Title"].ToString().Contains("Employee") ? "sidebar-active" : "")">
-                            <a asp-controller="Employee" asp-action="Index" class="nav-link align-middle px-0 text-white">
+                            <a asp-controller="Employee" asp-action="Index" class="nav-link align-middle px-0 text-white" onclick="giveMeLoader()">
                                 <i class="fs-4 bi bi-people-fill"></i><span class="ms-1 d-none d-sm-inline">Сотрудники</span>
                             </a>
                         </li>
@@ -64,24 +64,24 @@
                         {
 
                             <li class="nav-item @(ViewData["Title"].ToString().Contains("Role") ? "sidebar-active" : "")">
-                                <a asp-controller="Role" asp-action="Index" class="nav-link align-middle px-0 text-white">
+                                <a asp-controller="Role" asp-action="Index" class="nav-link align-middle px-0 text-white" onclick="giveMeLoader()">
                                     <i class="bi bi-signpost-2"></i><span class="ms-1 d-none d-sm-inline">Должности и права</span>
                                 </a>
                             </li>
                             <li class="nav-item @(ViewData["Title"].ToString().Contains("Model") ? "sidebar-active" : "")">
-                                <a asp-controller="LampModel" asp-action="Index" class="nav-link align-middle px-0 text-white">
+                                <a asp-controller="LampModel" asp-action="Index" class="nav-link align-middle px-0 text-white" onclick="giveMeLoader()">
                                     <i class="bi bi-lightbulb-fill"></i><span class="ms-1 d-none d-sm-inline"> Модели светильников</span>
                                 </a>
                             </li>
 
                             <li class="nav-item @(ViewData["Title"].ToString().Contains("Lamps") ? "sidebar-active" : "")">
-                                <a asp-controller="Lamp" asp-action="IndexGetPost" class="nav-link align-middle px-0 text-white">
+                                <a asp-controller="Lamp" asp-action="IndexGetPost" class="nav-link align-middle px-0 text-white" onclick="giveMeLoader()">
                                     <i class="bi bi-database-fill"></i><span class="ms-1 d-none d-sm-inline"> Выпуск светильников</span>
                                 </a>
                             </li>
 
                             <li class="nav-item @(ViewData["Title"].ToString().Contains("Salary") ? "sidebar-active" : "")">
-                                <a asp-controller="Salary" asp-action="Index" class="nav-link align-middle px-0 text-white">
+                                <a asp-controller="Salary" asp-action="Index" class="nav-link align-middle px-0 text-white" onclick="giveMeLoader()">
                                     <i class="bi bi-cash"></i><span class="ms-1 d-none d-sm-inline"> Расчет ЗП</span>
                                 </a>
                             </li>
@@ -99,8 +99,8 @@
                                         <span class="ms-1 d-none d-sm-inline"> Статистика</span>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownStat">
-                                        <li><a asp-controller="Statistics" asp-action="LineGraphLamps" class="dropdown-item">Динамика производства</a></li>
-                                        <li><a asp-controller="Statistics" asp-action="GistoLampModels" class="dropdown-item">Рейтинг по моделям</a></li>
+                                        <li><a asp-controller="Statistics" asp-action="LineGraphLamps" class="dropdown-item" onclick="giveMeLoader()">Динамика производства</a></li>
+                                        <li><a asp-controller="Statistics" asp-action="GistoLampModels" class="dropdown-item" onclick="giveMeLoader()">Рейтинг по моделям</a></li>
                                     </ul>
                                 </div>
                             </li>
@@ -134,7 +134,10 @@
                 </div>
             </div>
             <div class="col py-3">
-                @RenderBody()
+                <div class="loader container" style="display:none"></div>
+                <div class="container-fluid  hide-for-loader" style="padding:5px; margin-left:5px; margin-right:5px;">
+                    @RenderBody()
+                </div>
             </div>
         </div>
     </div>
