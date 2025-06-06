@@ -102,7 +102,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index), new { userActionResult = $"{PREFIX_OK_RESULT} Должность успешно изменена." });
+                return RedirectToAction(nameof(Index), new { userActionResult = $"{PREFIX_OK_RESULT} Данные должности успешно изменены." });
             }
             return View(roleDto);
         }

@@ -22,7 +22,7 @@
     <form asp-action="DeleteConfirmed" method="post" class="modal-content">
         <div class="container-modal">
             <h1 style="color:darkred">Удаление сотрудника</h1>
-            <p><b>Вы уверены, что хотите удалить сотрудника </b></p>
+            <p>Вы уверены, что хотите удалить сотрудника </p>
 
             <input id="asp-del-js" type="hidden" name="id">
             <div class="clearfix">
@@ -85,14 +85,6 @@
 <script>
     // Get the modal
     var modal = document.getElementById('id01');
-
-    function passEmployee(emplName, id) {
-        const input_asp_delete = document.getElementById("asp-del-js");
-        input_asp_delete.setAttribute('value', `${id}`)
-        document.getElementById('id01').style.display = 'block';
-        const modal_p = document.querySelector(".container-modal p");
-        modal_p.innerText = `Вы уверены, что хотите удалить сотрудника ${emplName}?`;
-    };
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {

@@ -252,6 +252,10 @@ body {
     text-align: center;
 }
 
+.container-modal > p {
+    font-size:1.2em;
+}
+
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
@@ -263,7 +267,7 @@ body {
     overflow: auto; /* Enable scroll if needed */
     background-color: #474e5d;
     padding-top: 50px;
-    opacity:0.9;
+    opacity:0.95;
 }
 
 .modal-content {
@@ -272,11 +276,7 @@ body {
     border: 1px solid #888;
     width: 80%; /* Could be more or less, depending on screen size */
 }
-/* Style the horizontal ruler */
-.modal-hr {
-    border: 1px solid #f1f1f1;
-    margin-bottom: 25px;
-}
+
 
 .close {
     position: absolute;
@@ -300,3 +300,36 @@ body {
     display: table;
 }
 /*---------------------------*/
+
+
+/*Loader -------->*/
+.loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

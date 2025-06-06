@@ -9,7 +9,7 @@
 @if (ViewData["UserActionResult"] != null) {
     <div class="alert-good fix-btn-create" style="background-color: @(ViewData["UserActionResult"].ToString().StartsWith(ViewData["OK"].ToString()) ? " forestgreen" : "indianred")">
         <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-        <strong>@ViewData["UserActionResult"].</strong>
+        <strong>@ViewData["UserActionResult"]</strong>
     </div>
 }
 

@@ -62,7 +62,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
         // GET: LampModel/Edit/5
         // resultFilesInfo - параметр вида "resultUploads;FileName1,FileExtensions1,FileSize1;FileName2,FileExtensions2,FileSize2;..."
         [Authorize]
-		public async Task<IActionResult> Edit(uint? id, string? resultImgUpload, string? resultFilesUpload)
+		public async Task<IActionResult> Edit(uint? id, string? resultImgUpload, string? resultFilesUpload, string? resultNoteAdded)
         {
             if (id == null)
             {
@@ -76,6 +76,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
             }
             ViewBag.ImgUploadSuccess = resultImgUpload;
             ViewBag.FilesUploadSuccess = resultFilesUpload;
+            ViewBag.AddNoteSuccess = resultNoteAdded;
 
             
             var filesWithSizesAsStr = await _lampModelService.GetAllFilesByModelId(id);
@@ -118,7 +119,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index), new { userActionResult = $"{PREFIX_OK_RESULT} Модель успешно изменена." });
+                return RedirectToAction(nameof(Index), new { userActionResult = $"{PREFIX_OK_RESULT} Данные модели успешно изменены." });
             }
             return View(lampModelDto);
         }
@@ -242,7 +243,7 @@ namespace IonosLedWebMvc.Ver2.Controllers
         {
             if (ModelState.IsValid && !string.IsNullOrEmpty(noteArea)) {
                 string result = await _lampModelService.AddNoteToDb(noteArea, (int)id);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Edit), new { id = id, resultNoteAdded = result });
             }
             return RedirectToAction(nameof(Edit), new { id = id });
         }

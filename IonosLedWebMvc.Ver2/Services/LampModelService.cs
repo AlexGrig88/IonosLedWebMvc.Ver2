@@ -68,7 +68,7 @@ namespace IonosLedWebMvc.Ver2.Services
                 _context.LampModelDetails.Update(lampModelDetail);
                 await _context.SaveChangesAsync();
             }
-            return "Ok";
+            return "Новая заметка успешно добавлена";
         }
 
         public async Task<string> SaveFiles(List<IFormFile> files, uint id)
