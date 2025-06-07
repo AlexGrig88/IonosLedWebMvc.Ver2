@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\images\default_avatar.png" />
     <Content Remove="wwwroot\images\dron_russia.jpg" />
     <Content Remove="wwwroot\images\ionos_logo.png" />
     <Content Remove="wwwroot\images\iostreet50.jpg" />
@@ -38,6 +39,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="wwwroot\images\default_avatar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="wwwroot\images\dron_russia.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

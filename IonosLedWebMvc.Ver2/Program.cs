@@ -22,6 +22,7 @@ builder.Services.AddScoped<SalaryService>();
 builder.Services.AddScoped<UserEventsService>();
 builder.Services.AddScoped<StatisticsService>();
 builder.Services.AddScoped<LampModelService>();
+builder.Services.AddScoped<UserAuthService>();
 //----------------------
 //Add GleamTech to the ASP.NET Core services container.
 builder.Services.AddGleamTech();

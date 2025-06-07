@@ -10,7 +10,7 @@ namespace IonosLedWebMvc.Ver2.ViewModels
 
         [Required(ErrorMessage = "Введите имя или email")]
         [MaxLength(50, ErrorMessage = "Длина не должна превышать 50 символов")]
-        [DisplayName("Имя пользователя или почта")]
+        [DisplayName("Никнейм или почта")]
         public string UserNameOrEmail { get; set; }
 
         [Required(ErrorMessage = "Введите пароль")]

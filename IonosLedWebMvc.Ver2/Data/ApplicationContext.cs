@@ -62,9 +62,16 @@ public partial class ApplicationContext : DbContext
             entity.ToTable("user_auth");
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Email).HasColumnName("email");
-            entity.Property(e => e.Password).HasColumnName("password");
+            entity.Property(e => e.PasswordHash).HasColumnName("password");
             entity.Property(e => e.Username).HasColumnName("username");
             entity.Property(e => e.Phone).HasColumnName("phone");
+            entity.Property(e => e.FirstName).HasColumnName("first_name");
+            entity.Property(e => e.LastName).HasColumnName("last_name");
+            entity.Property(e => e.URole).HasColumnName("u_role").HasConversion<string>();
+            entity.Property(e => e.ProdGroup).HasColumnName("prod_group").HasConversion<string>();
+            entity.Property(e => e.AvatarImg).HasColumnName("avatar_img").HasColumnType("MediumBlob");
+            entity.Property(e => e.BirthDate).HasColumnName("birth_date");
+            entity.Property(e => e.RegisterDate).HasColumnName("register_date");
 
         });
 
