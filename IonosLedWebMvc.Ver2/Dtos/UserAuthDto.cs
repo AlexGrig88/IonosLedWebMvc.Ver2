@@ -5,7 +5,6 @@ namespace IonosLedWebMvc.Ver2.Dtos
 {
     public class UserAuthDto
     {
-        [Key]
         public int Id { get; set; }
         [Required]
         public string FirstName { get; set; } = string.Empty;

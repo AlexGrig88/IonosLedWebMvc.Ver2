@@ -26,5 +26,13 @@
                 "Дроны" => Group.DRONE,
                 _ => throw new InvalidOperationException()
             };
+
+        public static string GetRuStringRole(EnumStorage.UserRole role) =>
+            role switch
+            {
+                UserRole.ADMIN => "Администратор",
+                UserRole.EMPLOYEER => "Сотрудник",
+                _ => throw new InvalidOperationException()
+            };
     }
 }

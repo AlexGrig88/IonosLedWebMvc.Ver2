@@ -4,11 +4,11 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>Форма для регистрации пользователя</h1>
+<h1>Форма для регистрации   </h1>
 @if (@ViewBag.message != null) {
     <div class="alert-good fix-btn-create" style="background-color:forestgreen">
         <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-        <strong>(@ViewBag.message</strong>
+        <strong>@ViewBag.message</strong>
     </div>
 }
 <hr />
@@ -53,17 +53,22 @@
             <div class="form-group">
                 <input type="submit" value="Зарегистрироваться" class="btn btn-primary fix-btn-create" />
             </div>
-            @if (@ViewBag.message != null) {
-                <div class="fix-btn-create">
-                    <a asp-action="Login" value="Войти" class="btn btn-success fix-btn-create" />
-                </div>
-            }
         </form>
-        <div>
-            <a asp-controller="Home" asp-action="Index">Вернуться на главную</a>
-        </div>
+
     </div>
 </div>
+@if (@ViewBag.message != null)
+{
+    <div>
+        <a asp-action="Login" class="btn btn-success fix-btn-create">Войти</a>
+    </div>
+}
+<div>
+    <a asp-controller="Home" asp-action="Index">Вернуться на главную</a>
+</div>
+
+
+
 
 
     

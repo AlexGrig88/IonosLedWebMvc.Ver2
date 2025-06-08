@@ -6,6 +6,7 @@ using IonosLedWebMvc.Ver2.Infrastructure;
 using IonosLedWebMvc.Ver2.Services;
 using IonosLedWebMvc.Ver2.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
+using IonosLedWebMvc.Ver2.Models;
 
 namespace IonosLedWebMvc.Ver2.Controllers
 {
@@ -15,24 +16,29 @@ namespace IonosLedWebMvc.Ver2.Controllers
         private const string PREFIX_BAD_RESULT = "Готово! ";
         private readonly ApplicationContext _context;
         private readonly UserEventsService _eventsService;
+        private readonly UserAuthService _userAuthService;
 
         private List<string> _rolesList = new List<string>();
 
-        public EmployeeController(ApplicationContext context, UserEventsService eventsService)
+        public EmployeeController(ApplicationContext context, UserEventsService eventsService, UserAuthService userAuthService)
         {
             _context = context;
             _eventsService = eventsService;
+            _userAuthService = userAuthService;
         }
 
         // GET: Employee
         public async Task<IActionResult> Index(string? userActionResult)
         {
             var usersList = await _context.Users.Include(u => u.Role).ToListAsync();
+           
             ViewData["UserActionResult"] = userActionResult;
             ViewData["OK"] = PREFIX_OK_RESULT;
             // возьмём последние события за последнюю неделю
             var userIdToEvent = await _eventsService.GetLastEventFor(new TimeSpan(31, 0, 0, 0), usersList);
-            return View(usersList.Select(u => EmployeeDto.FromUser(u, userIdToEvent)).OrderBy(u => u.Name));
+            var employees = usersList.Select(u => EmployeeDto.FromUser(u, userIdToEvent)).OrderBy(u => u.Name);
+            var userAuthList = await _userAuthService.FindAll();
+            return View(new EmployeeWithUserAuth() { EmployeeList = employees, UserAuthList = userAuthList });
         }
 
 		// GET: Employee/Details/5

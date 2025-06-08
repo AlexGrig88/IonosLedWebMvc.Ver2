@@ -3,7 +3,7 @@ using IonosLedWebMvc.Ver2.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace IonosLedWebMvc.Ver2
+namespace IonosLedWebMvc.Ver2.Controllers
 {
     public class UserAuthController : Controller
     {

@@ -55,6 +55,24 @@ public partial class ApplicationContext : DbContext
 
         });
 
+        modelBuilder.Entity<AccessRights>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+            entity.ToTable("access_rights");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.AccessRoom1).HasColumnName("access_room1");
+            entity.Property(e => e.AccessRoom2).HasColumnName("access_room2");
+            entity.Property(e => e.AccessRoom3).HasColumnName("access_room3");
+            entity.Property(e => e.AccessRoom4).HasColumnName("access_room4");
+            entity.Property(e => e.AccessRoom5).HasColumnName("access_room5");
+            entity.Property(e => e.AccessRoom6).HasColumnName("access_room6");
+            entity.Property(e => e.AccessRoom7).HasColumnName("access_room7");
+            entity.Property(e => e.AccessRoom8).HasColumnName("access_room8");
+            entity.Property(e => e.UserAuthId).HasColumnName("user_auth_id");
+
+        });
+
         modelBuilder.Entity<UserAuth>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
@@ -72,6 +90,8 @@ public partial class ApplicationContext : DbContext
             entity.Property(e => e.AvatarImg).HasColumnName("avatar_img").HasColumnType("MediumBlob");
             entity.Property(e => e.BirthDate).HasColumnName("birth_date");
             entity.Property(e => e.RegisterDate).HasColumnName("register_date");
+
+            entity.HasOne(ua => ua.AccessRights).WithOne(access => access.UserAuth).HasForeignKey<AccessRights>(access => access.UserAuthId);
 
         });
 

@@ -1,4 +1,5 @@
-﻿@model IEnumerable<IonosLedWebMvc.Ver2.Dtos.EmployeeDto>
+﻿@using IonosLedWebMvc.Ver2.Infrastructure
+@model EmployeeWithUserAuth
 
 @{
     ViewData["Title"] = "IndexEmployeePage";
@@ -35,68 +36,197 @@
 
 
 <div class="tab">
-    <button class="tablinks active" onclick="openCity(event, 'London')">Сотрудники</button>
-    <button class="tablinks" onclick="openCity(event, 'Paris')">Пользователи "ИОНОС УП"</button>
-    <button class="tablinks" onclick="openCity(event, 'Tokyo')">Контроль доступа</button>
+    <button class="tablinks active" onclick="openCity(event, 'EmployeesTab')">Сотрудники</button>
+    <button class="tablinks" onclick="openCity(event, 'UserAuthListTab')">Пользователи "ИОНОС УП"</button>
+    <button class="tablinks" onclick="openCity(event, 'AccessTab')">Контроль доступа</button>
 </div>
 
-<div id="London" class="tabcontent" style="display:block;">
-    <table class="table table-striped table-sm">
+<div id="EmployeesTab" class="tabcontent" style="display:block;">
+    @if (Model.EmployeeList != null) {
+        <table class="table table-striped table-sm">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EmpDto.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EmpDto.Pin)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EmpDto.RoleName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EmpDto.Status)
+                    </th>
+                    <th>
+                        Действие
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.EmployeeList) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            ****
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RoleName)
+                        </td>
+                        <td style="font-weight:600">
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-secondary" title="Детали"><i class="bi bi-ticket-detailed"></i> Детали</a> |
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary width-btn" title="Изменить"><i class="bi bi-pencil-fill"></i></a> |
+
+                            @*                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger width-btn" title="Удалить"> <i class="bi bi-trash-fill"></i></a> *@
+                            <button onclick="passEmployee('@item.Name', '@item.Id')" class="btn btn-danger width-btn" title="Удалить"> <i class="bi bi-trash-fill"></i></button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+</div>
+
+<div id="UserAuthListTab" class="tabcontent">
+    @if (Model.UserAuthList != null) {
+        <table class="table table-striped table-sm">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserAuthWithAccessDto.AvatarImg)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserAuthWithAccessDto.FirstName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserAuthWithAccessDto.LastName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserAuthWithAccessDto.Username)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserAuthWithAccessDto.Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserAuthWithAccessDto.Phone)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserAuthWithAccessDto.ProdGroup)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserAuthWithAccessDto.URole)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserAuthWithAccessDto.RegisterDate)
+                    </th>
+                    <th>
+                        Действие
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.UserAuthList) {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AvatarImg)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Username)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Phone)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProdGroup)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.URole)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RegisterDate)
+                        </td>
+                        <td>
+                            <a href="#" class="btn btn-secondary" title="Детали"><i class="bi bi-ticket-detailed"></i> Детали</a> |
+                            <a href="#" class="btn btn-primary width-btn" title="Изменить"><i class="bi bi-pencil-fill"></i></a> |
+
+                            @*                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger width-btn" title="Удалить"> <i class="bi bi-trash-fill"></i></a> *@
+                            @* <button onclick="passEmployee('@item.Name', '@item.Id')" class="btn btn-danger width-btn" title="Удалить"> <i class="bi bi-trash-fill"></i></button> *@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+<div id="AccessTab" class="tabcontent">
+    <table class="table">
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Name)
+                    @Html.DisplayNameFor(model => model.UserAuthWithAccessDto.Username)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Pin)
+                   Помещение1
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.RoleName)
+                    Помещение2
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Status)
+                    Помещение3
                 </th>
                 <th>
-                    Действие
+                    Помещение4
                 </th>
+                <th>
+                    Помещение5
+                </th>
+                <th>
+                    Помещение6
+                </th>
+                <th>
+                    Помещение7
+                </th>
+                <th>
+                    Помещение8
+                </th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model) {
+            @foreach (var item in Model.UserAuthList) {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Name)
+                        @Html.DisplayFor(modelItem => item.Username)
                     </td>
+                    @foreach (var acc in item.RoomAccesses) {
+                        <td>
+                            @Html.DisplayFor(modelItem => acc)
+                        </td>
+                    }
                     <td>
-                        ****
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.RoleName)
-                    </td>
-                    <td style="font-weight:600">
-                        @Html.DisplayFor(modelItem => item.Status)
-                    </td>
-                    <td>
-                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-secondary" title="Детали"><i class="bi bi-ticket-detailed"></i> Детали</a> |
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary width-btn" title="Изменить"><i class="bi bi-pencil-fill"></i></a> |
-
-                        @*                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger width-btn" title="Удалить"> <i class="bi bi-trash-fill"></i></a> *@
-                        <button onclick="passEmployee('@item.Name', '@item.Id')" class="btn btn-danger width-btn" title="Удалить"> <i class="bi bi-trash-fill"></i></button>
+                        <a href="#" class="btn btn-outline-primary">Изменить</a> |
+                        <a href="#" class="btn btn-outline-danger">Удалить</a>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-</div>
-
-<div id="Paris" class="tabcontent">
-    <h3>Paris</h3>
-    <p>Paris is the capital of France.</p>
-</div>
-
-<div id="Tokyo" class="tabcontent">
-    <h3>Tokyo</h3>
-    <p>Tokyo is the capital of Japan.</p>
 </div>
 
 

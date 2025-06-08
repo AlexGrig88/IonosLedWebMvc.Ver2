@@ -29,6 +29,8 @@ namespace IonosLedWebMvc.Ver2.Models.Entities
         [Required]
         public DateTime RegisterDate { get; set; } = DateTime.Now;
 
+        public AccessRights? AccessRights { get; set; }
+
         public UserAuth() { }
 
         public UserAuth(string firstName, string lastName, string username, string email, string? passwordHash)
@@ -41,6 +43,18 @@ namespace IonosLedWebMvc.Ver2.Models.Entities
             RegisterDate = DateTime.Now;
             ProdGroup = EnumStorage.Group.DRONE;
             URole = EnumStorage.UserRole.EMPLOYEER;
+            AccessRights = new AccessRights()
+            {
+                AccessRoom1 = false,
+                AccessRoom2 = false,
+                AccessRoom3 = false,
+                AccessRoom4 = false,
+                AccessRoom5 = false,
+                AccessRoom6 = false,
+                AccessRoom7 = false,
+                AccessRoom8 = false
+            };
         }
     }
 }
+    

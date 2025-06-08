@@ -1,4 +1,5 @@
 ﻿using IonosLedWebMvc.Ver2.Data;
+using IonosLedWebMvc.Ver2.Dtos;
 using IonosLedWebMvc.Ver2.Infrastructure;
 using IonosLedWebMvc.Ver2.Models.Entities;
 using IonosLedWebMvc.Ver2.ViewModels;
@@ -13,6 +14,13 @@ namespace IonosLedWebMvc.Ver2.Services
         public UserAuthService(ApplicationContext context)
         {
             _context = context;
+        }
+
+        public async Task<IEnumerable<UserAuthWithAccessDto>> FindAll()
+        {
+            return await _context.UserAuths
+                .Include(u => u.AccessRights)
+                .Select(u => UserAuthWithAccessDto.FromUserAuthWithAccess(u)).ToListAsync();
         }
 
         public async Task<(bool isSucces, string msg)> CreateAsync(RegisterViewModel regModel)
@@ -35,7 +43,7 @@ namespace IonosLedWebMvc.Ver2.Services
             {
                 return (null, "Вход не выполнен. Проверьте правильность вводимых никнейма или email.");
             }
-            else if (SecretHasher.Verify(loginModel.Password, currUserAuth.PasswordHash)) {
+            else if (!SecretHasher.Verify(loginModel.Password, currUserAuth.PasswordHash)) {
                 return (null, "Пароль не верный. Попробуйте повторить попытку.");
             }
             else {
