@@ -13,7 +13,7 @@ namespace IonosLedWebMvc.Ver2.ViewModels
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "Поле обязательно для заполнения")]
-        [Display(Name = "Никнейм")]
+        [Display(Name = "Username")]
         public string Username { get; set; }
 
         [Required(ErrorMessage = "Поле обязательно для заполнения")]

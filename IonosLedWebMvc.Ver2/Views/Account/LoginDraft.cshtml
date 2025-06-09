@@ -4,10 +4,12 @@
     ViewData["Title"] = "Login";
 }
 
+<h1></h1>
 
 <hr />
 
-<div class="login-form" style="width:30%;margin-top:10em;">
+
+<div class="container" style="width:30%;margin-top:10em;">
     <div class="text-center">
         <form asp-action="Login" method="post" class="form-signin">
             <h2 class="h3 mb-3 font-weight-normal">Авторизация</h2>
@@ -35,11 +37,12 @@
                 <a asp-action="Register" class="btn btn-secondary">Зарегистрироваться</a>
             </div>
             <div class="mt-10">
-                <a asp-controller="Home" asp-action="Index">Вернуться на главную</a>
+                <a asp-controller="Home" asp-action="Index" >Вернуться на главную</a>
             </div>
         </form>
     </div>
 </div>
+
 
 
 @section Scripts {

@@ -39,15 +39,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="wwwroot\images\default_avatar.png">
+    <EmbeddedResource Include="wwwroot\images\default_avatar.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="wwwroot\images\dron_russia.jpg">
+    </EmbeddedResource>
+    <EmbeddedResource Include="wwwroot\images\dron_russia.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="wwwroot\images\ionos_logo.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="wwwroot\images\ionos_logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
