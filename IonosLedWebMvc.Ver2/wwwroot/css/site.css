@@ -519,11 +519,10 @@ body {
 
 .form-control, .btn {
     min-height: 38px;
-    border-radius: 2px;
 }
 
 .btn {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: bold;
 }
 .form-group 
