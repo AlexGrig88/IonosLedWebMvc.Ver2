@@ -21,6 +21,33 @@ body {
   margin-bottom: 60px;
 }
 
+.sidebar {
+    min-height: 100vh;
+    border-right: 1px solid #e5e5e5;
+}
+
+.sidebar-dark .nav-link.active {
+    background-color: #1b6ec2 !important; /* Bootstrap primary blue */
+    color: #fff !important;
+    border-radius: 3px;
+}
+
+.btn-mt {
+    margin-top: 1rem;
+}
+
+.sidebar-separator {
+    background: #676666;
+    margin: 1rem 0;
+    opacity: 0.8;
+}
+
+.span-header {
+    font-size: 1.8rem;
+    color: greenyellow;
+    text-transform: uppercase;
+}
+
 .fix-btn-create {
     margin-top: 8px;
     margin-bottom: 8px;
@@ -530,3 +557,9 @@ body {
     margin:10px;
 }
 /* --------------------------------------------------------- */
+
+.span-sub-header {
+    font-size: 24px;
+    color: greenyellow;
+    text-transform: uppercase;
+}

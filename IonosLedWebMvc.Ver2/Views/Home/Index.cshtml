@@ -13,7 +13,7 @@
         <input type="hidden" name="appMode" value="@(ViewData["AppMode"]?.ToString() == "LampMode" ? "DronMode" : "LampMode")" />
         <button type="submit" class="button" id="switchHome">
             @if (ViewData["AppMode"].ToString() == "LampMode") {
-                <div class="button-top">Дроны</div>
+                <div class="button-top">Z-режим</div>
             } else {
                 <div class="button-top">Светильники</div>
             }
@@ -25,11 +25,11 @@
     <div id="homeDiv1" style="display: @(ViewData["AppMode"]?.ToString() == "DronMode" ? "none" : "block");">
         <h3>Освещаем путь в будущее...</h3>
 @*         <p><a href="https://ionos.ru/">Посетить сайт компании - Светотехнический завод ООО "ИОНОС".</a>.</p> *@
-        <a href="#"><img src="~/images/ionos_logo.png" width="360px"></a>
+        <a href="#"><img src="~/images/ionos_logo.png" width="340px"></a>
     </div>
     <div id="homeDiv2" style="display: @(ViewData["AppMode"]?.ToString() == "LampMode" ? "none" : "block");">
         <h3>Zа Победу, Zа Россию, Za Справедливость...</h3>
-        <img src="~/images/dron_russia.jpg" width="1080px" style="border-radius:8px"  alt="">
+        <img src="~/images/dron_russia.jpg" width="380px" style="border-radius:8px"  alt="">
     </div>
 
 

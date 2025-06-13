@@ -3,6 +3,34 @@
 
 // Write your JavaScript code.
 
+document.addEventListener('DOMContentLoaded', function () {
+    var menuBtn = document.getElementById('menuToggleBtn');
+    var mainContent = document.getElementById('mainContent');
+    var sidebarMenu = document.getElementById('sidebarMenu');
+
+    if (menuBtn && mainContent && sidebarMenu) {
+        menuBtn.addEventListener('click', function () {
+            // Wait for the sidebar to finish toggling (Bootstrap collapse is animated)
+            setTimeout(function () {
+                var isCollapsed = !sidebarMenu.classList.contains('show');
+                if (!isCollapsed) {
+                    mainContent.style.display = 'none';
+                } else {
+                    mainContent.style.display = '';
+                }
+            }, 350); // Bootstrap default collapse transition is 300ms
+        });
+
+        // Also handle sidebar collapse events (in case user clicks outside)
+        sidebarMenu.addEventListener('shown.bs.collapse', function () {
+            mainContent.style.display = 'none';
+        });
+        sidebarMenu.addEventListener('hidden.bs.collapse', function () {
+            mainContent.style.display = '';
+        });
+    }
+});
+
 function passEmployee(emplName, id) {
     const input_asp_delete = document.getElementById("asp-del-js");
     input_asp_delete.setAttribute('value', `${id}`)

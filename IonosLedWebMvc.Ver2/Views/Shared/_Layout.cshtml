@@ -13,7 +13,93 @@
     <script src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
+    <header class="bg-dark">
+        <button id="menuToggleBtn" class="menu-btn btn btn-primary d-md-none mb-3"
+                type="button" data-bs-toggle="collapse"
+                data-bs-target="#sidebarMenu"
+                aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle sidebar"
+                style="margin-top:10px; margin-left:10px">
+            ☰ Menu
+        </button>
+    </header>
     <div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar sidebar-dark collapse hide-for-loader">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <span class="span-header">
+                            ИОНОС УП
+                        </span>
+                    </li>
+                    <li class="nav-item">
+                        @if (Context.Session.Keys.Contains("AppMode") && Context.Session.GetString("AppMode") == "DronMode") {
+                            <span class="d-sm-inline span-sub-header">Z-режим</span>
+                        }
+                        else {
+                            <span class="d-sm-inline span-sub-header">Светильники</span>
+                        }
+                    </li>
+                </ul>
+                <hr class="sidebar-separator">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="Home" asp-action="Index" onclick="giveMeLoader()"
+                        class="nav-link text-white @(ViewData["Title"].ToString().Contains("Home") ? "active" : "")" >
+                            <i class="fs-4 bi bi-house-fill"></i>  Главная
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Employee" asp-action="Index" class="nav-link text-white @(ViewData["Title"].ToString().Contains("Employee") ? "active" : "")" onclick="giveMeLoader()">
+                            <i class="fs-4 bi bi-people-fill"></i><span> Сотрудники</span>
+                        </a>
+                    </li>
+                    <!-- Add more sidebar links here -->
+						@await Html.PartialAsync("_ReservedItemsPartial") <!-- При добавлении новых пунктов меню, удалять айтемы из этого файла -->
+
+                      @if (Context.User.Identity.Name == null) {
+
+                            <li class="nav-item">
+                                    <a asp-controller="Account" asp-action="Login" style="color:lightpink; font-size:1.2rem;" 
+                                        class="nav-link  @(ViewData["Title"].ToString().Contains("Login") ? "active" : "")" >
+                                        <i class="bi bi-box-arrow-in-right"></i> Войти
+                                    </a>
+                            </li>
+
+                        }
+                        else {
+                            <li class="nav-item">
+                                <div class="dropdown">
+                                    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img src="~/images/default_avatar.png" alt="" width="64" height="32" class="rounded-circle">
+                                        <strong>@Context.User.Identity.Name</strong>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout"><i class="bi bi-box-arrow-in-right"></i> Выйти</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+
+                        }
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 btn-mt">
+            <div class="loader container" style="display:none"></div>
+            <div class="hide-for-loader" id="mainContent">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+</div>
+
+
+@*     <div class="container-fluid">
         <div class="row flex-nowrap">
             <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark" style="width:260px">
                 <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
@@ -91,11 +177,6 @@
                                 </a>
                             </li>
 
-                            @*                        <li class="nav-item @(ViewData["Title"].ToString().Contains("Statistics") ? "sidebar-active" : "")">
-                            <a asp-controller="Statistics" asp-action="GistoLampModels" class="nav-link align-middle px-0 text-white">
-                                <i class="bi bi-bar-chart-line"></i><span class="ms-1 d-none d-sm-inline">Статистика в графиках</span>
-                            </a>
-                        </li> *@
 
                             <li class="nav-item @(ViewData["Title"].ToString().Contains("Statistics") ? "sidebar-active" : "")" style="padding:5px">
                                 <div class="dropdown">
@@ -131,8 +212,6 @@
                                         <strong>@Context.User.Identity.Name</strong>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                                        @*         <li><a class="dropdown-item" href="#">New project...</a></li>
-                                    <li><a class="dropdown-item" href="#">Settings</a></li> *@
                                         <li><a class="dropdown-item" href="#">Profile</a></li>
                                         <li><hr class="dropdown-divider"></li>
                                         <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout"><i class="bi bi-box-arrow-in-right"></i> Выйти</a></li>
@@ -141,7 +220,7 @@
                             </li>
 
                         }
-                       @*  @await Html.PartialAsync("_LoginPartial_2") *@
+                       @*  @await Html.PartialAsync("_LoginPartial_2") 
 
                     </ul>
                     <hr>
@@ -155,7 +234,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> *@
 
     <footer class="border-top footer text-muted">
         <div class="container">
