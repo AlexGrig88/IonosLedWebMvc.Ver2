@@ -1,19 +1,23 @@
-﻿@if (Context.User.Identity.Name != null) {
+﻿@if (Context.User.Identity.Name == null) {
 
-		<ul class="nav navbar-nav navbar-right">
-			<li class="nav-item">
-				Админ @Context.User.Identity.Name
-			</li>
-			<li>
-				<a class="nav-link align-middle px-0 text-white" asp-controller="Account" asp-action="Logout" style="color:cornflowerblue!important"><i class="bi bi-box-arrow-in-left"></i> Выйти</a>
-			</li>
-		</ul>
-	
+
+    <a asp-controller="Account" asp-action="Login" style="color:lightpink; font-size:1.2rem;"
+       class="nav-link  @(ViewData["Title"].ToString().Contains("Login") ? "active" : "")">
+        <i class="bi bi-box-arrow-in-right"></i> Войти
+    </a>
+
+
 }
 else {
-	<ul class="nav navbar-nav navbar-right @(ViewData["Title"].ToString().Contains("Login") ? "sidebar-active" : "")" >
-		<li>
-			<a class="nav-link align-middle px-0 text-white" asp-controller="Account" asp-action="Login" style="color:cornflowerblue!important"><i class="bi bi-box-arrow-in-right"></i> Войти</a>
-		</li>
-	</ul>
+    <div class="dropdown">
+        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="~/images/default_avatar.png" alt="" width="64" height="32" class="rounded-circle">
+            <strong>@Context.User.Identity.Name</strong>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout"><i class="bi bi-box-arrow-in-right"></i> Выйти</a></li>
+        </ul>
+    </div>
 }

@@ -3,10 +3,12 @@
 
 // Write your JavaScript code.
 
+
 document.addEventListener('DOMContentLoaded', function () {
-    var menuBtn = document.getElementById('menuToggleBtn');
-    var mainContent = document.getElementById('mainContent');
-    var sidebarMenu = document.getElementById('sidebarMenu');
+    const menuBtn = document.getElementById('menuToggleBtn');
+    const mainContent = document.getElementById('mainContent');
+    const sidebarMenu = document.getElementById('sidebarMenu');
+
 
     if (menuBtn && mainContent && sidebarMenu) {
         menuBtn.addEventListener('click', function () {

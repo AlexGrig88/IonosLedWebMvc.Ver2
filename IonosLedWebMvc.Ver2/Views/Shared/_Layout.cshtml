@@ -1,6 +1,4 @@
-﻿
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -13,14 +11,27 @@
     <script src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
-    <header class="bg-dark">
-        <button id="menuToggleBtn" class="menu-btn btn btn-primary d-md-none mb-3"
-                type="button" data-bs-toggle="collapse"
-                data-bs-target="#sidebarMenu"
-                aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle sidebar"
-                style="margin-top:10px; margin-left:10px">
-            ☰ Menu
-        </button>
+    <header class="bg-dark d-flex align-items-center justify-content-between px-2">
+        <div class="d-flex align-items-center">
+            <button id="menuToggleBtn" class="menu-btn btn btn-primary d-md-none mb-2 mt-2"
+                    type="button" data-bs-toggle="collapse"
+                    data-bs-target="#sidebarMenu"
+                    aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle sidebar"
+                    >
+                ☰ Menu
+            </button>
+        </div>
+            <div class="d-flex align-items-center d-md-none" style="color:greenyellow;">
+                @if (Context.Session.Keys.Contains("AppMode") && Context.Session.GetString("AppMode") == "DronMode") {
+                    <a asp-controller="Home" asp-action="Index"  class="a-header accept-policy fs-4 me-2">Z-режим</a>
+                    }
+                    else {
+                        <a asp-controller="Home" asp-action="Index"  class="a-header accept-policy fs-4 me-2">Светильники</a>
+                        }
+            </div>
+        <div id="item-account" class="d-md-none mb-1">
+            @await Html.PartialAsync("_LoginPartial")
+        </div>
     </header>
     <div class="container-fluid">
     <div class="row">
@@ -51,39 +62,63 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a asp-controller="Employee" asp-action="Index" class="nav-link text-white @(ViewData["Title"].ToString().Contains("Employee") ? "active" : "")" onclick="giveMeLoader()">
+                        <a asp-controller="Employee" asp-action="Index"
+                            class="nav-link text-white @(ViewData["Title"].ToString().Contains("Employee") ? "active" : "")" onclick="giveMeLoader()">
                             <i class="fs-4 bi bi-people-fill"></i><span> Сотрудники</span>
                         </a>
                     </li>
                     <!-- Add more sidebar links here -->
-						@await Html.PartialAsync("_ReservedItemsPartial") <!-- При добавлении новых пунктов меню, удалять айтемы из этого файла -->
 
-                      @if (Context.User.Identity.Name == null) {
 
+                        @if (Context.Session.Keys.Contains("AppMode") && Context.Session.GetString("AppMode") == "DronMode")
+                        {
                             <li class="nav-item">
-                                    <a asp-controller="Account" asp-action="Login" style="color:lightpink; font-size:1.2rem;" 
-                                        class="nav-link  @(ViewData["Title"].ToString().Contains("Login") ? "active" : "")" >
-                                        <i class="bi bi-box-arrow-in-right"></i> Войти
-                                    </a>
+                                <a asp-controller="DroneTask" asp-action="Index" class="nav-link text-white @(ViewData["Title"].ToString().Contains("Tasks") ? "active" : "")" >
+                                    <i class="bi bi-list-task"></i><span class="ms-1 d-sm-inline"> Задачи</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <pre> </pre>
+                            </li>
+                            <li class="nav-item">
+                                <pre> </pre>
+                            </li>
+                            <li class="nav-item">
+                                <pre> </pre>
                             </li>
 
                         }
-                        else {
+                        else
+                        {
                             <li class="nav-item">
-                                <div class="dropdown">
-                                    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <img src="~/images/default_avatar.png" alt="" width="64" height="32" class="rounded-circle">
-                                        <strong>@Context.User.Identity.Name</strong>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                                        <li><a class="dropdown-item" href="#">Profile</a></li>
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout"><i class="bi bi-box-arrow-in-right"></i> Выйти</a></li>
-                                    </ul>
-                                </div>
+                                <a asp-controller="Role" asp-action="Index" class="nav-link text-white @(ViewData["Title"].ToString().Contains("Role") ? "active" : "")" onclick="giveMeLoader()">
+                                    <i class="bi bi-signpost-2"></i><span> Должности и права</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="LampModel" asp-action="Index" class="nav-link text-white  @(ViewData["Title"].ToString().Contains("Model") ? "active" : "")" onclick="giveMeLoader()">
+                                    <i class="bi bi-lightbulb-fill"></i><span> Модели светильников</span>
+                                </a>
                             </li>
 
+                            <li class="nav-item">
+                                <a asp-controller="Lamp" asp-action="IndexGetPost" class="nav-link text-white @(ViewData["Title"].ToString().Contains("Lamps") ? "active" : "")" onclick="giveMeLoader()">
+                                    <i class="bi bi-database-fill"></i><span> Выпуск светильников</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a asp-controller="Salary" asp-action="Index" class="nav-link text-white @(ViewData["Title"].ToString().Contains("Salary") ? "active" : "")" onclick="giveMeLoader()">
+                                    <i class="bi bi-cash"></i><span> Расчет ЗП</span>
+                                </a>
+                            </li>
+                            
                         }
+                        @await Html.PartialAsync("_ReservedItemsPartial") <!-- При добавлении новых пунктов меню, удалять айтемы из этого файла -->
+                        <li class="nav-item ms-1 d-sm-inline d-none">
+                            @await Html.PartialAsync("_LoginPartial")
+                        </li>
+                    
                 </ul>
             </div>
         </nav>
@@ -238,7 +273,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - ПО IonosLedWeb - <a asp-area="" asp-controller="Home" asp-action="Privacy">Все права защищены</a>
+            &copy; 2025 - ПО IonosWeb - <a asp-area="" asp-controller="Home" asp-action="Privacy">Все права защищены</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

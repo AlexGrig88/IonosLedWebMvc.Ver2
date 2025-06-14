@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace IonosLedWebMvc.Ver2.Views.Shared
+namespace IonosLedWebMvc.Ver2.Views.Account
 {
-    public class _LoginPartial_2Model : PageModel
+    public class RegisterModel : PageModel
     {
         public void OnGet()
         {
